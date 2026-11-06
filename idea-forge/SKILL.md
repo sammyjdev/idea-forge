@@ -78,6 +78,6 @@ Example. User says: "An app for small bakeries in Brazil to take pre-orders by W
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
 | 4. Synthesize | Verdict (go, refine, not now or stop), then the dossier with evidence, options and risks | `references/synthesize.md` | Person accepts the verdict |
-| 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>` until it exits 0 | `references/handoff.md`, `references/targets.md` | Validator passes or gaps are listed |
+| 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>` until it exits 0 | `references/handoff.md`, `references/targets.md`; `references/target-mapping.md` only when the target differs | Validator passes or gaps are listed |
 
 Hand off only on go. Update `docs/discovery/brief.md` at the end of each stage. Before writing any project file, read `references/files.md`. Before long prose, read `references/writing.md`.

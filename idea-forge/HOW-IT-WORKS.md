@@ -105,7 +105,8 @@ idea-forge/
   references/           read only when the step needs them
     freshness.md        what to check, how, statuses, before the first check
     frame.md            situation, problem kind, focus, research questions, at stage 1
-    targets.md          target detection and mappings, at stage 5
+    targets.md          pick and check the target, next command, at stage 5
+    target-mapping.md   where each handoff section lands, only when the target differs
     research.md         intake, gathering, cheaper than building, at stage 2
     grill.md            branches, journey states, niches, at stage 3
     synthesize.md       verdict and dossier, at stage 4

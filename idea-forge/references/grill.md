@@ -30,7 +30,7 @@ Before closing branch 4, close every rule. It names who or what triggers it, wha
 
 Two kinds of question, two ways to ask.
 
-- One at a time: a choice with a real trade-off, two defensible answers with different costs, or anything on a risky path (money, health data, personal data, regulation). Recommended answer and one line on why.
+- One at a time: a choice with a real trade-off, two defensible answers with different costs, or anything on a risky path. Recommended answer and one line on why.
 - One table per branch, at most 6 rows: everything else, the items with one obvious default that is cheap to change later. Columns: item, proposed default, source (`F-NN`, `K-NN` or "proposed"). A value that will be the number in a rule on a risky path never goes in the table. Ask the person to correct any row.
 
 What each row becomes:
