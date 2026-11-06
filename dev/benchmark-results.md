@@ -56,7 +56,19 @@ Grill is 48% of the persona's messages. Frame and Research together take 24, clo
 
 Words loaded: every C run read the same 15 files, so stage-by-stage loading saves nothing over a full run. The largest are SKILL.md 985, grill 934, frame 716, targets 705, freshness 623, synthesize 532, handoff reference 529, research 423, visuals 420; the four templates add about 860. The output is also two to three times longer: handoffs of 1,505 to 2,148 words against PRDs of 665 to 845.
 
+## Blind audit of the open questions
+
+Run after the benchmark, not pre-registered. A fresh agent saw the six B and C cells under random codes, with tool names replaced; the document formats still differ. It labelled each planner question and listed every concrete claim in the document with no basis in the transcript. Full file: `C:\tmp\idea-forge-bench\blind\audit.md`.
+
+| Arm | Questions | Declared open in the document | Gap the person could have answered | Outside discovery | Unsupported, stated as fact | Unsupported, marked as assumption |
+|---|---|---|---|---|---|---|
+| B. tlc-prd | 23 | 6 | 14 | 3 | 11 | 2 |
+| C. idea-forge | 29 | 14 | 9 | 6 | 24 | 9 |
+
+- C has more questions but fewer real gaps: 9 against 14. Half of C's questions are items the handoff itself declares open. On gaps, the defect M1 meant to catch, C is ahead.
+- C states more without basis: 24 against 11. Per thousand words of output the rate is about the same (4.6 against 4.9), but C writes more. The pattern in C is the handoff filling in detail nobody gave: a deadline agreed for one rule copied to others, a bank picked from research named as the choice, a habit of the owner invented. In 3-C several rules were put to the person as facts and accepted without comment.
+- Both arms dropped things the person said: 2-B lost that billing runs on Stripe, 3-B lost the Slack channel, 1-C lost that a cancellation after the order is ready refunds nothing.
+
 ## Open
 
-- Whether C's open questions are gaps or items the handoff declares open: a blind audit of the B and C cells is running and will be added here.
 - A second benchmark, with a new date, is needed to test M2 with arm B kept off the web.
