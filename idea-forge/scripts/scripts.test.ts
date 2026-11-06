@@ -177,6 +177,17 @@ test("a suggested profile written as a bullet or in bold is still checked", () =
   }
 });
 
+test("bold with the colon inside the bold passes for the profile and warns for depth", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard.", "**Suggested profile:** standard."));
+  assert.deepEqual(report.errors, []);
+  assert.equal(checkProfileForDepth(NO_PROFILE, "# Brief: x\n**Depth:** thorough\n").length, 1);
+});
+
+test("a profile line inside a code block is an example, not a second line", () => {
+  const report = validateHandoff(`${GOOD_HANDOFF}\n\`\`\`\nSuggested profile: heavy.\n\`\`\`\n`);
+  assert.ok(!report.errors.some((e) => e.includes("Suggested profile")));
+});
+
 test("a second suggested profile line fails", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("Reason: money moves\n", "Reason: money moves\nSuggested profile: heavy.\n"));
   assert.ok(report.errors.some((e) => e.includes("Suggested profile")));

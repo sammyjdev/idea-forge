@@ -2,7 +2,7 @@
 Source dossier: docs/discovery/dossier.md
 Target: <spec-driven skill>, checked YYYY-MM-DD
 Size: <small | medium | large | complex>
-Suggested profile: <optional, leave this line out for light: light | standard | ui>. Reason: <why>
+Suggested profile: <optional, leave this line out for light unless the brief says Depth: thorough: light | standard | ui>. Reason: <why>
 
 ## Intent
 <present tense, no solution: what is true today, who pays, what it costs. Ends with what changes for the user.>
