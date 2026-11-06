@@ -22,7 +22,7 @@ Thorough depth walks every branch. Risky work always gets branch 5. Risky means 
 
 Before closing branch 5, read each edge decision against the rules from branch 4. When two disagree (one says a late payment confirms, another says only a manual confirm does), ask which holds. Each rule also needs its neighbouring cases: below, above and exactly at its limit, and repeated.
 
-Before closing branch 4, close every rule. It names who or what triggers it, what the system does, who learns of it and via which channel ("via WhatsApp", "via the order page"), and for any time limit, when the clock starts and in which time zone. A part the person cannot settle becomes an assumption with a chosen default, never left implicit. State each data relation once as `A lo..hi B`: each A has lo to hi B.
+Before closing branch 4, close every rule. It names who or what triggers it, what the system does, who learns of it and via which channel ("via WhatsApp", "via the order page"), and for any time limit, when the clock starts and in which time zone. A part the person cannot settle becomes an assumption with a chosen default, never left implicit. Wording and screen content they do not decide (a message's text, what a list shows, where a link goes) become assumptions with a draft default, not open questions. State each data relation once as `A lo..hi B`: each A has lo to hi B.
 
 ## Using the findings
 

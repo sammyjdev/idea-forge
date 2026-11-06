@@ -10,13 +10,10 @@ Problem kind: <pain | absence | construction>
 Focus: <business | product | technical | design | mixed>
 Niche: <niche>
 Constraints: <deadline, budget, team, stack>
-Target workflow: <spec-driven skill or not set>
+Target: <spec-driven skill, tlc-spec-lean unless the repo or the person names another>
 
 ## Research questions
 - RQ-01: <question>. Risk it tests: <risk>. Changes the decision if: <answer>. Status: open
-
-## Profile overrides
-- <field>: <value for this project only>
 
 ## Decisions
 - D-01: <decision>. Because: <finding ID or reason>

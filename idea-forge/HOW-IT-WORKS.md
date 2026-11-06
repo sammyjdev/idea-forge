@@ -50,49 +50,45 @@ Checked: F-07, provider retries failed calls for up to 60 s (docs, 2026-11-05)
 
 Pick the recommendation, an alternative, or type your own answer.
 
-## Focus by profile
+## Focus
 
-| Who you are | Default focus | Goes deep on |
+There is no setup. The focus is read from how you describe the idea and stated with the first question, so you can correct it in one word.
+
+| How you write | Focus | Goes deep on |
 |---|---|---|
-| Non-technical founder or business | business | Market, competitors, pricing, distribution, regulation |
-| Product manager | product | Problem, users, substitutes, success criteria |
-| Engineer | technical | Feasibility, data, rules, edge cases, current versions and limits |
-| Designer | design | Journeys, states, what each screen must answer |
+| Customers, sales, price, market | business | Market, competitors, pricing, distribution, regulation |
+| Users, problem, metrics | product | Problem, users, substitutes, success criteria |
+| Stack, APIs, versions, limits | technical | Feasibility, data, rules, edge cases, current versions and limits |
+| Screens and journeys | design | Journeys, states, what each screen must answer |
 
-The focus changes depth and language. Every focus still ends with evidence and a verdict. You can change it per project.
+The focus changes depth and language. Every focus still ends with evidence and a verdict. You can change it at any time.
 
 ## You choose the format
 
-Before any result, you are asked how you want it: text, tables, diagram, illustration or document. Your profile preselects the answer. Diagrams use standard notation (BPMN, UML, C4); illustrations are flat drawings for people who read pictures faster than notation. Project files stay markdown, because the target skill reads them.
+Before any result, you are asked how you want it: text, tables, diagram, illustration or document. Tables are preselected, and once you choose, you are not asked again in that session. Diagrams use standard notation (BPMN, UML, C4); illustrations are flat drawings for people who read pictures faster than notation. Project files stay markdown, because the target skill reads them.
 
 ## Your own material
 
 Say "add this" with notes, links or files. Each item is read, dated, split into claims, marked as evidence or belief, and checked. Nothing is discarded; claims that fit no research question go to a parking list. Say "check this" to verify a single claim.
 
-## First use
-
-With no profile, setup takes about 2 minutes: a five-line explanation, four questions in one form (who you are, focus, result format, the spec-driven skill you use next, tlc-spec-lean by default), then the profile is saved after you confirm, to `~/.config/idea-forge/profile.md`. A project can keep its own in `.idea-forge/profile.md`, which wins. Say "skip setup" to use defaults.
-
 ## Commands
 
 | Say | What happens |
 |---|---|
-| start | New session with your profile |
+| start | New session |
 | resume | Continues from the brief and re-checks expired findings |
 | add this | Adds your note, link or file to the research |
 | check this | Verifies one claim now |
-| setup | Runs first-use setup again |
-| show profile | Prints your profile |
 | skip | Records the current question as an assumption |
 | show me | One visual for the current topic |
 
 ## Handoff targets
 
-The handoff is one neutral file, `docs/discovery/handoff/<feature>.md`. The target is detected from your repository (`.specs/`, `.specify/`, `.kiro/`) or taken from your profile. Its current template is checked in the session before the next command is given, because these tools change often.
+The handoff is one neutral file, `docs/discovery/handoff/<feature>.md`. The target is detected from your repository (`.specs/`, `.specify/`, `.kiro/`) or named by you; with neither, it is tlc-spec-lean. Its current template is checked in the session before the next command is given, because these tools change often.
 
 | Target | Next step |
 |---|---|
-| tlc-spec-lean (default), tlc-plan | `plan feature <feature> using <handoff>` |
+| tlc-spec-lean (default) | `tlc-spec-lean: plan feature <feature> using <handoff>` |
 | tlc-spec-driven | `specify feature <feature> using <handoff>` |
 | GitHub Spec Kit | `/speckit.specify` with the handoff, then `/speckit.clarify` |
 | Kiro | Create the spec from the handoff |
@@ -106,19 +102,16 @@ idea-forge/
   HOW-IT-WORKS.md       this file
   references/           read only when the step needs them
     freshness.md        what to check, how, statuses, before the first check
-    setup.md            first use and profile
-    focus.md            focus by profile, at stage 1
-    targets.md          target detection, tlc-spec-lean mapping, at stage 5
-    targets-other.md    other targets, only when one is chosen
+    focus.md            inferring the focus, at stage 1
+    targets.md          target detection and mappings, at stage 5
     research.md         problem kinds, questions, intake, gathering, at stage 2
     grill.md            branches, niches, customization, at stage 3
     handoff.md          dossier, verdict, targets, at stage 4
     files.md            project files, before writing one
     visuals.md          output formats, before any result
     writing.md          before long prose
-  templates/            profile, brief, findings, dossier, handoff, ADR
+  templates/            brief, findings, dossier, handoff, ADR
   scripts/
-    profile.ts          check, show, init the profile
     status.ts           position and open items
     freshness.ts        expired, outdated and unverifiable findings
     validate.ts         handoff, verdict and freshness gate

@@ -154,9 +154,6 @@ export function validateHandoff(text: string): Report {
   if (!/^Size:\s*(small|medium|large|complex)\b/m.test(text)) {
     report.errors.push("Missing 'Size: small | medium | large | complex'.");
   }
-  if (target.startsWith("tlc-spec-lean") && !/^Suggested profile:\s*(light|standard|ui)\b/m.test(text)) {
-    report.errors.push("tlc-spec-lean target needs 'Suggested profile: light | standard | ui'.");
-  }
 
   const flow = map.get("flow") ?? "";
   const steps = flow.split("\n").filter((l) => /^\d+\.\s/.test(l.trim()));
@@ -249,6 +246,16 @@ export function checkSourcesBinding(handoff: string, findings: Finding[]): strin
   return errors;
 }
 
+// Every decision in brief.md must reach the handoff, or say why it does not.
+export function checkDecisionsCarried(handoff: string, brief: string): string[] {
+  const decided = (sections(brief).get("decisions") ?? "").match(/^\s*-\s*D-\d+/gm) ?? [];
+  const carried = sections(handoff).get("decisions") ?? "";
+  return decided
+    .map((line) => line.replace(/^\s*-\s*/, ""))
+    .filter((id) => !new RegExp(`^\\s*-\\s*${id}:\\s*\\S`, "m").test(carried))
+    .map((id) => `Decisions: ${id} from brief.md is missing. Say where it lands or why it is not for this feature.`);
+}
+
 export function validateDossier(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
   const verdict = /^## Verdict\s*\n+\s*(go|refine|stop)\b/im.exec(text);
@@ -279,6 +286,9 @@ function main(): void {
   } else {
     errors.push(`No dossier at ${dossier}`);
   }
+
+  const briefPath = join(root, "docs", "discovery", "brief.md");
+  if (existsSync(briefPath)) errors.push(...checkDecisionsCarried(readText(handoff), readText(briefPath)));
 
   const findingsPath = join(root, "docs", "discovery", "findings.md");
   if (existsSync(findingsPath)) {

@@ -10,7 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { flagFindings, parseFindings } from "./freshness.ts";
 import { today } from "./lib.ts";
-import { checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
+import { checkDecisionsCarried, checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
 
 const SCRIPTS = dirname(fileURLToPath(import.meta.url));
 
@@ -119,6 +119,11 @@ Customers are charged twice today. After this, once.
 
 test("a complete handoff passes", () => {
   const report = validateHandoff(GOOD_HANDOFF);
+  assert.deepEqual(report.errors, []);
+});
+
+test("a handoff with no suggested verification profile passes, since no target reads one", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard. Reason: money moves\n", ""));
   assert.deepEqual(report.errors, []);
 });
 
@@ -293,6 +298,50 @@ test("a source marked binding that findings mark non-binding fails", () => {
   assert.deepEqual(errors, ["Sources: F-01 is binding here but non-binding in findings.md"]);
 });
 
+const BRIEF = `# Brief: x
+## Decisions
+- D-01: Refuse a second charge. Because: F-01
+- D-02: Deposit is 50% per bakery. Because: owner choice
+
+## Assumptions
+- A-01: none
+`;
+
+test("a handoff that says where every brief decision lands passes", () => {
+  const handoff = `${GOOD_HANDOFF}
+## Decisions
+- D-01: Rules S1.1
+- D-02: not for this feature, it belongs to onboarding
+`;
+  assert.deepEqual(checkDecisionsCarried(handoff, BRIEF), []);
+});
+
+test("a brief decision the handoff never mentions fails", () => {
+  const handoff = `${GOOD_HANDOFF}
+## Decisions
+- D-01: Rules S1.1
+`;
+  assert.deepEqual(checkDecisionsCarried(handoff, BRIEF), [
+    "Decisions: D-02 from brief.md is missing. Say where it lands or why it is not for this feature.",
+  ]);
+});
+
+test("a brief with no decisions asks nothing of the handoff", () => {
+  assert.deepEqual(checkDecisionsCarried(GOOD_HANDOFF, "# Brief: x\n## Decisions\n\n## Assumptions\n"), []);
+});
+
+test("validate command refuses a handoff that drops a brief decision", () => {
+  const root = project({
+    "docs/discovery/handoff/x.md": GOOD_HANDOFF,
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n",
+    "docs/discovery/findings.md": finding("F-01", "high", today()),
+    "docs/discovery/brief.md": BRIEF,
+  });
+  const { code, out } = runScript("validate.ts", ["x"], root);
+  assert.equal(code, 1);
+  assert.match(out, /D-01 from brief\.md is missing/);
+});
+
 test("today is the local calendar date, not the UTC one", () => {
   const code = `import("${pathToFileURL(join(SCRIPTS, "lib.ts")).href}").then((m) => console.log(m.today(new Date("2026-11-06T01:30:00Z"))))`;
   const result = spawnSync(process.execPath, ["-e", code], { encoding: "utf8", env: { ...process.env, TZ: "America/Sao_Paulo" } });
@@ -307,18 +356,6 @@ test("a script reached through a linked folder with a space in its path still ru
   const result = spawnSync(process.execPath, [join(link, "scripts", "freshness.ts")], { cwd: root, encoding: "utf8" });
   assert.equal(result.status, 1);
   assert.match(result.stdout, /recheck F-01 \(binding\)/);
-});
-
-test("profile check with --root finds the project profile from another folder", () => {
-  const home = project({});
-  const root = project({ ".idea-forge/profile.md": "# idea-forge profile\nUpdated: 2026-11-02\n" });
-  const result = spawnSync(process.execPath, [join(SCRIPTS, "profile.ts"), "check", "--root", root], {
-    cwd: home,
-    encoding: "utf8",
-    env: { ...process.env, HOME: home, USERPROFILE: home },
-  });
-  assert.equal(result.status, 0);
-  assert.match(result.stdout, /\.idea-forge[\\/]profile\.md 2026-11-02/);
 });
 
 function runScript(name: string, args: string[], cwd: string): { code: number; out: string } {
@@ -361,18 +398,6 @@ test("freshness command reports a binding finding to re-check", () => {
   const { code, out } = runScript("freshness.ts", [], root);
   assert.equal(code, 1);
   assert.match(out, /recheck F-01 \(binding\)/);
-});
-
-test("a project profile wins over the personal profile", () => {
-  const home = project({ ".config/idea-forge/profile.md": "# idea-forge profile\nUpdated: 2026-11-01\n" });
-  const root = project({ ".idea-forge/profile.md": "# idea-forge profile\nUpdated: 2026-11-02\n" });
-  const result = spawnSync(process.execPath, [join(SCRIPTS, "profile.ts"), "check"], {
-    cwd: root,
-    encoding: "utf8",
-    env: { ...process.env, HOME: home, USERPROFILE: home },
-  });
-  assert.equal(result.status, 0);
-  assert.match(result.stdout, /\.idea-forge[\\/]profile\.md 2026-11-02/);
 });
 
 test("dossier must say go and have no blocking question", () => {

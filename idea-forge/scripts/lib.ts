@@ -1,16 +1,8 @@
 import { existsSync, readFileSync, realpathSync } from "node:fs";
-import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const SKILL_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-
-export const PROFILE_HOME = join(homedir(), ".config", "idea-forge", "profile.md");
-export function repoProfile(root: string = process.cwd()): string {
-  return join(root, ".idea-forge", "profile.md");
-}
-
-export const STALE_DAYS = 90;
 
 export type Args = { positional: string[]; flags: Record<string, string> };
 
@@ -33,16 +25,6 @@ export function parseArgs(argv: string[]): Args {
     }
   }
   return { positional, flags };
-}
-
-export function findProfile(explicit?: string, root?: string): string | null {
-  const candidates = [explicit, repoProfile(root), PROFILE_HOME].filter(
-    (p): p is string => typeof p === "string" && p.length > 0,
-  );
-  for (const path of candidates) {
-    if (existsSync(path)) return path;
-  }
-  return null;
 }
 
 export function readFields(text: string): Record<string, string> {

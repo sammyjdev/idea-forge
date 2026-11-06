@@ -10,14 +10,14 @@ idea-forge checks each time-sensitive claim before it shows a result, whether th
 
 ## Who it is for
 
-| You are | Default focus | What you get |
+| You are | Focus | What you get |
 |---|---|---|
 | Non-technical founder or business person | business | Market, competitors, prices, distribution and regulation, in product terms. Technical edge cases are asked as outcomes ("a payment arrives twice, what should the customer see?") or recorded as assumptions |
 | Product manager | product | Problem, users, substitutes and success criteria |
 | Engineer | technical | Feasibility, data, rules, edge cases, exact versions and limits |
 | Designer | design | Journeys, states and what each screen must answer |
 
-The focus is set at first use and can change per project.
+There is no setup and no profile. The focus is read from how you describe the idea, stated with the first question, and changes whenever you ask.
 
 ## Quick start
 
@@ -28,8 +28,7 @@ The focus is set at first use and can change per project.
    An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix.
    ```
 
-3. On first use, idea-forge explains itself in five lines and asks four questions in one form: who you are, your focus, how you want results, and which spec-driven skill comes next. It saves your answers to `~/.config/idea-forge/profile.md` after you confirm.
-4. From then on, each turn asks one question with a recommended answer. Agreeing takes one word.
+3. idea-forge starts framing the idea at once. Each turn asks one question with a recommended answer. Agreeing takes one word.
 
 ## How it works
 
@@ -55,7 +54,7 @@ The freshness rule: before any turn that shows a result, idea-forge lists the ti
 
 When you resume, `freshness.ts` lists the expired checks and they are redone first. `validate.ts` blocks the handoff while a binding finding is expired, outdated or unverifiable.
 
-Output formats: before a result, you choose text, tables, diagram, illustration or document, with your profile's choice preselected. Once you have chosen in a session, it is not asked again. Project files are always markdown, because the spec skill reads them. Only tables and text were exercised in testing.
+Output formats: before a result, you choose text, tables, diagram, illustration or document, with tables preselected. Once you have chosen in a session, it is not asked again. Project files are always markdown, because the spec skill reads them. Only tables and text were exercised in testing.
 
 The full user guide is [idea-forge/HOW-IT-WORKS.md](idea-forge/HOW-IT-WORKS.md).
 
@@ -67,12 +66,11 @@ idea-forge always writes the same file, `docs/discovery/handoff/<feature>.md`. T
 |---|---|---|
 | tlc-spec-lean (default) | `tlc-spec-lean: plan feature <feature> using docs/discovery/handoff/<feature>.md` | Yes, against tlc-spec-lean 2.2.0. See validation status |
 | tlc-spec-driven | `specify feature <feature> using <handoff>` | No |
-| tlc-plan | `plan feature <feature> using <handoff>` | No |
 | GitHub Spec Kit | `/speckit.specify` with the handoff content | No |
 | Kiro | Create the spec from the handoff | No |
 | Other | Its own start command, with the handoff path | No |
 
-The target is taken from your profile, or detected from the repository (`.specs/`, `.specify/`, `.kiro/`). Targets change often, so idea-forge reads the target's current instructions in the session before giving the next command, and marks the target as unchecked when it cannot.
+The target is the one you name, or detected from the repository (`.specs/`, `.specify/`, `.kiro/`). Targets change often, so idea-forge reads the target's current instructions in the session before giving the next command, and marks the target as unchecked when it cannot.
 
 ## Commands
 
@@ -80,10 +78,8 @@ Say these during a session:
 
 | Say | What happens | Tested |
 |---|---|---|
-| start | A new session with your profile | No |
+| start | A new session | No |
 | resume | Continues from the brief and re-checks expired findings | Yes |
-| setup | Runs the first-use questions again | First use only |
-| show profile | Prints your profile | No |
 | add this | Adds your note, link or file to the research | No |
 | check this | Verifies one claim now | No |
 | skip | Records the current question as an assumption | No |
@@ -100,7 +96,6 @@ Say these during a session:
 | `docs/adr/NNNN-slug.md` | 3 | Only for decisions already made and hard to reverse |
 | `docs/discovery/dossier.md` | 4 | Evidence, options, risks, success criteria and the verdict |
 | `docs/discovery/handoff/<feature>.md` | 5 | The neutral handoff, one per feature |
-| `.idea-forge/profile.md` | Optional | A project profile, which wins over `~/.config/idea-forge/profile.md` |
 
 ## Requirements
 
@@ -117,7 +112,7 @@ Script tests, from `idea-forge/`:
 node --test scripts/scripts.test.ts
 ```
 
-Expected: 28 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, the project profile precedence, and each script run as a command, including through a linked folder with a space in its path.
+Expected: 59 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, and each script run as a command, including through a linked folder with a space in its path.
 
 Skill structure, with skill-creator installed (its script needs PyYAML):
 
@@ -133,13 +128,12 @@ claude plugin eval . --allow-tools Write Edit Bash WebSearch WebFetch --scaffold
 
 | Case | Checks |
 |---|---|
-| first-use-runs-setup | With no profile, setup runs before any research, in the person's language |
+| first-use-starts-framing | No setup form: the first question is about the idea, in the person's language, with no tool names |
 | checks-time-sensitive-claim | A claim that can be outdated is searched and reported with source and date before results are shown |
 | writes-handoff-for-tlc-spec-lean | A complete handoff is written and validated, nothing under `.specs/features`, no approval line |
 
 Notes:
 - On Windows, `plugin eval` refuses a case that grants Bash, because it cannot sandbox the shell there. Run with `--allow-tools Write Edit WebSearch WebFetch --disallow-tools Bash PowerShell`. The skill then uses its no-code-execution fallback, and `05-validator-passes` fails by design.
-- first-use-runs-setup expects no profile at `~/.config/idea-forge/profile.md`. Move yours aside while it runs.
 - checks-time-sensitive-claim depends on what the web says on the day.
 - `--case` takes one glob; a second `--case` replaces the first.
 - The scaffold scripts set the fixture check dates to the day of the run, so the fixtures do not expire.
@@ -164,9 +158,8 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 | Script tests | Pass | 28 of 28, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
 | Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 800 words; references are 21 to 73 lines |
-| profile.ts | Pass | `check` prints `missing` (exit 2); `init` saves; an invalid `--format` exits 1 |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, or the verdict is refine |
-| Eval: first-use-runs-setup | 1.00, without skill 0.17 | 3 runs per arm, without Bash (Windows) |
+| Eval: first-use-starts-framing | Not run yet | Replaces first-use-runs-setup, which tested the setup form that was removed |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |
 | Eval: writes-handoff-for-tlc-spec-lean | 0.90, without skill 0.17 | Only `05-validator-passes` fails, because the run had no Bash. The file checks are deterministic regex graders |
 | End to end with tlc-spec-lean 2.2.0 | Pass, with handoff gaps | A simulated non-technical founder accepted a go verdict at answer 21 of 24. `validate.ts` passed the handoff with 5 warnings (rules with no number), and fails it when `Suggested profile` is removed, so the gate now checks. tlc-spec-lean wrote a plan that passes `validate_plan.py` with 1 warning, and logged 23 questions: the handoff answered 8 of them, and 15 were genuinely open, one of them a legal question carried rather than asked. The open ones show two gaps `validate.ts` does not catch: rules say "send a message" while the handoff names no channel that can send one, and two Entities rows disagree on how many refunds a Pix can have. tlc-spec-lean also has no place for `Suggested profile` |

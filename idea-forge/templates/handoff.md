@@ -2,7 +2,6 @@
 Source dossier: docs/discovery/dossier.md
 Target: <spec-driven skill>, checked YYYY-MM-DD
 Size: <small | medium | large | complex>
-Suggested profile: <light | standard | ui>. Reason: <reason>
 
 ## Intent
 <present tense, no solution: what is true today, who pays, what it costs. Ends with what changes for the user.>
@@ -51,6 +50,9 @@ Suggested profile: <light | standard | ui>. Reason: <reason>
 | Capability | Reason |
 |---|---|
 | <capability> | <reason> |
+
+## Decisions
+- D-NN: <where it lands in this handoff, or "not for this feature: <reason>">
 
 ## Assumptions
 | Assumption | Chosen default | Rationale | Validate by | Confirmed? |

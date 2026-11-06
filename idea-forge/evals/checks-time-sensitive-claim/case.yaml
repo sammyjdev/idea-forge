@@ -1,9 +1,7 @@
 schema_version: "1.1"
 name: checks-time-sensitive-claim
-context:
-  scaffold_script: place-files.sh
 expected_outcome: |
-  The assistant uses the saved profile without re-running setup. Before presenting any
+  The assistant asks no setup questions. Before presenting any
   result it searches the web to check the person's claims that can change over time,
   in particular the MEI annual revenue limit and the state of the official invoice
   issuer, and reports each as current, outdated with the correction, or unverifiable,

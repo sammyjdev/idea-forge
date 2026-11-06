@@ -1,17 +1,20 @@
 # Focus
 
-Read at stage 1. The focus decides where the research and the grill spend their depth. It comes from the profile and can change per project.
+Read at stage 1. The focus decides where the research and the grill spend their depth.
 
-## Defaults by profile
+## Infer it, do not ask it
 
-| Role and level | Default focus |
-|---|---|
-| Non-technical founder or business | business |
-| PM | product |
-| Engineer, any level | technical |
-| Designer | design |
+Read the focus from the first messages: the role the person mentions, their vocabulary, and what they ask for.
 
-Offer the default in stage 1 with one alternative. Store a project change in `brief.md` under Profile overrides.
+| Signal | Focus | Level |
+|---|---|---|
+| Customers, sales, price, market; no technical words | business | non-technical |
+| Users, problem, roadmap, metrics | product | technical words explained |
+| Stack, API, schema, latency, versions | technical | technical |
+| Screens, journeys, flows, usability | design | non-technical unless they use technical words |
+| No signal | product | technical words explained |
+
+State the inferred focus in one line with the first stage 1 question ("I will focus on business; say so if you want another"). Record it in `brief.md` as Focus. It changes whenever the person asks.
 
 ## What each focus changes
 

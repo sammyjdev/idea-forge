@@ -2,13 +2,13 @@
 
 Read at the start of stage 5.
 
-idea-forge always writes the same neutral handoff, `docs/discovery/handoff/<feature>.md`. The target skill reads it and writes its own files. tlc-spec-lean is the default target; the others are supported through the same file.
+idea-forge always writes the same neutral handoff, `docs/discovery/handoff/<feature>.md`, for any spec-driven framework. The target reads it and writes its own files. tlc-spec-lean is the default.
 
 Never write inside a target's folders (`.specs/`, `.specify/`, `specs/`, `.kiro/`). The target owns them, and its validators expect to create them.
 
 ## Pick the target
 
-1. Use the target the person named for this project, then the profile `Target workflow`.
+1. Use the target the person named, or the one already in `brief.md`.
 2. Otherwise detect it from the repository:
 
 | Marker | Target |
@@ -19,8 +19,6 @@ Never write inside a target's folders (`.specs/`, `.specify/`, `specs/`, `.kiro/
 | an installed skill or command with the target's name | that target |
 
 3. No marker: use tlc-spec-lean. More than one: ask, with the detected ones as options.
-
-For any target other than tlc-spec-lean, read `references/targets-other.md` for its mapping and next command.
 
 ## Check the target before mapping
 
@@ -40,6 +38,7 @@ Checked 2026-11-05 against tlc-spec-lean 2.2.0: its SKILL.md, references/plan.md
 | Rules, by slice | Criteria | Heading `### S1: <name> (P1)`; EARS with `SHALL` and concrete values. Normal and Boundary lines become one `- example → result; strong case → result` line |
 | Literal text | Criteria and Assumptions | Copied character for character, never paraphrased |
 | Out of scope | Out of scope | With reasons |
+| Decisions | Criteria, or Assumptions with `Confirmed? y` | Already decided by the person; the plan does not ask again |
 | Assumptions | Assumptions | Chosen default and Rationale are required by `validate_plan.py`. `Confirmed? n` unless the person confirmed it. Only a human sets y |
 | Open questions | `**Open questions:**` line under Assumptions | Tags `blocks`, `blocks go-live`, `open` carry over |
 | Sources | Sources | Each marked binding or non-binding. Here binding means a research finding the verdict rests on |
@@ -47,11 +46,21 @@ Checked 2026-11-05 against tlc-spec-lean 2.2.0: its SKILL.md, references/plan.md
 | Edges | checks.md swept dimensions | Same nine names, so the checks step does not stop to ask |
 | Limits | Not in criteria | Service targets go to observability, which tlc-spec-lean excludes from criteria |
 | Size small | checks.md with an Intent paragraph only | Under about 3 files and no one-way door |
-| Suggested profile | none in tlc-spec-lean 2.2.0 | Always written, and `validate.ts` requires it. tlc-spec-lean has no field for it: the person declares it where the repo keeps one, for example a `## tlc-spec-lean` section with `profile:` in `AGENTS.md` |
 
 Next command:
 ```
 tlc-spec-lean: plan feature <feature> using docs/discovery/handoff/<feature>.md
 ```
 
-Give it with the suggested profile in one line, since tlc-spec-lean has no field for it. tlc-spec-lean writes the `**Approved**:` line itself after the person approves. The handoff never contains one.
+tlc-spec-lean writes the `**Approved**:` line itself after the person approves. The handoff never contains one.
+
+## Other targets
+
+Same file; only the mapping and the next command change. Not checked against the live tools yet, so the check above applies.
+
+| Target | Where the handoff goes | Next command |
+|---|---|---|
+| tlc-spec-driven | Intent and Rules to spec.md; Edges and answered questions to context.md; Flow, Entities and doors to design.md when large or complex | `specify feature <feature> using <handoff>` |
+| GitHub Spec Kit | Constraints to `/speckit.constitution`; Intent, Rules and Success to `/speckit.specify`; answered questions shorten `/speckit.clarify` | `/speckit.specify` with the handoff content |
+| Kiro | Rules in EARS to requirements.md; Flow, Entities and doors to design.md | Create the spec from the handoff |
+| Other | Read its template, map section by section, list what has no home | Its own start command, with the handoff path |

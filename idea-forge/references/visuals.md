@@ -4,7 +4,7 @@ Read before presenting a result.
 
 ## Ask first
 
-Before presenting a result (research summary, contradictions, dossier, handoff summary), ask one question: "How do you want this?". Preselect the profile `Output format`. When the person already chose a format in this conversation, use it and do not ask.
+Before presenting a result (research summary, contradictions, dossier, handoff summary), ask one question: "How do you want this?". Preselect tables. When the person already chose a format in this conversation, use it and do not ask.
 
 | Option | What the person gets |
 |---|---|

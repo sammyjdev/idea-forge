@@ -44,6 +44,7 @@ The target should be able to plan without asking again what the discovery alread
 - Rules: each rule names its neighbouring cases in its examples (below, above, exactly at the limit, repeated). A rule that sends a message names its channel (`via WhatsApp`, `by email`, `on the order page`); a time limit says when the clock starts and in which time zone.
 - Entities: `A lo..hi B` means each A has lo to hi B, with hi a number, `n` or `*`, lo at or below hi, each relation written in full (`A 1..1 Key; A 0..n Refund`, not `A 1..1 Key and 0..n Refund`) and separated by `;`, and each pair has one range. `validate.ts` refuses a broken relation and warns on a rule that messages a person with no channel; a warning still needs fixing or a reason.
 - Edges and Rules agree. Every state transition in Edges is caused by a rule. A conflict is a grill question, not a choice you make.
+- Decisions: list every `D-NN` from `brief.md` with where it lands, or why it is not for this feature. `validate.ts` checks this.
 - Sources: each finding's binding mark matches `findings.md`. `validate.ts` checks this.
 
 For a non-technical person, write each rule in plain words first, confirm it, then add the EARS line. Write the file, then run the validator.
@@ -57,9 +58,7 @@ Size estimate, which most targets use to decide depth:
 | large | Several components |
 | complex | Ambiguity or a new domain |
 
-Suggested verification profile, always written; the target or the repo decides whether to apply it: standard for money, health data, personal data or regulation; ui when a screen is involved; light otherwise.
-
-Then read `references/targets.md` to pick and check the target and give its next command.
+Then read `references/targets.md` to pick the target and give its next command.
 
 ## EARS forms
 

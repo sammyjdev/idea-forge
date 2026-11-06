@@ -1,6 +1,6 @@
 # Writing
 
-Read before writing long prose or any durable file. Applies to every question, summary and file. Profile writing rules are added on top.
+Read before writing long prose or any durable file. Applies to every question, summary and file. Writing rules the repo already has are added on top.
 
 ## Shape
 
