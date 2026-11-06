@@ -17,7 +17,7 @@ The target should be able to plan without asking again what the discovery alread
 - Sources: each finding's binding mark matches `findings.md`. `validate.ts` checks this.
 - Traceability: each rule, each Boundary example and each Edges decision ends with the IDs its values come from, and each Entities relation carries one, `[D-03, K-01]`: a decision, a fact the person stated (`K-NN` in `brief.md`), a finding or an assumption. A preferred door option cites one too. A value with no source becomes an assumption: add it to `brief.md` as `A-NN` with `Confirmed? n`, cite `[A-NN]` in the rule, and list it in the Assumptions table with its ID first (`A-03: window length`). Never write it into a rule as fact. Never copy a value agreed for one rule to another rule, and never turn an option found in research into the person's choice. An Edges decision nobody made (a log, a fallback, a retention period) is an assumption, never a fact. `validate.ts` refuses a rule, Boundary or Edges decision with no tag (an Edges cell reading `n/a - reason`, `existing - guard` or `Q-NN` needs none) and any tag that does not exist, and warns on an untagged relation.
 
-For a non-technical person, write each rule in plain words first, confirm it, then add the EARS line. Write the file, then run the validator.
+For a non-technical person, write each rule in plain words first, then the EARS line, and show the plain words in the handoff summary. Write the file, then run the validator.
 
 Size estimate, which most targets use to decide depth:
 

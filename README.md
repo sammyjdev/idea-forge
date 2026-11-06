@@ -28,7 +28,7 @@ There is no setup and no user profile. The focus is read from how you describe t
    An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix.
    ```
 
-3. idea-forge starts framing the idea at once. Each turn asks one question with a recommended answer. Agreeing takes one word. Low-stakes defaults come together in one table you can correct row by row.
+3. idea-forge starts framing the idea at once. It asks only what changes the result, one question at a time with a recommended answer. Everything else becomes a proposed default that you see and correct together with the verdict.
 
 ## How it works
 
@@ -36,7 +36,7 @@ Five stages, in order:
 
 | Stage | Question it answers | Done when |
 |---|---|---|
-| 1. Frame | Where does the effort stand, what kind of problem is it, what must we find out? | You confirm the idea sentence and the research questions |
+| 1. Frame | Where does the effort stand, what kind of problem is it, what must we find out? | The idea sentence and research questions are stated; you correct them if needed |
 | 2. Research | What does current evidence say? | Every question has a status and every finding the verdict rests on is checked |
 | 3. Grill | Does the idea hold against the evidence? | Every decision is made, assumed or recorded as a tagged question |
 | 4. Synthesize | Should we build it? | You accept the verdict: go, refine, not now or stop |
@@ -54,7 +54,7 @@ The freshness rule: before any turn that shows a result, idea-forge lists the ti
 
 When you resume, `freshness.ts` lists the expired checks and they are redone first. `validate.ts` blocks the handoff while a binding finding is expired, outdated or unverifiable.
 
-Output formats: before a result, you choose text, tables, diagram, illustration or document, with tables preselected. Once you have chosen in a session, it is not asked again. Project files are always markdown, because the spec skill reads them. Only tables and text were exercised in testing.
+Output formats: results come as tables. Say "show me" to get text, a diagram, an illustration or a document instead; the choice holds for the session. Project files are always markdown, because the spec skill reads them. Only tables and text were exercised in testing.
 
 The full user guide is [idea-forge/HOW-IT-WORKS.md](idea-forge/HOW-IT-WORKS.md).
 
@@ -113,7 +113,7 @@ Script tests, from `idea-forge/`:
 node --test scripts/scripts.test.ts
 ```
 
-Expected: 111 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, the optional verification profile hint, source tags on every rule, boundary, edge and relation, and each script run as a command, including through a linked folder with a space in its path.
+Expected: 115 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, the optional verification profile hint, source tags on every rule, boundary, edge and relation, and each script run as a command, including through a linked folder with a space in its path.
 
 Skill structure, with skill-creator installed (its script needs PyYAML):
 
@@ -156,9 +156,9 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 | Check | Result | Evidence |
 |---|---|---|
 | Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks, rerun on 2026-11-06 |
-| Script tests | Pass | 111 of 111 on 2026-11-06, including each script run as a command, through a junction and from a path with a space |
+| Script tests | Pass | 115 of 115 on 2026-11-06, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
-| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 897 words; references are 9 to 90 lines |
+| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 948 words; references are 9 to 90 lines |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, a rule cites no source or a source that does not exist, or the verdict is refine |
 | Eval: first-use-starts-framing | Not run yet | Replaces first-use-runs-setup, which tested the setup form that was removed |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |

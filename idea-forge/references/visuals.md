@@ -2,7 +2,7 @@
 
 Read before presenting a result.
 
-Before presenting a result (research summary, contradictions, dossier, handoff summary), ask once per conversation, "How do you want this?", with tables preselected: text, tables, diagram (BPMN for flows, UML for states, C4 for systems, crow's foot for data), illustration (a flat drawing for people who read pictures faster than notation) or document. Reuse the choice after that; no answer means tables. The choice applies to what the person sees. Project files stay markdown, because target skills read them.
+Read when the person says "show me" or asks for another format; tables are the default and the format is never asked unprompted. Then ask once, "How do you want this?": text, tables, diagram (BPMN for flows, UML for states, C4 for systems, crow's foot for data), illustration (a flat drawing for people who read pictures faster than notation) or document. Keep the choice for the rest of the session; no answer means tables. The choice applies to what the person sees. Project files stay markdown, because target skills read them.
 
 When the format does not fit the content (a diagram for a comparison of options), say so in one line and use the closest fit: a matrix for options, a table for evidence, a ranked list or grid for risks.
 

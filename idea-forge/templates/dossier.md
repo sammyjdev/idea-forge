@@ -38,9 +38,9 @@ Recommended: <option>, because <reason>.
 | <risk> | high | high | <mitigation> |
 
 ## Assumptions
-| Assumption | Validate by | Confirmed? |
-|---|---|---|
-| <assumption> | <how> | n |
+| Assumption | Default | Validate by | Confirmed? |
+|---|---|---|---|
+| A-NN: <assumption> | <proposed default> | <how> | n |
 
 ## Open questions
 - Q-01: <question> [blocks | blocks go-live | open]

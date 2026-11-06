@@ -29,7 +29,7 @@ When you resume a session, `freshness.ts` lists the checks that expired and they
 
 | Stage | Question it answers | Done when |
 |---|---|---|
-| 1. Frame | What is the idea, what kind of problem, what must we find out? | You confirm the idea sentence and the research questions |
+| 1. Frame | What is the idea, what kind of problem, what must we find out? | The idea sentence and research questions are stated; you correct them if needed |
 | 2. Research | What does current evidence say? | Every question has a status and every binding finding is checked |
 | 3. Grill | Does the idea hold against the evidence? | Every branch is decided, assumed or a tagged question |
 | 4. Synthesize | Should we build it? | You accept the verdict |

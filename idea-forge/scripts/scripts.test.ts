@@ -10,7 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { flagFindings, parseFindings } from "./freshness.ts";
 import { today } from "./lib.ts";
-import { checkDecisionsCarried, checkProfileForDepth, checkRuleSources, checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
+import { checkAssumptionsShown, checkDecisionsCarried, checkProfileForDepth, checkRuleSources, checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
 
 const SCRIPTS = dirname(fileURLToPath(import.meta.url));
 
@@ -611,6 +611,37 @@ test("a handoff decision whose text starts in bold is carried", () => {
 test("a rule whose tag is not last is told to end with it", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("return 409. [F-01]", "return 409 [F-01]."));
   assert.ok(report.errors.some((e) => e.startsWith("Rule must end with its source tag")));
+});
+
+const ASSUMING_BRIEF = "# Brief: x\n## Assumptions\n- A-01: 24 hours. Validate by: docs. Confirmed? n\n- **A-02**: 50% deposit. Validate by: owner. Confirmed? n\n- A-03: Brasilia time. Validate by: owner. Confirmed? y\n";
+
+test("every unconfirmed assumption is shown in the dossier for the person to correct", () => {
+  const dossier = "## Verdict\ngo. Decided by: F-01.\n\n## Assumptions\n| Assumption | Validate by | Confirmed? |\n|---|---|---|\n| A-01: 24 hours | docs | n |\n";
+  assert.deepEqual(checkAssumptionsShown(dossier, ASSUMING_BRIEF), [
+    "Dossier: A-02 is an unconfirmed assumption the person never saw. List it under Assumptions so they can correct it with the verdict.",
+  ]);
+});
+
+test("a dossier that lists every unconfirmed assumption passes, confirmed ones need not appear", () => {
+  const dossier = "## Assumptions\n| A-01: 24 hours | docs | n |\n| **A-02**: 50% deposit | owner | n |\n";
+  assert.deepEqual(checkAssumptionsShown(dossier, ASSUMING_BRIEF), []);
+});
+
+test("an assumption mentioned only outside the dossier's Assumptions section does not count", () => {
+  const dossier = "## Risks\nA-01 and A-02 may be wrong.\n## Assumptions\n| A-01: 24 hours | docs | n |\n";
+  assert.equal(checkAssumptionsShown(dossier, ASSUMING_BRIEF).length, 1);
+});
+
+test("validate command refuses a dossier that hides an unconfirmed assumption", () => {
+  const root = project({
+    "docs/discovery/handoff/x.md": GOOD_HANDOFF,
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n\n## Assumptions\n| A-01: 24 hours | docs | n |\n",
+    "docs/discovery/findings.md": finding("F-01", "high", today()),
+    "docs/discovery/brief.md": ASSUMING_BRIEF,
+  });
+  const { code, out } = runScript("validate.ts", ["x"], root);
+  assert.equal(code, 1);
+  assert.match(out, /A-02 is an unconfirmed assumption/);
 });
 
 test("a brief with no decisions asks nothing of the handoff", () => {

@@ -1,6 +1,6 @@
 # Synthesize
 
-Read at the start of stage 4. Before presenting the dossier, ask the output format unless the person already chose one in this conversation (SKILL.md, second rule).
+Read at the start of stage 4. Present in tables unless the person asked for another format (SKILL.md, second rule).
 
 Before writing, run `node <skill-dir>/scripts/freshness.ts` and re-check anything it flags. The dossier is the result the person acts on, so every finding it cites must be current or marked unverifiable.
 
@@ -16,7 +16,7 @@ Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 | Options | When more than one approach exists, including the cheaper-than-building ones: weighted comparison and recommendation |
 | Decisions | What was decided and why. ADR links where written |
 | Risks | Likelihood, impact, mitigation, sorted by score |
-| Assumptions | Each with a way to validate it and `Confirmed? y/n` |
+| Assumptions | Every `A-NN` from `brief.md` with its default, a way to validate it and `Confirmed? y/n`. `validate.ts` refuses a dossier that leaves out an unconfirmed one |
 | Open questions | Tagged `blocks`, `blocks go-live` or `open` |
 | Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate |
 
@@ -35,4 +35,4 @@ When stage 1 recorded a committed decision, the verdict is a record, not a gate:
 
 Success is never "it shipped". A feature being live is an output.
 
-State the verdict with its reason, then stop and wait. Write the dossier only after the person accepts it, and hand off only on go.
+State the verdict with its reason, then the unconfirmed assumptions as one table (ID, proposed default), and ask for one answer: accept the verdict and correct any assumption. Each correction becomes `D-NN`. Then stop and wait. Write the dossier only after the person accepts it, and hand off only on go.

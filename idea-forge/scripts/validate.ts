@@ -335,6 +335,19 @@ export function checkProfileForDepth(handoff: string, brief: string): string[] {
   return ["Depth is thorough but the handoff suggests no verification profile. Add 'Suggested profile: standard. Reason: <why>', or 'Suggested profile: light. Reason: <why>' when light is enough."];
 }
 
+// Defaults are not asked one by one; the person corrects them with the verdict, so the dossier shows each one.
+export function checkAssumptionsShown(dossier: string, brief: string): string[] {
+  const shown = (sections(dossier).get("assumptions") ?? "").replace(/\*/g, "");
+  const unconfirmed = (sections(brief).get("assumptions") ?? "")
+    .split("\n")
+    .filter((line) => !/Confirmed\?\s*y\b/i.test(line))
+    .map((line) => /^\s*-\s*\**(A-\d+)\**:/.exec(line)?.[1])
+    .filter((id): id is string => id !== undefined);
+  return unconfirmed
+    .filter((id) => !new RegExp(`\\b${id}\\b`).test(shown))
+    .map((id) => `Dossier: ${id} is an unconfirmed assumption the person never saw. List it under Assumptions so they can correct it with the verdict.`);
+}
+
 export function validateDossier(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
   const verdict = /^## Verdict\s*\n+\s*(go|refine|not now|stop)\b/im.exec(text);
@@ -370,6 +383,7 @@ function main(): void {
   if (existsSync(briefPath)) {
     errors.push(...checkDecisionsCarried(readText(handoff), readText(briefPath)));
     warnings.push(...checkProfileForDepth(readText(handoff), readText(briefPath)));
+    if (existsSync(dossier)) errors.push(...checkAssumptionsShown(readText(dossier), readText(briefPath)));
     const findingsFile = join(root, "docs", "discovery", "findings.md");
     const findingIds = existsSync(findingsFile) ? parseFindings(readText(findingsFile)).map((f) => f.id) : [];
     errors.push(...checkRuleSources(readText(handoff), readText(briefPath), findingIds));

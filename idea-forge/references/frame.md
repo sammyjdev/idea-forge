@@ -9,7 +9,7 @@ Four facts, one line each. Ask only what the conversation has not answered.
 - Where the effort is: in use (it has a today you can measure), not shipped (no today at all), or under construction (a commitment and work in flight).
 - Whether the decision is open, or someone already committed, and who and when. A committed decision makes the stage 4 verdict a record, not a gate.
 - What in flight this touches, in one sentence.
-- What is at stake: how expensive it is to be wrong. Money, health data, personal data, regulation or a change people cannot undo means thorough depth. Cheap to undo means quick depth. Record it as Depth.
+- What is at stake: how expensive it is to be wrong. Money, health data, personal data, regulation or a change people cannot undo means thorough depth. Cheap to undo means quick depth. Infer Depth from the answer and record it; never ask for it by name or as a choice.
 
 Ask these in the person's own terms: "Is anyone using this today?", not "Where is the effort?".
 
