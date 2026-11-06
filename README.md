@@ -158,17 +158,17 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20.
 
 | Check | Result | Evidence |
 |---|---|---|
-| Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!" |
+| Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks |
 | Script tests | Pass | 28 of 28, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
-| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 799 words; references are 21 to 73 lines |
+| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 800 words; references are 21 to 73 lines |
 | profile.ts | Pass | `check` prints `missing` (exit 2); `init` saves; an invalid `--format` exits 1 |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, or the verdict is refine |
-| Eval: first-use-runs-setup | 1.00, without skill 0.25 | 3 runs per arm, without Bash (Windows) |
+| Eval: first-use-runs-setup | 1.00, without skill 0.17 | 3 runs per arm, without Bash (Windows) |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |
 | Eval: writes-handoff-for-tlc-spec-lean | 0.90, without skill 0.17 | Only `05-validator-passes` fails, because the run had no Bash. The file checks are deterministic regex graders |
 | End to end with tlc-spec-lean 2.2.0 | Partial, run before the fixes | A simulated non-technical founder reached go in 24 turns: setup ran once, each turn asked one question with a recommendation, prices and laws were searched before they were shown, and nothing was written under `.specs/features`. The handoff failed the working validator (a binding finding was unverifiable); the scripts then in place exited 0 without checking, which the fixes correct. tlc-spec-lean's `validate_plan.py` passed with 1 warning and raised 18 questions the handoff had not settled; the handoff template and rules now carry those answers. Not repeated after the fixes |
-| Description triggering | No improvement | 10 of 10 should-not-trigger queries pass; 4 of 8 held-out queries pass with the current description and with each of 4 rewrites. Measured on a machine with competing idea-validation skills installed |
+| Description triggering | Weak, unresolved | skill-creator trigger eval, 3 runs per query: 10 of 10 should-not-trigger queries stay silent, but 0 of 10 should-trigger queries reach the 0.5 trigger rate (mean 0.1 to 0.2), with the current description, the previous one and 4 rewrites alike. Measured on a machine with competing idea-validation skills installed. In the plugin evals the skill was invoked in every with-skill run, so the gap is in description matching, not in the skill body |
 
 Not tested: the targets other than tlc-spec-lean, the diagram, illustration and document formats, the session commands marked No above, and runs without web access.
 
