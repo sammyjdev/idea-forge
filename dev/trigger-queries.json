@@ -18,5 +18,9 @@
   {"query": "faz um brainstorm de 20 nomes pra minha startup de logística", "should_trigger": false},
   {"query": "research the latest papers on retrieval augmented generation evaluation and summarize them for me", "should_trigger": false},
   {"query": "debug this: our payment webhook returns 500 when the provider retries, stack trace below", "should_trigger": false},
-  {"query": "design the system architecture for a multi-tenant notification service with kafka and postgres, I need the C4 diagrams", "should_trigger": false}
+  {"query": "design the system architecture for a multi-tenant notification service with kafka and postgres, I need the C4 diagrams", "should_trigger": false},
+  {"query": "quanto o Linear e o Jira cobram por usuário hoje? preciso pra planilha de custos do time", "should_trigger": false},
+  {"query": "is AWS Lambda's free tier still 1M requests a month? just checking for our bill", "should_trigger": false},
+  {"query": "resume as entrevistas com usuários que estão em research/q3.md pra apresentar no all-hands", "should_trigger": false},
+  {"query": "should we buy Datadog or self-host Grafana for our observability stack? we have 40 services", "should_trigger": false}
 ]

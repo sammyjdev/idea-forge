@@ -1,0 +1,203 @@
+{
+  "skill_name": "idea-forge",
+  "description": "Research and discovery for a product or feature idea before any spec-driven workflow. Use when someone wants to explore, validate, research or pressure-test an idea before writing a spec or plan, technical or not, including for that idea whether it is worth building or buying, what competitors ship and charge today, whether the numbers or claims behind it still hold, or what interview notes prove about it. Includes Portuguese requests such as \"validar ideia\", \"vale a pena construir\", \"pesquisar antes de especificar\", \"discovery\". Checks every time-sensitive fact on the web before showing results, questions the idea one step at a time, and hands off a neutral brief to tlc-spec-lean by default, or to Spec Kit, Kiro and other SDD skills. Do NOT use for writing the spec, plan, tasks or code, or for a feature already decided that only needs planning (use tlc-spec-lean).",
+  "results": [
+    {
+      "query": "tenho uma ideia de app pra cl\u00ednicas veterin\u00e1rias agendarem banho e tosa pelo whatsapp, antes de escrever spec quero entender se o mercado j\u00e1 tem isso e quanto cobram",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "valida essa ideia pra mim: plataforma de cashback pra pequenos mercados de bairro em Jo\u00e3o Pessoa. sou dev mas n\u00e3o entendo nada de varejo",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": false
+    },
+    {
+      "query": "before I open tlc-spec-lean I want to research whether building our own OCR for customs invoices makes sense vs buying something. can you dig into what exists today and the current pricing?",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "meu s\u00f3cio falou que a taxa do pix pra empresa \u00e9 zero e que o open finance j\u00e1 permite iniciar pagamento recorrente. quero confirmar isso e ver se d\u00e1 pra montar um produto de cobran\u00e7a em cima",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "vale a pena construir um marketplace de freelancers de design no nordeste? quero fazer o discovery direito antes de planejar",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "I'm a PM, not technical. We're thinking about adding AI-generated meeting summaries to our HR product. Help me figure out if competitors already ship this, what the legal risks under LGPD are, and whether it's worth it",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "pega essas notas da reuni\u00e3o com os clientes (t\u00e3o em notes/entrevistas.md) e organiza o que \u00e9 evid\u00eancia e o que \u00e9 achismo, quero saber se a ideia de exporta\u00e7\u00e3o simplificada pra MEI se sustenta",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "resume the discovery for the duplicate payment guard, the verdict is go, write the handoff for tlc-spec-lean",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "quero explorar uma ideia de SaaS de controle de estoque pra restaurantes, mas antes de qualquer spec preciso saber se os n\u00fameros que eu tenho de 2023 ainda valem",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "we keep saying stripe's brazil fees kill our margin, can you research the current fees and alternatives and tell me if building a direct acquirer integration is worth exploring",
+      "should_trigger": true,
+      "trigger_rate": 0.6666666666666666,
+      "triggers": 2,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "o plano j\u00e1 t\u00e1 aprovado em .specs/features/checkout-v2/plan.md, implementa as checks e roda o verifier",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "escreve o spec.md da feature de login com google usando EARS, j\u00e1 decidimos tudo",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "faz um ADR explicando por que escolhemos Kafka em vez de SQS no servi\u00e7o de pedidos",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "qual a diferen\u00e7a entre spec kit e tlc-spec-lean? s\u00f3 quero entender, n\u00e3o tenho ideia nenhuma pra validar agora",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "me ajuda a escrever um post no linkedin sobre como validar ideias de startup antes de codar",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "corta esse PRD em tarefas pro time, o PRD t\u00e1 em docs/prd-billing.md",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "faz um brainstorm de 20 nomes pra minha startup de log\u00edstica",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "research the latest papers on retrieval augmented generation evaluation and summarize them for me",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "debug this: our payment webhook returns 500 when the provider retries, stack trace below",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "design the system architecture for a multi-tenant notification service with kafka and postgres, I need the C4 diagrams",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "quanto o Linear e o Jira cobram por usu\u00e1rio hoje? preciso pra planilha de custos do time",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "is AWS Lambda's free tier still 1M requests a month? just checking for our bill",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "resume as entrevistas com usu\u00e1rios que est\u00e3o em research/q3.md pra apresentar no all-hands",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "should we buy Datadog or self-host Grafana for our observability stack? we have 40 services",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 24,
+    "passed": 23,
+    "failed": 1
+  }
+}
