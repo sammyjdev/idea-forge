@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: first-use-runs-setup
+expected_outcome: |
+  With no profile on disk, the assistant runs the first-use setup before any research:
+  a short explanation of how the skill works, then the four setup questions (who the
+  person is, focus, result format, target skill) asked together. It does not start
+  researching, does not write a plan, spec or handoff, and replies in Portuguese.

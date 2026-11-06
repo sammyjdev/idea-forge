@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: writes-handoff-for-tlc-spec-lean
+context:
+  scaffold_script: place-files.sh
+expected_outcome: |
+  The assistant resumes from the brief, writes docs/discovery/handoff/duplicate-payment-guard.md
+  with every handoff section filled from the brief, findings and dossier: a Target line naming
+  tlc-spec-lean, a Size, a Suggested profile of standard (money moves), rules grouped under a
+  slice heading like "### S1: name (P1)" in EARS form with SHALL with the 409 and 24 hour values and normal and
+  boundary examples, all nine edge dimensions decided, and an Open questions section, and door candidates with a rejected
+  alternative. It runs scripts/validate.ts until it passes, writes nothing under .specs/features,
+  writes no Approved line, shows the summary as tables and gives the tlc-spec-lean next command.
