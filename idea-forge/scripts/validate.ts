@@ -52,6 +52,35 @@ const VAGUE_WORDS = [
 
 export type Report = { errors: string[]; warnings: string[] };
 
+// A rule that reaches a person must say how: "via WhatsApp", "via email", "via the order page".
+const SENDS = /\b(send|sends|notify|notifies|alert|alerts|email|emails)\b/i;
+
+// "A lo..hi B" means each A has lo to hi B. lo is a number; hi is a number or n.
+function checkRelations(entities: string): string[] {
+  const errors: string[] = [];
+  const seen = new Map<string, string>();
+  const relation = /([A-Za-z][\w ]*?)\s+(\d+|n)\.\.(\d+|n)\s+([A-Za-z][\w ]*?)\s*(?=;|\||$)/g;
+  for (const row of entities.split("\n")) {
+    const cells = row.split("|");
+    if (cells.length < 4) continue;
+    for (const m of cells[2].matchAll(relation)) {
+      const [text, from, lo, hi, to] = [m[0].trim(), m[1].trim(), m[2], m[3], m[4].trim()];
+      const low = lo === "n" ? Infinity : Number(lo);
+      const high = hi === "n" ? Infinity : Number(hi);
+      if (low > high || lo === "n") {
+        errors.push(`Entities: "${text}" reads as each ${from} has ${lo} to ${hi} ${to}; the low end is above the high end`);
+        continue;
+      }
+      const key = `${from} -> ${to}`;
+      const range = `${lo}..${hi}`;
+      const before = seen.get(key);
+      if (before && before !== range) errors.push(`Entities: ${from} to ${to} is ${before} in one row and ${range} in another`);
+      else seen.set(key, range);
+    }
+  }
+  return errors;
+}
+
 function sections(text: string): Map<string, string> {
   const map = new Map<string, string>();
   for (const part of text.split(/^## /m).slice(1)) {
@@ -113,6 +142,12 @@ export function validateHandoff(text: string): Report {
     if (!/\bshall\b/i.test(line)) report.errors.push(`Rule is not in EARS form (no "shall"): ${line.trim()}`);
     if (!/\d/.test(line.replace(/^\s*\d+\.\s/, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
   }
+  for (const line of ruleLines) {
+    if (SENDS.test(line) && !/\bvia\s+\w/i.test(line)) {
+      report.errors.push(`Rule sends something but names no channel ("via <channel>"): ${line.trim()}`);
+    }
+  }
+  report.errors.push(...checkRelations(map.get("entities") ?? ""));
   const normals = (rules.match(/^\s*Normal:/gm) ?? []).length;
   const boundaries = (rules.match(/^\s*Boundary:/gm) ?? []).length;
   if (normals < ruleLines.length) report.warnings.push(`${ruleLines.length - normals} rule(s) without a Normal example.`);

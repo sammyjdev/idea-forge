@@ -122,6 +122,44 @@ test("a complete handoff passes", () => {
   assert.deepEqual(report.errors, []);
 });
 
+function withRule(rule: string): string {
+  return GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", `   Boundary: K1 at t=24h+1s -> 200\n${rule}\n`);
+}
+
+test("a rule that sends a message without naming the channel fails", () => {
+  const report = validateHandoff(withRule("2. WHEN the payment is refused THEN the API shall send the customer a message within 5 minutes."));
+  assert.ok(report.errors.some((e) => /channel/.test(e) && /2\. WHEN the payment is refused/.test(e)), report.errors.join("\n"));
+});
+
+test("a rule that sends a message via a named channel passes", () => {
+  const report = validateHandoff(withRule("2. WHEN the payment is refused THEN the API shall send the customer a message via email within 5 minutes."));
+  assert.deepEqual(report.errors, []);
+});
+
+test("a rule that shows text on a page is not taken for a message", () => {
+  const report = validateHandoff(withRule("2. The API shall show the refund rules text on the payment page within 1 second."));
+  assert.deepEqual(report.errors, []);
+});
+
+function withRelations(relations: string): string {
+  return GOOD_HANDOFF.replace("| Key | Order 1..1 Key | payments |", relations);
+}
+
+test("an entity relation whose low end is above its high end fails", () => {
+  const report = validateHandoff(withRelations("| Refund | Refund n..1 Payment | none |"));
+  assert.ok(report.errors.some((e) => /Refund n\.\.1 Payment/.test(e)), report.errors.join("\n"));
+});
+
+test("the same entity relation given two different ranges fails", () => {
+  const report = validateHandoff(withRelations("| Payment | Payment 0..1 Refund | none |\n| Refund | Payment 0..n Refund | none |"));
+  assert.ok(report.errors.some((e) => /Payment.*Refund/.test(e) && /0\.\.1/.test(e) && /0\.\.n/.test(e)), report.errors.join("\n"));
+});
+
+test("relations in both directions with valid ranges pass", () => {
+  const report = validateHandoff(withRelations("| Payment | Payment 0..n Refund | none |\n| Refund | Refund 1..1 Payment | none |"));
+  assert.deepEqual(report.errors, []);
+});
+
 test("handoff without slice heading fails", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("### S1 (P1): Reject duplicates\n", ""));
   assert.ok(report.errors.some((e) => e.includes("slice heading")));
