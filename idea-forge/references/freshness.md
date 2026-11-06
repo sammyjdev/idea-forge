@@ -8,7 +8,7 @@ No result may rest on a fact that stopped being true. A claim is any statement t
 
 | Class | Examples | Search | Check valid for |
 |---|---|---|---|
-| high | Prices, fees, quotas, versions, model capabilities, API behavior, deprecations, competitors and their features, laws in draft, company status | Always | 30 days |
+| high | Prices, fees, quotas, versions, model capabilities, API behavior, deprecations, competitors and their features, laws in draft, funding and company status | Always | 30 days |
 | medium | Laws and standards in force, market sizes, adoption figures, provider terms, platform policies | Always | 180 days |
 | low | Concepts, definitions, history, settled science, math | No | Unlimited |
 
@@ -28,9 +28,9 @@ The person's first-hand data (their sales, costs, interviews) is not checkable o
 | Status | Meaning | What to show |
 |---|---|---|
 | current | A dated source within the window confirms it | The claim with its source and date |
-| outdated | A current source contradicts it | The old claim, the correction and the source, plainly and without blame: "That was true until March 2026. Current fee: 3.4% (source, date)." |
+| outdated | A current source contradicts it | The old claim, the correction and the source. Tell the person in one line, plainly and without blame: "That was true until March 2026. Current fee: 3.4% (source, date)." |
 | unverifiable | No reachable source confirms or denies it | "No verified source found". It cannot decide the verdict alone |
 
-Every checked claim becomes or updates a finding in `docs/discovery/findings.md` with volatility, status and check date, which `scripts/freshness.ts` reads to flag expired checks. On resume, run it and re-check every flagged finding before showing a result that depends on it, verdict findings first.
+Every checked claim becomes or updates a finding in `docs/discovery/findings.md` with volatility, status and check date, which `scripts/freshness.ts` reads to flag expired checks. On resume, run `node <skill-dir>/scripts/freshness.ts` and re-check every flagged finding before showing a result that depends on it, verdict findings first.
 
 Without web access, say so once, mark every high and medium claim unverifiable, and keep the verdict at refine until the checks can run.

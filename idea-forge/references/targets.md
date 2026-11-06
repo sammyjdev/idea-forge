@@ -12,7 +12,11 @@ idea-forge writes the same neutral handoff, `docs/discovery/handoff/<feature>.md
 
 ## Check it
 
-Target skills change often. Read the target's current SKILL.md or docs in this session and compare its plan template with the handoff sections. When they match, give the next command. When a section has no home, or the target cannot be read, read `references/target-mapping.md`, list what has no home in the handoff summary, and mark the Target line as unchecked.
+Target skills change often: treat their commands, folders and templates as high-volatility claims per `references/freshness.md`. Read the target's current SKILL.md or docs in this session and note its version in the Target line.
+
+- tlc-spec-lean 2.2.0: the handoff fits its plan as is. Give the next command.
+- Any other version, or any other target: read `references/target-mapping.md`, map the handoff to the target's current template, and list in the handoff summary what has no home.
+- The target cannot be read: say so to the person, keep the mapping as it is, and mark the Target line as unchecked.
 
 ## Next command
 
