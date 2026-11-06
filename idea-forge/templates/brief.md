@@ -13,7 +13,7 @@ Constraints: <deadline, budget, team, stack>
 Target workflow: <spec-driven skill or not set>
 
 ## Research questions
-- RQ-01: <question>. Risk it tests: <risk>. Status: open
+- RQ-01: <question>. Risk it tests: <risk>. Changes the decision if: <answer>. Status: open
 
 ## Profile overrides
 - <field>: <value for this project only>

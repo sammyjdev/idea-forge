@@ -16,7 +16,7 @@ Read when no profile is found or the person says "setup". Target: under 2 minute
    - Who are you: non-technical (founder, business) / product manager / engineer / designer
    - Main focus: business / product / technical / design (preselect the default from `references/focus.md` for the role the conversation suggests so far; the person's choice wins)
    - How you like results: text / tables / diagram / illustration / document
-   - Spec-driven skill you use next: detect from the repository per `references/targets.md` and preselect it; options: tlc-spec-lean (default), tlc-spec-driven, Spec Kit, other
+   - Spec-driven skill you use next: detect from the repository with the "Pick the target" table in `references/targets.md` (read only that section now) and preselect it; options: tlc-spec-lean (default), tlc-spec-driven, Spec Kit, other
 3. Show the resulting profile. After the person confirms, save it:
    ```
    node <skill-dir>/scripts/profile.ts init --role <role> --level <level> --focus <focus> --format <format> --workflow "<target>"

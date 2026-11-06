@@ -27,7 +27,9 @@ Classify each claim. The class decides whether to search and how long a check st
 | medium | Laws and standards in force, market sizes, adoption figures, provider terms, platform policies | Always | 180 days |
 | low | Concepts, definitions, history, settled science, math | No | Unlimited |
 
-When unsure between two classes, pick the higher one.
+When unsure between two classes, pick the higher one. The window runs from the check date, and a source dated before the window cannot make a claim current.
+
+The person's first-hand data (their interviews, sales, costs) is not a claim the web can check. Record the person as the source and the day they collected it as the check date, set volatility by what it measures, and mark it current, with confidence 60% or less unless records back it. It is never unverifiable.
 
 ## How to check
 

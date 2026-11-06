@@ -42,7 +42,7 @@ Suggested profile: <light | standard | ui>. Reason: <reason>
 - <route or screen>: used by <who>, returns or shows <what>. Or "None - nothing consumed outside"
 
 ## Literal text
-- <wording the person decided, word for word in their language, or "None">
+- <wording the person decided, word for word in the language the user will see, or "None">
 
 ## Limits
 - <metric>: <target>
