@@ -188,6 +188,26 @@ test("a profile line inside a code block is an example, not a second line", () =
   assert.ok(!report.errors.some((e) => e.includes("Suggested profile")));
 });
 
+test("a reason with inline code passes", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Reason: money moves", "Reason: `payments.ts`"));
+  assert.deepEqual(report.errors, []);
+});
+
+test("an unpaired backtick earlier in the handoff does not hide a bad profile line", () => {
+  const text = GOOD_HANDOFF.replace("Suggested profile: standard.", "Suggested profile: heavy.").replace("Size: medium", "Size: medium `x") + "\nSee `notes`.\n";
+  assert.ok(validateHandoff(text).errors.some((e) => e.includes("Suggested profile")));
+});
+
+test("a profile line inside a tilde fence is an example, not a second line", () => {
+  const report = validateHandoff(`${GOOD_HANDOFF}\n~~~\nSuggested profile: heavy.\n~~~\n`);
+  assert.ok(!report.errors.some((e) => e.includes("Suggested profile")));
+});
+
+test("a profile value in bold passes", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard.", "**Suggested profile:** **standard**."));
+  assert.deepEqual(report.errors, []);
+});
+
 test("a second suggested profile line fails", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("Reason: money moves\n", "Reason: money moves\nSuggested profile: heavy.\n"));
   assert.ok(report.errors.some((e) => e.includes("Suggested profile")));
