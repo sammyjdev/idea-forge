@@ -226,7 +226,7 @@ export function validateHandoff(text: string): Report {
   for (const line of ruleLines) {
     if (!/\bshall\b/i.test(line)) report.errors.push(`Rule is not in EARS form (no "shall"): ${line.trim()}`);
     if (!ENDS_WITH_TAG.test(line)) {
-      report.errors.push(`Rule cites no source. End it with [D-NN], [K-NN], [F-NN] or [A-NN]: ${line.trim()}`);
+      report.errors.push(`Rule must end with its source tag, [D-NN], [K-NN], [F-NN] or [A-NN], with nothing after it: ${line.trim()}`);
     }
     if (!/\d/.test(line.replace(/^\s*\d+\.\s/, "").replace(SOURCE_TAGS, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
   }
@@ -309,11 +309,11 @@ export function checkSourcesBinding(handoff: string, findings: Finding[]): strin
 
 // Every decision in brief.md must reach the handoff, or say why it does not.
 export function checkDecisionsCarried(handoff: string, brief: string): string[] {
-  const decided = (sections(brief).get("decisions") ?? "").match(/^\s*-\s*D-\d+/gm) ?? [];
+  const decided = (sections(brief).get("decisions") ?? "").match(/^\s*-\s*\**D-\d+/gm) ?? [];
   const carried = sections(handoff).get("decisions") ?? "";
   return decided
-    .map((line) => line.replace(/^\s*-\s*/, ""))
-    .filter((id) => !new RegExp(`^[ \\t]*-[ \\t]*${id}:[ \\t]*\\S`, "m").test(carried))
+    .map((line) => line.replace(/^\s*-\s*\**/, ""))
+    .filter((id) => !new RegExp(`^[ \\t]*-[ \\t]*\\**${id}\\**:\\**[ \\t]*[^\\s*]`, "m").test(carried))
     .map((id) => `Decisions: ${id} from brief.md is missing. Say where it lands or why it is not for this feature.`);
 }
 

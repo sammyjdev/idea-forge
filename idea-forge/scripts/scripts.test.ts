@@ -121,7 +121,7 @@ const UNTAGGED = GOOD_HANDOFF.replace("return 409. [F-01]", "return 409.");
 
 test("a rule that cites no source fails", () => {
   const report = validateHandoff(UNTAGGED);
-  assert.ok(report.errors.some((e) => e.startsWith("Rule cites no source")));
+  assert.ok(report.errors.some((e) => e.startsWith("Rule must end with its source tag")));
 });
 
 test("a rule that cites a decision, a fact or an assumption passes", () => {
@@ -157,12 +157,12 @@ test("a tag the brief or findings do not have fails", () => {
 
 test("a tag in the middle of a rule does not count; it must end the rule", () => {
   const report = validateHandoff(UNTAGGED.replace("WHEN a known key", "WHEN [D-01] a known key"));
-  assert.ok(report.errors.some((e) => e.startsWith("Rule cites no source")));
+  assert.ok(report.errors.some((e) => e.startsWith("Rule must end with its source tag")));
 });
 
 test("an example rule inside a fenced block in Rules is not checked", () => {
   const handoff = GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", "   Boundary: K1 at t=24h+1s -> 200\n```\n2. WHEN x THEN y SHALL z. [D-99]\n3. WHEN x THEN y SHALL z.\n```\n");
-  assert.ok(!validateHandoff(handoff).errors.some((e) => e.startsWith("Rule cites no source")));
+  assert.ok(!validateHandoff(handoff).errors.some((e) => e.startsWith("Rule must end with its source tag")));
   assert.deepEqual(checkRuleSources(handoff, SOURCED_BRIEF, ["F-01"]), []);
 });
 
@@ -544,6 +544,19 @@ test("a decision listed with nothing after it is still missing", () => {
   assert.deepEqual(checkDecisionsCarried(handoff, BRIEF), [
     "Decisions: D-01 from brief.md is missing. Say where it lands or why it is not for this feature.",
   ]);
+});
+
+test("a decision written in bold in the brief must still reach the handoff", () => {
+  const brief = BRIEF.replace("- D-01: Refuse", "- **D-01**: Refuse");
+  const handoff = `${GOOD_HANDOFF}\n## Decisions\n- D-02: not for this feature, it belongs to onboarding\n`;
+  assert.deepEqual(checkDecisionsCarried(handoff, brief), [
+    "Decisions: D-01 from brief.md is missing. Say where it lands or why it is not for this feature.",
+  ]);
+});
+
+test("a rule whose tag is not last is told to end with it", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("return 409. [F-01]", "return 409 [F-01]."));
+  assert.ok(report.errors.some((e) => e.startsWith("Rule must end with its source tag")));
 });
 
 test("a brief with no decisions asks nothing of the handoff", () => {
