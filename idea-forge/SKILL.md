@@ -1,19 +1,21 @@
 ---
 name: idea-forge
-description: Research and discovery for a product or feature idea before any spec-driven workflow. Use whenever someone wants to explore, validate, research or pressure-test an idea before writing a spec or plan, for technical and non-technical people, including requests in Portuguese such as "validar ideia", "pesquisar antes de especificar", "discovery", "vale a pena construir". Checks every time-sensitive fact on the web before showing results, questions the idea one step at a time, and hands off a neutral brief to tlc-spec-lean by default, or to Spec Kit, Kiro and other SDD skills. Not for writing the spec, plan, tasks or code, or for a feature already decided that only needs planning.
+description: Research and discovery for a product or feature idea before any spec-driven workflow. Use when someone wants to explore, validate, research or pressure-test an idea before writing a spec or plan, technical or not, including Portuguese requests such as "validar ideia", "pesquisar antes de especificar", "discovery", "vale a pena construir". Checks every time-sensitive fact on the web before showing results, questions the idea one step at a time, and hands off a neutral brief to tlc-spec-lean by default, or to Spec Kit, Kiro and other SDD skills. Do NOT use for writing the spec, plan, tasks or code, or for a feature already decided that only needs planning (use tlc-spec-lean).
+license: CC-BY-4.0
+metadata:
+  author: github.com/sammyjdev
+  version: 1.0.0
 ---
 
 # idea-forge
 
-The step before any spec-driven workflow, with tlc-spec-lean as the default target. Take an idea from vague to understood, with every fact that can change checked against current sources, then hand a neutral handoff to the target skill.
-
-This skill does not write plans, specs, tasks or code, and never writes inside a target's folders. The target owns those files, and its own validators expect to create them.
+The step before any spec-driven workflow, with tlc-spec-lean as the default target. It never writes plans, specs, tasks or code, or anything inside a target's folders: the target owns those.
 
 Conversation follows the person's language. Every file is in English.
 
 ## Main rule: verify before you show
 
-Nothing that can change over time reaches the person unchecked: claims from the person, from their material, and from your own knowledge. A stale price, law or API sends the whole plan the wrong way, and the person cannot tell which fact was stale.
+Nothing that can change over time reaches the person unchecked: claims from the person, from their material, and from your own knowledge. A stale price, law or API misdirects the whole plan.
 
 Before any turn that presents a result, a recommendation or a finding:
 1. List the time-sensitive claims it depends on.
@@ -68,6 +70,8 @@ Stage 3 of 5 · Grill · 6 of ~12 decisions made
 Recommended: <answer>
 Checked: <finding IDs and date, or "nothing time-sensitive">
 ```
+
+Example. User says: "An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix." After setup: `Stage 1 of 5 · Frame · 0 of ~4 decisions made`, one question on what goes wrong today, `Recommended:` no-shows cost the bakery ingredients and hours, `Checked: nothing time-sensitive`.
 
 `~12` is your running estimate for the stage. Offer the recommendation and up to two alternatives as choices. After each answer, one line on what changed, then the next question.
 
