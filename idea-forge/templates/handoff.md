@@ -58,7 +58,7 @@ Suggested profile: <optional, leave this line out for light unless the brief say
 ## Assumptions
 | Assumption | Chosen default | Rationale | Validate by | Confirmed? |
 |---|---|---|---|---|
-| <ambiguity> | <what we will do> | <why> | <how> | n |
+| A-NN: <ambiguity> | <what we will do> | <why> | <how> | n |
 
 ## Open questions
 - Q-NN: <question> [blocks | blocks go-live | open], or "None"

@@ -155,6 +155,36 @@ test("a tag the brief or findings do not have fails", () => {
   ]);
 });
 
+test("a tag in the middle of a rule does not count; it must end the rule", () => {
+  const report = validateHandoff(UNTAGGED.replace("WHEN a known key", "WHEN [D-01] a known key"));
+  assert.ok(report.errors.some((e) => e.startsWith("Rule cites no source")));
+});
+
+test("an example rule inside a fenced block in Rules is not checked", () => {
+  const handoff = GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", "   Boundary: K1 at t=24h+1s -> 200\n```\n2. WHEN x THEN y SHALL z. [D-99]\n3. WHEN x THEN y SHALL z.\n```\n");
+  assert.ok(!validateHandoff(handoff).errors.some((e) => e.startsWith("Rule cites no source")));
+  assert.deepEqual(checkRuleSources(handoff, SOURCED_BRIEF, ["F-01"]), []);
+});
+
+test("an ID in bold in its own brief section is known", () => {
+  const brief = SOURCED_BRIEF.replace("- D-01: Refuse", "- **D-01**: Refuse");
+  assert.deepEqual(checkRuleSources(UNTAGGED.replace("return 409.", "return 409. [D-01]"), brief, ["F-01"]), []);
+});
+
+test("a decision ID that only appears under open questions is not a decision", () => {
+  const brief = `${SOURCED_BRIEF}## Open questions\n- D-05: is this decided?\n`;
+  assert.deepEqual(checkRuleSources(UNTAGGED.replace("return 409.", "return 409. [D-05]"), brief, ["F-01"]), [
+    "Rules: D-05 is not in brief.md. Cite a source that exists or move the value to Assumptions.",
+  ]);
+});
+
+test("a door candidate that cites a decision nobody made fails", () => {
+  const handoff = GOOD_HANDOFF.replace("lost on restart [F-01]", "lost on restart [D-99]");
+  assert.deepEqual(checkRuleSources(handoff, SOURCED_BRIEF, ["F-01"]), [
+    "Door candidates: D-99 is not in brief.md. Cite a source that exists or move the value to Assumptions.",
+  ]);
+});
+
 test("validate command refuses a rule that cites a decision nobody made", () => {
   const root = project({
     "docs/discovery/handoff/x.md": UNTAGGED.replace("return 409.", "return 409. [D-09]"),

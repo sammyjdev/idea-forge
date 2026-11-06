@@ -150,17 +150,26 @@ function stripFences(text: string): string {
 // Where a value came from: a decision, a fact the person stated, a finding, or an assumption.
 const SOURCE_TAG = /\[\s*[DKFA]-\d+(\s*,\s*[DKFA]-\d+)*\s*\]/;
 const SOURCE_TAGS = new RegExp(SOURCE_TAG.source, "g");
+const ENDS_WITH_TAG = new RegExp(`${SOURCE_TAG.source}\\s*$`);
 
 // Every tag in Rules must name a D, K or A in brief.md, or an F in findings.md.
 export function checkRuleSources(handoff: string, brief: string, findingIds: string[]): string[] {
-  const known = new Set([...brief.matchAll(/^\s*-\s*([DKA]-\d+):/gm)].map((m) => m[1]));
-  const rules = sections(handoff).get("rules") ?? "";
-  const cited = [...rules.matchAll(SOURCE_TAGS)].flatMap((m) => m[0].match(/[DKFA]-\d+/g) ?? []);
+  const own = sections(brief);
+  const known = new Set<string>();
+  for (const [section, prefix] of [["facts", "K"], ["decisions", "D"], ["assumptions", "A"]]) {
+    const ids = (own.get(section) ?? "").matchAll(new RegExp(`^\\s*-\\s*\\**(${prefix}-\\d+)\\**:`, "gm"));
+    for (const m of ids) known.add(m[1]);
+  }
+  const map = sections(handoff);
   const errors: string[] = [];
-  for (const id of new Set(cited)) {
-    const inFindings = id.startsWith("F-");
-    if (inFindings ? !findingIds.includes(id) : !known.has(id)) {
-      errors.push(`Rules: ${id} is not in ${inFindings ? "findings.md" : "brief.md"}. Cite a source that exists or move the value to Assumptions.`);
+  for (const [label, key] of [["Rules", "rules"], ["Door candidates", "door candidates"]]) {
+    const body = stripFences(map.get(key) ?? "");
+    const cited = [...body.matchAll(SOURCE_TAGS)].flatMap((m) => m[0].match(/[DKFA]-\d+/g) ?? []);
+    for (const id of new Set(cited)) {
+      const inFindings = id.startsWith("F-");
+      if (inFindings ? !findingIds.includes(id) : !known.has(id)) {
+        errors.push(`${label}: ${id} is not in ${inFindings ? "findings.md" : "brief.md"}. Cite a source that exists or move the value to Assumptions.`);
+      }
     }
   }
   return errors;
@@ -208,7 +217,7 @@ export function validateHandoff(text: string): Report {
     if (!/\((exists|new)\)/.test(step)) report.warnings.push(`Flow step not tagged (exists) or (new): ${step.trim()}`);
   }
 
-  const rules = map.get("rules") ?? "";
+  const rules = stripFences(map.get("rules") ?? "");
   if (!/^### S\d+(: .+)? \(P\d\)/m.test(rules) && !/^### S\d+ \(P\d\)/m.test(rules)) {
     report.errors.push("Rules have no slice heading like '### S1: name (P1)'. tlc-spec-lean criteria are grouped by slice.");
   }
@@ -216,7 +225,7 @@ export function validateHandoff(text: string): Report {
   if (ruleLines.length === 0) report.errors.push("Rules has no numbered rules.");
   for (const line of ruleLines) {
     if (!/\bshall\b/i.test(line)) report.errors.push(`Rule is not in EARS form (no "shall"): ${line.trim()}`);
-    if (!SOURCE_TAG.test(line)) {
+    if (!ENDS_WITH_TAG.test(line)) {
       report.errors.push(`Rule cites no source. End it with [D-NN], [K-NN], [F-NN] or [A-NN]: ${line.trim()}`);
     }
     if (!/\d/.test(line.replace(/^\s*\d+\.\s/, "").replace(SOURCE_TAGS, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);

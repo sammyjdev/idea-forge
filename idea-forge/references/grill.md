@@ -31,7 +31,15 @@ Before closing branch 4, close every rule. It names who or what triggers it, wha
 Two kinds of question, two ways to ask.
 
 - One at a time: a choice with a real trade-off, two defensible answers with different costs, or anything on a risky path (money, health data, personal data, regulation). Recommended answer and one line on why.
-- One table per branch: everything else, the items with one obvious default that is cheap to change later. Columns: item, proposed default, source (`F-NN`, `K-NN` or "proposed"). Ask the person to correct any row. Rows they accept become `D-NN` with "Because: accepted at <message>"; rows they correct take their answer.
+- One table per branch, at most 6 rows: everything else, the items with one obvious default that is cheap to change later. Columns: item, proposed default, source (`F-NN`, `K-NN` or "proposed"). A value that will be the number in a rule on a risky path never goes in the table. Ask the person to correct any row.
+
+What each row becomes:
+
+| The person | Row becomes |
+|---|---|
+| Corrects it | `D-NN` with their answer, "Because: answered at <message>" |
+| Confirms it by name ("row 3 is right") | `D-NN` with the default, "Because: confirmed at <message>" |
+| Accepts the table as a block ("ok") | `A-NN` in `brief.md` with the default and `Confirmed? n`. Accepting a block is not deciding |
 
 A rule the person states is a decision: record it as `D-NN` the moment they say it, so the handoff cannot drop it. Never present a proposed default as a fact about their business. Say "I propose", and keep the source column honest.
 

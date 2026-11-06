@@ -15,7 +15,7 @@ The target should be able to plan without asking again what the discovery alread
 - Edges and Rules agree. Every state transition in Edges is caused by a rule. A conflict is a grill question, not a choice you make.
 - Decisions: list every `D-NN` from `brief.md` with where it lands, or why it is not for this feature. `validate.ts` checks this.
 - Sources: each finding's binding mark matches `findings.md`. `validate.ts` checks this.
-- Traceability: each rule ends with the IDs its values come from, `[D-03, K-01]`: a decision, a fact the person stated (`K-NN` in `brief.md`), a finding or an assumption. A preferred door option cites one too. A value with no source goes to Assumptions with `Confirmed? n`, never into a rule as fact. Never copy a value agreed for one rule to another rule, and never turn an option found in research into the person's choice. `validate.ts` refuses a rule with no tag and a tag that does not exist.
+- Traceability: each rule ends with the IDs its values come from, `[D-03, K-01]`: a decision, a fact the person stated (`K-NN` in `brief.md`), a finding or an assumption. A preferred door option cites one too. A value with no source becomes an assumption: add it to `brief.md` as `A-NN` with `Confirmed? n`, cite `[A-NN]` in the rule, and list it in the Assumptions table with its ID first (`A-03: window length`). Never write it into a rule as fact. Never copy a value agreed for one rule to another rule, and never turn an option found in research into the person's choice. `validate.ts` refuses a rule with no tag and a tag that does not exist.
 
 For a non-technical person, write each rule in plain words first, confirm it, then add the EARS line. Write the file, then run the validator.
 
