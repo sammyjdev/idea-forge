@@ -129,8 +129,22 @@ function stripCode(text: string): string {
 }
 
 // Fenced blocks hold examples; inline code stays, since a reason may name a file.
+// CommonMark rules: a fence is 3+ backticks or tildes, a backtick fence's info has no backtick,
+// it closes on the same character at least as long with nothing after it, or at the end of the text.
 function stripFences(text: string): string {
-  return text.replace(/^[ \t]*(```|~~~)[^\n]*\n[\s\S]*?^[ \t]*\1[^\n]*$/gm, "");
+  const kept: string[] = [];
+  let open: { char: string; size: number } | null = null;
+  for (const line of text.split("\n")) {
+    const fence = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line.replace(/\r$/, ""));
+    if (open) {
+      if (fence && fence[1][0] === open.char && fence[1].length >= open.size && fence[2].trim() === "") open = null;
+    } else if (fence && !(fence[1][0] === "`" && fence[2].includes("`"))) {
+      open = { char: fence[1][0], size: fence[1].length };
+    } else {
+      kept.push(line);
+    }
+  }
+  return kept.join("\n");
 }
 
 // The key may sit in a bullet or in bold; any case.

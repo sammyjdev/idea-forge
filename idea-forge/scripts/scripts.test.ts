@@ -203,6 +203,22 @@ test("a profile line inside a tilde fence is an example, not a second line", () 
   assert.ok(!report.errors.some((e) => e.includes("Suggested profile")));
 });
 
+test("a line with inline triple backticks does not open a fence that hides a bad profile line", () => {
+  const text = GOOD_HANDOFF.replace("Suggested profile: standard.", "```x``` note\nSuggested profile: heavy.\n```y``` note\nSuggested profile: standard.").replace("Reason: money moves\n", "Reason: money moves\n");
+  assert.ok(validateHandoff(text).errors.some((e) => e.includes("Suggested profile")));
+});
+
+test("a four-backtick fence with a three-backtick example inside is one example", () => {
+  const report = validateHandoff(`${GOOD_HANDOFF}\n\`\`\`\`\n\`\`\`\nSuggested profile: heavy.\n\`\`\`\n\`\`\`\`\n`);
+  assert.deepEqual(report.errors, []);
+});
+
+test("an unclosed fence runs to the end of the handoff", () => {
+  const report = validateHandoff(`${GOOD_HANDOFF}\n\`\`\`\nSuggested profile: heavy.\n`);
+  assert.ok(!report.errors.some((e) => e.includes("Suggested profile")));
+  assert.equal(checkProfileForDepth(`# Handoff\n\`\`\`\nSuggested profile: standard. Reason: x\n`, "Depth: thorough\n").length, 1);
+});
+
 test("a profile value in bold passes", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard.", "**Suggested profile:** **standard**."));
   assert.deepEqual(report.errors, []);
