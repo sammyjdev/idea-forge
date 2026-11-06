@@ -52,27 +52,45 @@ const VAGUE_WORDS = [
 
 export type Report = { errors: string[]; warnings: string[] };
 
-// A rule that reaches a person must say how: "via WhatsApp", "via email", "via the order page".
-const SENDS = /\b(send|sends|notify|notifies|alert|alerts|email|emails)\b/i;
+// A rule that reaches a person must say how: "via WhatsApp", "by email", "on the order page".
+const MESSAGES = [
+  /\bsen(d|ds|t)\b[^.]*\b(message|notification|notice|e-?mail|sms|reminder)s?\b/i,
+  /\b(notify|notifies|message|messages|alert|alerts)\s+(the|a|an|each|every|all)\b/i,
+  /\bpush(es)?\b[^.]*\bnotification/i,
+];
+const CHANNEL = /\b(via|through|over)\s+\w|\b(whatsapp|e-?mail|sms|push|telegram|slack|dashboard|page|screen|in-app)\b/i;
 
-// "A lo..hi B" means each A has lo to hi B. lo is a number; hi is a number or n.
+function sendsWithoutChannel(rule: string): boolean {
+  return MESSAGES.some((m) => m.test(rule)) && !CHANNEL.test(rule);
+}
+
+// "A lo..hi B" means each A has lo to hi B. lo is a number; hi is a number, n or *.
+function bound(end: string): number {
+  return /^[n*]$/i.test(end) ? Infinity : Number(end);
+}
+
 function checkRelations(entities: string): string[] {
   const errors: string[] = [];
   const seen = new Map<string, string>();
-  const relation = /([A-Za-z][\w ]*?)\s+(\d+|n)\.\.(\d+|n)\s+([A-Za-z][\w ]*?)\s*(?=;|\||$)/g;
+  const relation = /^(?:each\s+)?(.+?)\s+(\d+|[n*])\.\.(\d+|[n*])\s+(.+)$/i;
   for (const row of entities.split("\n")) {
     const cells = row.split("|");
     if (cells.length < 4) continue;
-    for (const m of cells[2].matchAll(relation)) {
-      const [text, from, lo, hi, to] = [m[0].trim(), m[1].trim(), m[2], m[3], m[4].trim()];
-      const low = lo === "n" ? Infinity : Number(lo);
-      const high = hi === "n" ? Infinity : Number(hi);
-      if (low > high || lo === "n") {
+    for (const raw of cells[2].split(/[;,]/)) {
+      const text = raw.replace(/\([^)]*\)/g, "").trim();
+      if (!text.includes("..")) continue;
+      const m = relation.exec(text);
+      if (!m) {
+        errors.push(`Entities: cannot read "${text}"; write it as "A lo..hi B", hi a number, n or *`);
+        continue;
+      }
+      const [from, lo, hi, to] = [m[1].trim(), m[2], m[3], m[4].trim()];
+      if (bound(lo) === Infinity || bound(lo) > bound(hi)) {
         errors.push(`Entities: "${text}" reads as each ${from} has ${lo} to ${hi} ${to}; the low end is above the high end`);
         continue;
       }
       const key = `${from} -> ${to}`;
-      const range = `${lo}..${hi}`;
+      const range = `${lo}..${/^n$/i.test(hi) ? "n" : hi}`;
       const before = seen.get(key);
       if (before && before !== range) errors.push(`Entities: ${from} to ${to} is ${before} in one row and ${range} in another`);
       else seen.set(key, range);
@@ -143,8 +161,8 @@ export function validateHandoff(text: string): Report {
     if (!/\d/.test(line.replace(/^\s*\d+\.\s/, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
   }
   for (const line of ruleLines) {
-    if (SENDS.test(line) && !/\bvia\s+\w/i.test(line)) {
-      report.errors.push(`Rule sends something but names no channel ("via <channel>"): ${line.trim()}`);
+    if (sendsWithoutChannel(line)) {
+      report.errors.push(`Rule sends a message but names no channel ("via <channel>"): ${line.trim()}`);
     }
   }
   report.errors.push(...checkRelations(map.get("entities") ?? ""));

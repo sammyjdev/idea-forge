@@ -114,7 +114,7 @@ idea-forge/
     grill.md            branches, niches, customization, at stage 3
     handoff.md          dossier, verdict, targets, at stage 4
     files.md            project files, before writing one
-    visuals.md          diagram, illustration and document formats
+    visuals.md          output formats, before any result
     writing.md          before long prose
   templates/            profile, brief, findings, dossier, handoff, ADR
   scripts/

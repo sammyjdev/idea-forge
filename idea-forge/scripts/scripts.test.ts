@@ -141,6 +141,24 @@ test("a rule that shows text on a page is not taken for a message", () => {
   assert.deepEqual(report.errors, []);
 });
 
+for (const rule of [
+  "2. WHEN a known key arrives THEN the API shall send a 202 response within 1 second.",
+  "2. WHEN the user clicks Send THEN the form shall submit within 1 second.",
+  "2. WHEN the user updates their email THEN the API shall store it within 1 second.",
+  "2. WHEN the payment is refused THEN the API shall send the customer a WhatsApp message within 5 minutes.",
+  "2. WHEN the payment is refused THEN the API shall notify the customer by SMS within 5 minutes.",
+  "2. WHEN 3 payments fail in 1 minute THEN the API shall alert the operator dashboard.",
+]) {
+  test(`a rule that is not a message, or names its channel, passes: ${rule.slice(8, 60)}`, () => {
+    assert.deepEqual(validateHandoff(withRule(rule)).errors, []);
+  });
+}
+
+test("a rule that messages a person with no channel fails", () => {
+  const report = validateHandoff(withRule("2. WHEN the payment is refused THEN the API shall message the customer within 5 minutes."));
+  assert.ok(report.errors.some((e) => /channel/.test(e)), report.errors.join("\n"));
+});
+
 function withRelations(relations: string): string {
   return GOOD_HANDOFF.replace("| Key | Order 1..1 Key | payments |", relations);
 }
@@ -153,6 +171,28 @@ test("an entity relation whose low end is above its high end fails", () => {
 test("the same entity relation given two different ranges fails", () => {
   const report = validateHandoff(withRelations("| Payment | Payment 0..1 Refund | none |\n| Refund | Payment 0..n Refund | none |"));
   assert.ok(report.errors.some((e) => /Payment.*Refund/.test(e) && /0\.\.1/.test(e) && /0\.\.n/.test(e)), report.errors.join("\n"));
+});
+
+for (const cell of ["Order 2..1 Item-v2", "Order 0..1 Invoice, Order 2..1 Item", "Order 2..1 Item (legacy)", "Order N..1 Item"]) {
+  test(`a relation with the low end above the high end fails in any common notation: ${cell}`, () => {
+    const report = validateHandoff(withRelations(`| Order | ${cell} | none |`));
+    assert.ok(report.errors.some((e) => /Entities/.test(e)), report.errors.join("\n"));
+  });
+}
+
+test("a relation the validator cannot read fails instead of passing silently", () => {
+  const report = validateHandoff(withRelations("| Order | Order 1..x Item | none |"));
+  assert.ok(report.errors.some((e) => /Entities/.test(e) && /1\.\.x/.test(e)), report.errors.join("\n"));
+});
+
+test("star and capital N upper ends pass", () => {
+  const report = validateHandoff(withRelations("| Order | Order 1..* Item; Order 0..N Invoice | none |"));
+  assert.deepEqual(report.errors, []);
+});
+
+test("a pair given two ranges fails even when one row starts with each", () => {
+  const report = validateHandoff(withRelations("| Order | each Order 0..1 Item | none |\n| Item | Order 0..n Item | none |"));
+  assert.ok(report.errors.some((e) => /Order to Item/.test(e)), report.errors.join("\n"));
 });
 
 test("relations in both directions with valid ranges pass", () => {

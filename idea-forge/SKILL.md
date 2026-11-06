@@ -27,7 +27,7 @@ Read `references/freshness.md` before the first check of a session.
 
 ## Second rule: ask the format before a result
 
-Before presenting a research summary, a dossier or a handoff summary, ask "How do you want this?" with the profile format preselected: text, tables, diagram, illustration or document. If the person already chose a format in this conversation, use it without asking again; this rule wins over any reference that says "ask". Render diagram, illustration and document per `references/visuals.md`.
+Before presenting a research summary, a dossier or a handoff summary, ask "How do you want this?" with the profile format preselected: text, tables, diagram, illustration or document. If the person already chose a format in this conversation, use it without asking again; this rule wins over any reference that says "ask". Read `references/visuals.md` for how to render each.
 
 ## Start
 
