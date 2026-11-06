@@ -10,7 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { flagFindings, parseFindings } from "./freshness.ts";
 import { today } from "./lib.ts";
-import { checkDecisionsCarried, checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
+import { checkDecisionsCarried, checkProfileForDepth, checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
 
 const SCRIPTS = dirname(fileURLToPath(import.meta.url));
 
@@ -125,6 +125,44 @@ test("a complete handoff passes", () => {
 test("a handoff with no suggested verification profile passes, since no target reads one", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard. Reason: money moves\n", ""));
   assert.deepEqual(report.errors, []);
+});
+
+const NO_PROFILE = GOOD_HANDOFF.replace("Suggested profile: standard. Reason: money moves\n", "");
+
+test("a suggested profile outside light, standard and ui fails", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard.", "Suggested profile: heavy."));
+  assert.ok(report.errors.some((e) => e.includes("Suggested profile")));
+});
+
+test("a suggested profile with no reason fails", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard. Reason: money moves", "Suggested profile: standard."));
+  assert.ok(report.errors.some((e) => e.includes("Suggested profile")));
+});
+
+test("a thorough brief with no suggested profile warns that light may be too little", () => {
+  const warnings = checkProfileForDepth(NO_PROFILE, "# Brief: x\nDepth: thorough\n");
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /Depth is thorough/);
+});
+
+test("a thorough brief with a suggested profile warns nothing", () => {
+  assert.deepEqual(checkProfileForDepth(GOOD_HANDOFF, "# Brief: x\nDepth: thorough\n"), []);
+});
+
+test("a quick brief with no suggested profile warns nothing", () => {
+  assert.deepEqual(checkProfileForDepth(NO_PROFILE, "# Brief: x\nDepth: quick\n"), []);
+});
+
+test("validate command shows the thorough-depth warning without failing", () => {
+  const root = project({
+    "docs/discovery/handoff/x.md": NO_PROFILE,
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n",
+    "docs/discovery/findings.md": finding("F-01", "high", today()),
+    "docs/discovery/brief.md": "# Brief: x\nDepth: thorough\n",
+  });
+  const { code, out } = runScript("validate.ts", ["x"], root);
+  assert.equal(code, 0, out);
+  assert.match(out, /warn .*Depth is thorough/);
 });
 
 function withRule(rule: string): string {

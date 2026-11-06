@@ -154,6 +154,10 @@ export function validateHandoff(text: string): Report {
   if (!/^Size:\s*(small|medium|large|complex)\b/m.test(text)) {
     report.errors.push("Missing 'Size: small | medium | large | complex'.");
   }
+  const profile = /^Suggested profile:(.*)$/m.exec(text)?.[1] ?? null;
+  if (profile !== null && !/^\s*(light|standard|ui)\.\s*Reason:\s*\S/.test(profile)) {
+    report.errors.push("Suggested profile must read 'light | standard | ui. Reason: <why>', or be left out.");
+  }
 
   const flow = map.get("flow") ?? "";
   const steps = flow.split("\n").filter((l) => /^\d+\.\s/.test(l.trim()));
@@ -256,6 +260,12 @@ export function checkDecisionsCarried(handoff: string, brief: string): string[] 
     .map((id) => `Decisions: ${id} from brief.md is missing. Say where it lands or why it is not for this feature.`);
 }
 
+// A costly-to-be-wrong idea with no profile hint falls to the target's default, usually light.
+export function checkProfileForDepth(handoff: string, brief: string): string[] {
+  if (!/^Depth:\s*thorough\b/m.test(brief) || /^Suggested profile:/m.test(handoff)) return [];
+  return ["Depth is thorough but the handoff suggests no verification profile. Add 'Suggested profile: standard' or say why light is enough."];
+}
+
 export function validateDossier(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
   const verdict = /^## Verdict\s*\n+\s*(go|refine|not now|stop)\b/im.exec(text);
@@ -288,7 +298,10 @@ function main(): void {
   }
 
   const briefPath = join(root, "docs", "discovery", "brief.md");
-  if (existsSync(briefPath)) errors.push(...checkDecisionsCarried(readText(handoff), readText(briefPath)));
+  if (existsSync(briefPath)) {
+    errors.push(...checkDecisionsCarried(readText(handoff), readText(briefPath)));
+    warnings.push(...checkProfileForDepth(readText(handoff), readText(briefPath)));
+  }
 
   const findingsPath = join(root, "docs", "discovery", "findings.md");
   if (existsSync(findingsPath)) {

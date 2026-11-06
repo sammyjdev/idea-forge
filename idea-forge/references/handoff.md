@@ -27,6 +27,8 @@ Size estimate, which most targets use to decide depth:
 | large | Several components |
 | complex | Ambiguity or a new domain |
 
+Suggested verification profile, optional: how hard the build step should check this feature. Write it when light is not enough: `standard` for money, health data, personal data, regulation or a change people cannot undo; `ui` when a screen is the result the person judges. Leave the line out for light. The validator warns when the brief says `Depth: thorough` and the line is missing.
+
 Then read `references/targets.md` to pick the target and give its next command.
 
 ## EARS forms

@@ -46,11 +46,14 @@ Checked 2026-11-05 against tlc-spec-lean 2.2.0: its SKILL.md, references/plan.md
 | Edges | checks.md swept dimensions | Same nine names, so the checks step does not stop to ask |
 | Limits | Not in criteria | Service targets go to observability, which tlc-spec-lean excludes from criteria |
 | Size small | checks.md with an Intent paragraph only | Under about 3 files and no one-way door |
+| Suggested profile | No field in the plan | The repo declares it, for example `profile:` under `## tlc-spec-lean` in `AGENTS.md`. Say it with the next command |
 
 Next command:
 ```
 tlc-spec-lean: plan feature <feature> using docs/discovery/handoff/<feature>.md
 ```
+
+When the handoff suggests a profile, add one line after the command: "This feature suggests the <profile> verification profile because <reason>; set it where your repo declares one."
 
 tlc-spec-lean writes the `**Approved**:` line itself after the person approves. The handoff never contains one.
 
@@ -63,4 +66,4 @@ Same file; only the mapping and the next command change. Not checked against the
 | tlc-spec-driven | Intent and Rules to spec.md; Edges and answered questions to context.md; Flow, Entities and doors to design.md when large or complex | `specify feature <feature> using <handoff>` |
 | GitHub Spec Kit | Constraints to `/speckit.constitution`; Intent, Rules and Success to `/speckit.specify`; answered questions shorten `/speckit.clarify` | `/speckit.specify` with the handoff content |
 | Kiro | Rules in EARS to requirements.md; Flow, Entities and doors to design.md | Create the spec from the handoff |
-| Other | Read its template, map section by section, list what has no home | Its own start command, with the handoff path |
+| Other | Read its template, map section by section, list what has no home, the suggested profile included | Its own start command, with the handoff path |
