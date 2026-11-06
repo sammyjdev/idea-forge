@@ -89,7 +89,7 @@ function checkRelations(entities: string): string[] {
   const seen = new Map<string, string>();
   const relation = /^(?:each\s+)?(.+?)\s+(\d[\d,]*|[n*])\.\.(\d[\d,]*|[n*])\s+(.+)$/i;
   for (const row of entities.split("\n")) {
-    const cells = row.split("|");
+    const cells = row.replace(SOURCE_TAGS, "").split("|");
     if (cells.length < 4) continue;
     for (const raw of cells[2].split(/;|,(?!\d)/).flatMap(splitOnAnd)) {
       const text = raw.replace(/\(([^)]*)\)/g, (_, inner: string) => (inner.includes("..") ? inner : "")).replace(/\s+/g, " ").trim();
@@ -162,7 +162,7 @@ export function checkRuleSources(handoff: string, brief: string, findingIds: str
   }
   const map = sections(handoff);
   const errors: string[] = [];
-  for (const [label, key] of [["Rules", "rules"], ["Door candidates", "door candidates"]]) {
+  for (const [label, key] of [["Entities", "entities"], ["Rules", "rules"], ["Edges", "edges"], ["Door candidates", "door candidates"]]) {
     const body = stripFences(map.get(key) ?? "");
     const cited = [...body.matchAll(SOURCE_TAGS)].flatMap((m) => m[0].match(/[DKFA]-\d+/g) ?? []);
     for (const id of new Set(cited)) {
@@ -238,6 +238,9 @@ export function validateHandoff(text: string): Report {
   report.errors.push(...checkRelations(map.get("entities") ?? ""));
   const normals = (rules.match(/^\s*Normal:/gm) ?? []).length;
   const boundaries = (rules.match(/^\s*Boundary:/gm) ?? []).length;
+  for (const line of rules.split("\n").filter((l) => /^\s*Boundary:/.test(l))) {
+    if (!ENDS_WITH_TAG.test(line)) report.errors.push(`Boundary example must end with its source tag: ${line.trim()}`);
+  }
   if (normals < ruleLines.length) report.warnings.push(`${ruleLines.length - normals} rule(s) without a Normal example.`);
   if (boundaries < ruleLines.length) report.warnings.push(`${ruleLines.length - boundaries} rule(s) without a Boundary example.`);
 
@@ -246,6 +249,15 @@ export function validateHandoff(text: string): Report {
     const row = edges.split("\n").find((l) => l.startsWith(`| ${dim} |`));
     if (!row) report.errors.push(`Edges missing dimension: ${dim}`);
     else if (/^\|[^|]+\|\s*\|\s*$/.test(row.trim())) report.errors.push(`Edges dimension undecided: ${dim}`);
+    else {
+      const decision = row.split("|")[2]?.trim() ?? "";
+      if (!/^(n\/a|existing)\b/i.test(decision) && !/^Q-\d+$/.test(decision) && !ENDS_WITH_TAG.test(decision)) {
+        report.errors.push(`Edges: ${dim} must end with its source tag, or read "n/a - reason", "existing - guard" or Q-NN: ${decision}`);
+      }
+    }
+  }
+  for (const row of (map.get("entities") ?? "").split("\n").filter((l) => /\d\.\.|\.\.[n*\d]/.test(l))) {
+    if (!SOURCE_TAG.test(row)) report.warnings.push(`Entities: relation cites no source: ${row.trim()}`);
   }
 
   const doors = map.get("door candidates") ?? "";

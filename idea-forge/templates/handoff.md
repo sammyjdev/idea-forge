@@ -14,18 +14,18 @@ Suggested profile: <optional, leave this line out for light unless the brief say
 ## Entities
 | Entity | Relations | Existing data touched |
 |---|---|---|
-| <entity> | <entity> 1..n <entity> | <table or none> |
+| <entity> | <entity> 1..n <entity> [<D-NN, K-NN, F-NN or A-NN>] | <table or none> |
 
 ## Rules
 ### S1: <slice name> (P1)
 1. WHEN <trigger> THEN the <system> SHALL <response with concrete value, naming the channel when it sends a message>. [<D-NN, K-NN, F-NN or A-NN>]
    Normal: <input> -> <output>
-   Boundary: <neighbouring case: below, above or exactly at the limit> -> <output>
+   Boundary: <neighbouring case: below, above or exactly at the limit> -> <output> [<D-NN, K-NN, F-NN or A-NN>]
 
 ## Edges
 | Dimension | Decision |
 |---|---|
-| Validation | <decision, existing - guard, n/a - reason, or Q-NN> |
+| Validation | <decision ending with its source tag, existing - guard, n/a - reason, or Q-NN> |
 | Failure modes | |
 | Idempotency | |
 | Authorization | |

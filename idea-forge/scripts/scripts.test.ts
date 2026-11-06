@@ -73,26 +73,26 @@ Customers are charged twice today. After this, once.
 ## Entities
 | Entity | Relations | Existing data touched |
 |---|---|---|
-| Key | Order 1..1 Key | payments |
+| Key | Order 1..1 Key [F-01] | payments |
 
 ## Rules
 ### S1 (P1): Reject duplicates
 1. WHEN a known key arrives within 24 hours THEN the API shall return 409. [F-01]
    Normal: K1 at t=0 -> 200
-   Boundary: K1 at t=24h+1s -> 200
+   Boundary: K1 at t=24h+1s -> 200 [F-01]
 
 ## Edges
 | Dimension | Decision |
 |---|---|
-| Validation | 400 on missing key |
-| Failure modes | 503 on timeout |
-| Idempotency | key per order |
-| Authorization | owner only |
-| Concurrency | unique index |
-| Data lifecycle | delete after 30 days |
-| Dependency failure | retry 3 times |
+| Validation | 400 on missing key [F-01] |
+| Failure modes | 503 on timeout [F-01] |
+| Idempotency | key per order [F-01] |
+| Authorization | owner only [F-01] |
+| Concurrency | unique index [F-01] |
+| Data lifecycle | delete after 30 days [F-01] |
+| Dependency failure | retry 3 times [F-01] |
 | State transitions | n/a - single state |
-| Observability | log outcome |
+| Observability | log outcome [F-01] |
 
 ## Door candidates
 1. Key storage. Preferred: table. Rejected: cache because keys are lost on restart [F-01]
@@ -155,13 +155,48 @@ test("a tag the brief or findings do not have fails", () => {
   ]);
 });
 
+test("a boundary example that cites no source fails", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("-> 200 [F-01]\n\n## Edges", "-> 200\n\n## Edges"));
+  assert.ok(report.errors.some((e) => e.startsWith("Boundary example must end with its source tag")));
+});
+
+test("an edge decision that cites no source fails", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("| Concurrency | unique index [F-01] |", "| Concurrency | unique index |"));
+  assert.ok(report.errors.some((e) => e.startsWith("Edges: Concurrency must end with its source tag")));
+});
+
+test("an edge that is not applicable, already guarded or an open question needs no tag", () => {
+  for (const cell of ["n/a - one writer", "existing - unique index", "Q-02"]) {
+    const report = validateHandoff(GOOD_HANDOFF.replace("unique index [F-01]", cell));
+    assert.ok(!report.errors.some((e) => e.startsWith("Edges:")), cell);
+  }
+});
+
+test("an entity relation that cites no source warns", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Order 1..1 Key [F-01]", "Order 1..1 Key"));
+  assert.ok(report.warnings.some((w) => w.startsWith("Entities: relation cites no source")));
+});
+
+test("a source tag inside a relation does not break reading it", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Order 1..1 Key [F-01]", "Order 1..1 Key [D-01, F-01]; Order 0..n Refund [A-01]"));
+  assert.ok(!report.errors.some((e) => e.startsWith("Entities:")), report.errors.join("\n"));
+});
+
+test("a tag in Edges or Entities that does not exist fails", () => {
+  const handoff = GOOD_HANDOFF.replace("unique index [F-01]", "unique index [D-98]").replace("Order 1..1 Key [F-01]", "Order 1..1 Key [K-97]");
+  assert.deepEqual(checkRuleSources(handoff, SOURCED_BRIEF, ["F-01"]), [
+    "Entities: K-97 is not in brief.md. Cite a source that exists or move the value to Assumptions.",
+    "Edges: D-98 is not in brief.md. Cite a source that exists or move the value to Assumptions.",
+  ]);
+});
+
 test("a tag in the middle of a rule does not count; it must end the rule", () => {
   const report = validateHandoff(UNTAGGED.replace("WHEN a known key", "WHEN [D-01] a known key"));
   assert.ok(report.errors.some((e) => e.startsWith("Rule must end with its source tag")));
 });
 
 test("an example rule inside a fenced block in Rules is not checked", () => {
-  const handoff = GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", "   Boundary: K1 at t=24h+1s -> 200\n```\n2. WHEN x THEN y SHALL z. [D-99]\n3. WHEN x THEN y SHALL z.\n```\n");
+  const handoff = GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200 [F-01]\n", "   Boundary: K1 at t=24h+1s -> 200 [F-01]\n```\n2. WHEN x THEN y SHALL z. [D-99]\n3. WHEN x THEN y SHALL z.\n```\n");
   assert.ok(!validateHandoff(handoff).errors.some((e) => e.startsWith("Rule must end with its source tag")));
   assert.deepEqual(checkRuleSources(handoff, SOURCED_BRIEF, ["F-01"]), []);
 });
@@ -341,7 +376,7 @@ test("validate command shows the thorough-depth warning without failing", () => 
 });
 
 function withRule(rule: string): string {
-  return GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", `   Boundary: K1 at t=24h+1s -> 200\n${rule} [D-01]\n`);
+  return GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200 [F-01]\n", `   Boundary: K1 at t=24h+1s -> 200 [F-01]\n${rule} [D-01]\n`);
 }
 
 function channelWarnings(rule: string): { errors: string[]; channel: string[] } {
@@ -385,7 +420,7 @@ for (const rule of [
 }
 
 function withRelations(relations: string): string {
-  return GOOD_HANDOFF.replace("| Key | Order 1..1 Key | payments |", relations);
+  return GOOD_HANDOFF.replace("| Key | Order 1..1 Key [F-01] | payments |", relations);
 }
 
 test("an entity relation whose low end is above its high end fails", () => {
@@ -446,7 +481,7 @@ test("handoff with an approval line fails", () => {
 });
 
 test("handoff with an undecided edge fails", () => {
-  const report = validateHandoff(GOOD_HANDOFF.replace("| Concurrency | unique index |", "| Concurrency | |"));
+  const report = validateHandoff(GOOD_HANDOFF.replace("| Concurrency | unique index [F-01] |", "| Concurrency | |"));
   assert.ok(report.errors.some((e) => e.includes("Concurrency")));
 });
 

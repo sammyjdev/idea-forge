@@ -33,7 +33,7 @@ Before presenting a research summary, a dossier or a handoff summary, ask "How d
 
 `<skill-dir>` is the folder holding this file. Run scripts from the project root as `node <skill-dir>/scripts/<name>.ts`, or pass `--root <project>`. Run them rather than read them. Without code execution, read only a script's usage header, do its checks by hand, and say once that scripts were not run.
 
-There is no setup and no user profile. On the first turn only, say in one line what happens: facts checked on the web, one question at a time, a verdict, and a file the next step can plan from. When the first message carries the idea, stage 1 starts: read `references/frame.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
+There is no setup and no user profile. On the first turn only, say in one line what happens: facts checked on the web, one question at a time, a verdict, and a file the next step can plan from. Name no tool, skill or script in that line. When the first message carries the idea, stage 1 starts: read `references/frame.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
 
 | Person says | Do |
 |---|---|
