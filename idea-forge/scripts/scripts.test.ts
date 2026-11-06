@@ -122,7 +122,7 @@ test("a complete handoff passes", () => {
   assert.deepEqual(report.errors, []);
 });
 
-test("a handoff with no suggested verification profile passes, since no target reads one", () => {
+test("a handoff with no suggested verification profile passes", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard. Reason: money moves\n", ""));
   assert.deepEqual(report.errors, []);
 });
@@ -143,6 +143,31 @@ test("a thorough brief with no suggested profile warns that light may be too lit
   const warnings = checkProfileForDepth(NO_PROFILE, "# Brief: x\nDepth: thorough\n");
   assert.equal(warnings.length, 1);
   assert.match(warnings[0], /Depth is thorough/);
+});
+
+test("the thorough-depth warning offers lines that pass the format check", () => {
+  const [warning] = checkProfileForDepth(NO_PROFILE, "# Brief: x\nDepth: thorough\n");
+  const offered = warning.match(/'(Suggested profile: [^']+)'/g) ?? [];
+  assert.equal(offered.length, 2);
+  for (const quoted of offered) {
+    const line = quoted.slice(1, -1).replace("<why>", "the reason");
+    assert.deepEqual(validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard. Reason: money moves", line)).errors, []);
+  }
+});
+
+test("a thorough brief written with a capital T still warns", () => {
+  assert.equal(checkProfileForDepth(NO_PROFILE, "# Brief: x\nDepth: Thorough\n").length, 1);
+});
+
+test("light and ui with a reason pass", () => {
+  for (const value of ["light. Reason: thorough brief, but the change is reversible", "ui. Reason: the screen is the result"]) {
+    assert.deepEqual(validateHandoff(GOOD_HANDOFF.replace("standard. Reason: money moves", value)).errors, []);
+  }
+});
+
+test("a suggested profile key in another case is still checked", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard.", "Suggested Profile: heavy."));
+  assert.ok(report.errors.some((e) => e.includes("Suggested profile")));
 });
 
 test("a thorough brief with a suggested profile warns nothing", () => {

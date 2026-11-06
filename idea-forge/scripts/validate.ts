@@ -154,7 +154,7 @@ export function validateHandoff(text: string): Report {
   if (!/^Size:\s*(small|medium|large|complex)\b/m.test(text)) {
     report.errors.push("Missing 'Size: small | medium | large | complex'.");
   }
-  const profile = /^Suggested profile:(.*)$/m.exec(text)?.[1] ?? null;
+  const profile = /^Suggested profile:(.*)$/im.exec(text)?.[1] ?? null;
   if (profile !== null && !/^\s*(light|standard|ui)\.\s*Reason:\s*\S/.test(profile)) {
     report.errors.push("Suggested profile must read 'light | standard | ui. Reason: <why>', or be left out.");
   }
@@ -262,8 +262,8 @@ export function checkDecisionsCarried(handoff: string, brief: string): string[] 
 
 // A costly-to-be-wrong idea with no profile hint falls to the target's default, usually light.
 export function checkProfileForDepth(handoff: string, brief: string): string[] {
-  if (!/^Depth:\s*thorough\b/m.test(brief) || /^Suggested profile:/m.test(handoff)) return [];
-  return ["Depth is thorough but the handoff suggests no verification profile. Add 'Suggested profile: standard' or say why light is enough."];
+  if (!/^Depth:\s*thorough\b/im.test(brief) || /^Suggested profile:/im.test(handoff)) return [];
+  return ["Depth is thorough but the handoff suggests no verification profile. Add 'Suggested profile: standard. Reason: <why>', or 'Suggested profile: light. Reason: <why>' when light is enough."];
 }
 
 export function validateDossier(text: string): Report {
