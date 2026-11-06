@@ -117,7 +117,7 @@ idea-forge/
   scripts/
     status.ts           position and open items
     freshness.ts        expired, outdated and unverifiable findings
-    validate.ts         handoff, verdict and freshness gate
+    validate.ts         handoff, verdict, source tag and freshness gate
 ```
 
 Scripts are TypeScript with no dependencies. They run from the project root with Node 22.18 or later (`node <skill-dir>/scripts/<name>.ts`), or `npx tsx` on older Node. Without code execution, the same steps are done by reading and writing files.

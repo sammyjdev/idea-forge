@@ -17,8 +17,11 @@ Target: <spec-driven skill, tlc-spec-lean unless the repo or the person names an
 ## Research questions
 - RQ-01: <question>. Risk it tests: <risk>. Changes the decision if: <answer>. Status: open
 
+## Facts
+- K-01: <what the person stated, in their numbers>. Said at: <message or date>
+
 ## Decisions
-- D-01: <decision>. Because: <finding ID or reason>
+- D-01: <decision>. Because: <finding ID, the person's answer, or reason>
 
 ## Assumptions
 - A-01: <default>. Validate by: <how>. Confirmed? n

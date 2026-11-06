@@ -147,6 +147,25 @@ function stripFences(text: string): string {
   return kept.join("\n");
 }
 
+// Where a value came from: a decision, a fact the person stated, a finding, or an assumption.
+const SOURCE_TAG = /\[\s*[DKFA]-\d+(\s*,\s*[DKFA]-\d+)*\s*\]/;
+const SOURCE_TAGS = new RegExp(SOURCE_TAG.source, "g");
+
+// Every tag in Rules must name a D, K or A in brief.md, or an F in findings.md.
+export function checkRuleSources(handoff: string, brief: string, findingIds: string[]): string[] {
+  const known = new Set([...brief.matchAll(/^\s*-\s*([DKA]-\d+):/gm)].map((m) => m[1]));
+  const rules = sections(handoff).get("rules") ?? "";
+  const cited = [...rules.matchAll(SOURCE_TAGS)].flatMap((m) => m[0].match(/[DKFA]-\d+/g) ?? []);
+  const errors: string[] = [];
+  for (const id of new Set(cited)) {
+    const inFindings = id.startsWith("F-");
+    if (inFindings ? !findingIds.includes(id) : !known.has(id)) {
+      errors.push(`Rules: ${id} is not in ${inFindings ? "findings.md" : "brief.md"}. Cite a source that exists or move the value to Assumptions.`);
+    }
+  }
+  return errors;
+}
+
 // The key may sit in a bullet or in bold; any case.
 const PROFILE_KEY = /^[\s>*-]*Suggested profile\**:\**/im;
 
@@ -197,7 +216,10 @@ export function validateHandoff(text: string): Report {
   if (ruleLines.length === 0) report.errors.push("Rules has no numbered rules.");
   for (const line of ruleLines) {
     if (!/\bshall\b/i.test(line)) report.errors.push(`Rule is not in EARS form (no "shall"): ${line.trim()}`);
-    if (!/\d/.test(line.replace(/^\s*\d+\.\s/, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
+    if (!SOURCE_TAG.test(line)) {
+      report.errors.push(`Rule cites no source. End it with [D-NN], [K-NN], [F-NN] or [A-NN]: ${line.trim()}`);
+    }
+    if (!/\d/.test(line.replace(/^\s*\d+\.\s/, "").replace(SOURCE_TAGS, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
   }
   for (const line of ruleLines) {
     if (messagesWithoutChannel(line)) {
@@ -220,6 +242,9 @@ export function validateHandoff(text: string): Report {
   const doors = map.get("door candidates") ?? "";
   if (doors.trim() && !/^None - /m.test(doors.trim()) && !/Rejected:/i.test(doors)) {
     report.errors.push("Door candidate without a rejected alternative.");
+  }
+  for (const line of doors.split("\n").filter((l) => /Preferred:/i.test(l))) {
+    if (!SOURCE_TAG.test(line)) report.warnings.push(`Door candidate cites no source for its preferred option: ${line.trim()}`);
   }
 
   const assumptions = map.get("assumptions") ?? "";
@@ -324,6 +349,9 @@ function main(): void {
   if (existsSync(briefPath)) {
     errors.push(...checkDecisionsCarried(readText(handoff), readText(briefPath)));
     warnings.push(...checkProfileForDepth(readText(handoff), readText(briefPath)));
+    const findingsFile = join(root, "docs", "discovery", "findings.md");
+    const findingIds = existsSync(findingsFile) ? parseFindings(readText(findingsFile)).map((f) => f.id) : [];
+    errors.push(...checkRuleSources(readText(handoff), readText(briefPath), findingIds));
   }
 
   const findingsPath = join(root, "docs", "discovery", "findings.md");

@@ -13,6 +13,8 @@ Four facts, one line each. Ask only what the conversation has not answered.
 
 Ask these in the person's own terms: "Is anyone using this today?", not "Where is the effort?".
 
+Every concrete fact the person states, in this stage or any later one (volumes, prices, tools they use, what happens today), goes to `## Facts` in `brief.md` as `K-NN` with the message it came from. The handoff cites these IDs.
+
 When it is cheap to undo, touches little, and nobody disagrees with the recommendation, all three at once, give the recommendation in one paragraph and stop. No files.
 
 ## Problem kind

@@ -26,6 +26,15 @@ In branch 2, walk the states past the happy path: empty, first time, retry, half
 
 Before closing branch 4, close every rule. It names who or what triggers it, what the system does, who learns of it and via which channel ("via WhatsApp", "via the order page"), and for any time limit, when the clock starts and in which time zone. A part the person cannot settle becomes an assumption with a chosen default, never left implicit. Wording and screen content they do not decide (a message's text, what a list shows, where a link goes) become assumptions with a draft default, not open questions. State each data relation once as `A lo..hi B`: each A has lo to hi B.
 
+## Asking
+
+Two kinds of question, two ways to ask.
+
+- One at a time: a choice with a real trade-off, two defensible answers with different costs, or anything on a risky path (money, health data, personal data, regulation). Recommended answer and one line on why.
+- One table per branch: everything else, the items with one obvious default that is cheap to change later. Columns: item, proposed default, source (`F-NN`, `K-NN` or "proposed"). Ask the person to correct any row. Rows they accept become `D-NN` with "Because: accepted at <message>"; rows they correct take their answer.
+
+A rule the person states is a decision: record it as `D-NN` the moment they say it, so the handoff cannot drop it. Never present a proposed default as a fact about their business. Say "I propose", and keep the source column honest.
+
 ## Using the findings
 
 - Recommend from evidence when it exists and cite the `F-NN`.

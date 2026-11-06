@@ -10,7 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { flagFindings, parseFindings } from "./freshness.ts";
 import { today } from "./lib.ts";
-import { checkDecisionsCarried, checkProfileForDepth, checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
+import { checkDecisionsCarried, checkProfileForDepth, checkRuleSources, checkSourcesBinding, validateDossier, validateHandoff } from "./validate.ts";
 
 const SCRIPTS = dirname(fileURLToPath(import.meta.url));
 
@@ -77,7 +77,7 @@ Customers are charged twice today. After this, once.
 
 ## Rules
 ### S1 (P1): Reject duplicates
-1. WHEN a known key arrives within 24 hours THEN the API shall return 409.
+1. WHEN a known key arrives within 24 hours THEN the API shall return 409. [F-01]
    Normal: K1 at t=0 -> 200
    Boundary: K1 at t=24h+1s -> 200
 
@@ -95,7 +95,7 @@ Customers are charged twice today. After this, once.
 | Observability | log outcome |
 
 ## Door candidates
-1. Key storage. Preferred: table. Rejected: cache because keys are lost on restart
+1. Key storage. Preferred: table. Rejected: cache because keys are lost on restart [F-01]
 
 ## Limits
 - p95 latency: 300 ms
@@ -116,6 +116,56 @@ Customers are charged twice today. After this, once.
 ## Sources
 - F-01: [Docs](https://example.com), binding
 `;
+
+const UNTAGGED = GOOD_HANDOFF.replace("return 409. [F-01]", "return 409.");
+
+test("a rule that cites no source fails", () => {
+  const report = validateHandoff(UNTAGGED);
+  assert.ok(report.errors.some((e) => e.startsWith("Rule cites no source")));
+});
+
+test("a rule that cites a decision, a fact or an assumption passes", () => {
+  for (const tag of ["[D-02]", "[K-01]", "[A-03]", "[D-01, F-02]"]) {
+    assert.deepEqual(validateHandoff(UNTAGGED.replace("return 409.", `return 409. ${tag}`)).errors, [], tag);
+  }
+});
+
+test("a source tag does not count as the rule's concrete number", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("arrives within 24 hours THEN the API shall return 409.", "arrives THEN the API shall refuse it."));
+  assert.ok(report.warnings.some((w) => w.startsWith("Rule has no concrete number")));
+});
+
+test("a preferred door option that cites no source warns", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("lost on restart [F-01]", "lost on restart"));
+  assert.ok(report.warnings.some((w) => w.startsWith("Door candidate cites no source")));
+});
+
+const SOURCED_BRIEF = "# Brief: x\n## Facts\n- K-01: 40 orders a week. Said at: P-02\n## Decisions\n- D-01: Refuse a second charge. Because: F-01\n## Assumptions\n- A-01: 24 hours. Validate by: docs. Confirmed? n\n";
+
+test("tags that exist in the brief and in findings pass", () => {
+  const handoff = UNTAGGED.replace("return 409.", "return 409. [D-01, K-01, A-01, F-01]");
+  assert.deepEqual(checkRuleSources(handoff, SOURCED_BRIEF, ["F-01"]), []);
+});
+
+test("a tag the brief or findings do not have fails", () => {
+  const handoff = UNTAGGED.replace("return 409.", "return 409. [D-07, K-01, F-09]");
+  assert.deepEqual(checkRuleSources(handoff, SOURCED_BRIEF, ["F-01"]), [
+    "Rules: D-07 is not in brief.md. Cite a source that exists or move the value to Assumptions.",
+    "Rules: F-09 is not in findings.md. Cite a source that exists or move the value to Assumptions.",
+  ]);
+});
+
+test("validate command refuses a rule that cites a decision nobody made", () => {
+  const root = project({
+    "docs/discovery/handoff/x.md": UNTAGGED.replace("return 409.", "return 409. [D-09]"),
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n",
+    "docs/discovery/findings.md": finding("F-01", "high", today()),
+    "docs/discovery/brief.md": SOURCED_BRIEF,
+  });
+  const { code, out } = runScript("validate.ts", ["x"], root);
+  assert.equal(code, 1);
+  assert.match(out, /D-09 is not in brief\.md/);
+});
 
 test("a complete handoff passes", () => {
   const report = validateHandoff(GOOD_HANDOFF);
@@ -261,7 +311,7 @@ test("validate command shows the thorough-depth warning without failing", () => 
 });
 
 function withRule(rule: string): string {
-  return GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", `   Boundary: K1 at t=24h+1s -> 200\n${rule}\n`);
+  return GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", `   Boundary: K1 at t=24h+1s -> 200\n${rule} [D-01]\n`);
 }
 
 function channelWarnings(rule: string): { errors: string[]; channel: string[] } {

@@ -47,12 +47,12 @@ There is no setup and no user profile. On the first turn only, say in one line w
 
 ## Rules
 
-1. One question per turn, with a recommended answer and one line on why. Several questions at once get answered by agreeing to all of them.
+1. One question per turn, with a recommended answer and one line on why. Several open questions at once get answered by agreeing to all of them. The exception is the grill's table of low-stakes defaults (`references/grill.md`): each row is already a proposal the person can correct.
 2. If the person's material, the code or a search can answer it, do not ask.
 3. Every claim about the world has a source and a check date. No source: "no verified source found".
 4. Separate what the person believes from what the evidence shows. Surface contradictions.
 5. Match the focus and level: product terms for non-technical people, technical depth for engineers.
-6. Unknowns become assumptions. Never block.
+6. Unknowns become assumptions. Never block. Never write a value nobody gave: every concrete value traces to something the person said or accepted, a finding, or an assumption.
 7. Short sentences, concrete values, no filler, no em-dash.
 
 ## Turn format

@@ -4,7 +4,7 @@ Read before writing any project file. Create a file only when there is something
 
 | File | Template | Stage | Content |
 |---|---|---|---|
-| `docs/discovery/brief.md` | `templates/brief.md` | 1, every stage | Position line, idea sentence, RQs, focus, decisions, assumptions, open questions |
+| `docs/discovery/brief.md` | `templates/brief.md` | 1, every stage | Position line, idea sentence, RQs, focus, facts the person stated, decisions, assumptions, open questions |
 | `docs/discovery/intake/` | none | 2 | Copies or notes of the person's material, one file per item |
 | `docs/discovery/findings.md` | `templates/findings.md` | 2, 3, 4 | Findings `F-NN` with volatility, freshness and check date, contradictions `X-NN`, parking list. `scripts/freshness.ts` reads it |
 | `CONTEXT.md` | none | 3 | Glossary. One line per term: `Term: meaning. Not: <confused term>` |

@@ -39,6 +39,7 @@ Checked 2026-11-05 against tlc-spec-lean 2.2.0: its SKILL.md, references/plan.md
 | Literal text | Criteria and Assumptions | Copied character for character, never paraphrased |
 | Out of scope | Out of scope | With reasons |
 | Decisions | Criteria, or Assumptions with `Confirmed? y` | Already decided by the person; the plan does not ask again |
+| Source tags `[D-NN, K-NN]` | End of each criterion | Kept as written, so a reviewer can trace a value back to `brief.md` or `findings.md` |
 | Assumptions | Assumptions | Chosen default and Rationale are required by `validate_plan.py`. `Confirmed? n` unless the person confirmed it. Only a human sets y |
 | Open questions | `**Open questions:**` line under Assumptions | Tags `blocks`, `blocks go-live`, `open` carry over |
 | Sources | Sources | Each marked binding or non-binding. Here binding means a research finding the verdict rests on |
