@@ -108,12 +108,13 @@ idea-forge/
     freshness.md        what to check, how, statuses, before the first check
     setup.md            first use and profile
     focus.md            focus by profile, at stage 1
-    targets.md          target detection and mapping, at stage 5
+    targets.md          target detection, tlc-spec-lean mapping, at stage 5
+    targets-other.md    other targets, only when one is chosen
     research.md         problem kinds, questions, intake, gathering, at stage 2
     grill.md            branches, niches, customization, at stage 3
     handoff.md          dossier, verdict, targets, at stage 4
     files.md            project files, before writing one
-    visuals.md          output formats, before any result
+    visuals.md          diagram, illustration and document formats
     writing.md          before long prose
   templates/            profile, brief, findings, dossier, handoff, ADR
   scripts/

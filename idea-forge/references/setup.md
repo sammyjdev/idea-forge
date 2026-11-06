@@ -14,7 +14,7 @@ Read when no profile is found or the person says "setup". Target: under 2 minute
    ```
 2. Ask four multiple-choice questions in one form (AskUserQuestion when available). This is the only place with more than one question at once. On "setup" with an existing profile, preselect the current values.
    - Who are you: non-technical (founder, business) / product manager / engineer / designer
-   - Main focus: business / product / technical / design (preselect the default from `references/focus.md`)
+   - Main focus: business / product / technical / design (preselect the default from `references/focus.md` for the role the conversation suggests so far; the person's choice wins)
    - How you like results: text / tables / diagram / illustration / document
    - Spec-driven skill you use next: detect from the repository per `references/targets.md` and preselect it; options: tlc-spec-lean (default), tlc-spec-driven, Spec Kit, other
 3. Show the resulting profile. After the person confirms, save it:

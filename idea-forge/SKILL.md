@@ -27,7 +27,7 @@ Read `references/freshness.md` before the first check of a session.
 
 ## Second rule: ask the format before a result
 
-Before presenting a research summary, a dossier or a handoff summary, ask "How do you want this?" with the profile format preselected: text, tables, diagram, illustration or document. If the person already chose a format in this conversation, use it without asking again; this rule wins over any reference that says "ask". Read `references/visuals.md` for how to render each.
+Before presenting a research summary, a dossier or a handoff summary, ask "How do you want this?" with the profile format preselected: text, tables, diagram, illustration or document. If the person already chose a format in this conversation, use it without asking again; this rule wins over any reference that says "ask". Render diagram, illustration and document per `references/visuals.md`.
 
 ## Start
 
@@ -37,7 +37,7 @@ Run `node <skill-dir>/scripts/profile.ts check`.
 - `missing`: read `references/setup.md` and run first use.
 - `stale` or `ok`: in your first message, before any result, show the profile in one line, with the date when stale, and ask "Still right?".
 
-Then read `references/focus.md` and set the focus for this project.
+Then set the focus per `references/focus.md`.
 
 | Person says | Do |
 |---|---|
@@ -83,6 +83,6 @@ Example. User says: "An app for small bakeries in Brazil to take pre-orders by W
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
 | 4. Synthesize | Dossier with evidence, options, risks and a verdict: go, refine or stop | `references/handoff.md` | Person accepts the verdict |
-| 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>` until it exits 0 | `references/handoff.md`, `references/targets.md` | Validator passes or gaps are listed |
+| 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>` until it exits 0 | `references/handoff.md`, `references/targets.md`, `references/targets-other.md` if not tlc-spec-lean | Validator passes or gaps are listed |
 
 Hand off only on go. Update `docs/discovery/brief.md` at the end of each stage. Before writing any project file, read `references/files.md`. Before long prose, read `references/writing.md`.

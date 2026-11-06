@@ -23,7 +23,7 @@ Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 | Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate |
 
 Verdict rules:
-- go: the problem is backed by current evidence, no question is tagged `blocks`, and no unmitigated risk is high on both likelihood and impact.
+- go: the problem is backed by current evidence: at least one finding with status current from a dated source. Undated pages and the person's estimates are assumptions, not evidence. Also, no question is tagged `blocks`, and no unmitigated risk is high on both likelihood and impact.
 - refine: the idea holds but a go condition fails. List what to do next.
 - stop: current evidence contradicts the problem, or a blocker has no workaround.
 
@@ -41,7 +41,8 @@ The target should be able to plan without asking again what the discovery alread
 - Open questions: copy every open question from the dossier with its tag. Write `- None` when there are none.
 - Literal text: when the person decided wording the user will see (a rule shown before payment, a message, a label), copy it word for word in the person's language.
 - Surface hints: each one names who uses it and what they get back.
-- Rules: each rule names its neighbouring cases in its examples (below, above, exactly at the limit, repeated).
+- Rules: each rule names its neighbouring cases in its examples (below, above, exactly at the limit, repeated). A rule that sends something names the channel as `via <channel>`; a time limit says when the clock starts and in which time zone.
+- Entities: `A lo..hi B` means each A has lo to hi B, with lo at or below hi, and each pair has one range. `validate.ts` checks this and the channel.
 - Edges and Rules agree. Every state transition in Edges is caused by a rule. A conflict is a grill question, not a choice you make.
 - Sources: each finding's binding mark matches `findings.md`. `validate.ts` checks this.
 

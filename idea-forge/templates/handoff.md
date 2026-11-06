@@ -18,7 +18,7 @@ Suggested profile: <light | standard | ui>. Reason: <reason>
 
 ## Rules
 ### S1: <slice name> (P1)
-1. WHEN <trigger> THEN the <system> SHALL <response with concrete value>.
+1. WHEN <trigger> THEN the <system> SHALL <response with concrete value, via <channel> when it sends something>.
    Normal: <input> -> <output>
    Boundary: <neighbouring case: below, above or exactly at the limit> -> <output>
 

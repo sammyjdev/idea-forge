@@ -34,7 +34,7 @@ When unsure between two classes, pick the higher one.
 1. Search with the current year in the query when recency matters.
 2. Prefer the primary source: the official site, the regulator, the pricing page, the changelog, the docs.
 3. Read the page date. An undated page is weak.
-4. For a claim the verdict depends on, find a second independent source.
+4. For a claim the verdict depends on, find a second independent source. With only one, keep the status and set confidence low.
 5. When sources disagree, write a contradiction `X-NN` instead of picking one silently.
 
 ## Status

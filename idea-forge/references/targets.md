@@ -20,6 +20,8 @@ Never write inside a target's folders (`.specs/`, `.specify/`, `specs/`, `.kiro/
 
 3. No marker: use tlc-spec-lean. More than one: ask, with the detected ones as options.
 
+For any target other than tlc-spec-lean, read `references/targets-other.md` for its mapping and next command.
+
 ## Check the target before mapping
 
 Target skills change often. Treat their commands, folders and templates as high-volatility claims per `references/freshness.md`: read the target's current SKILL.md or docs in this session before giving the next command. When it cannot be read, say so, keep the mapping below, and mark the Target line as unchecked.
@@ -52,16 +54,4 @@ Next command:
 tlc-spec-lean: plan feature <feature> using docs/discovery/handoff/<feature>.md
 ```
 
-tlc-spec-lean writes the `**Approved**:` line itself after the person approves. The handoff never contains one.
-
-## Other targets
-
-Not checked against the live tools yet. Re-check before use.
-
-| Target | Where the handoff goes | Next command |
-|---|---|---|
-| tlc-spec-driven | spec.md requirements from Intent and Rules; Edges and answered questions to context.md; Flow, Entities and doors to design.md when large or complex. Size maps to its auto-sizing scope | `specify feature <feature> using <handoff>` |
-| tlc-plan | Same mapping as tlc-spec-lean | `plan feature <feature> using <handoff>` |
-| GitHub Spec Kit | Conventions and constraints to `/speckit.constitution`; Intent, Users, Rules and Success to `/speckit.specify`; answered questions shorten `/speckit.clarify` | `/speckit.specify` with the handoff content |
-| Kiro | Rules in EARS to requirements.md; Flow, Entities and doors to design.md | Create the spec from the handoff |
-| Other | Read its template, map section by section, list what has no home | Its own start command, with the handoff path |
+Give it with the suggested profile in one line, since tlc-spec-lean has no field for it. tlc-spec-lean writes the `**Approved**:` line itself after the person approves. The handoff never contains one.
