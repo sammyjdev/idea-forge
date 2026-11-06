@@ -128,6 +128,9 @@ function stripCode(text: string): string {
   return text.replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, "");
 }
 
+// The key may sit in a bullet or in bold; any case.
+const PROFILE_KEY = /^[\s>*-]*Suggested profile\**:/im;
+
 export function validateHandoff(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
   const map = sections(text);
@@ -154,8 +157,9 @@ export function validateHandoff(text: string): Report {
   if (!/^Size:\s*(small|medium|large|complex)\b/m.test(text)) {
     report.errors.push("Missing 'Size: small | medium | large | complex'.");
   }
-  const profile = /^Suggested profile:(.*)$/im.exec(text)?.[1] ?? null;
-  if (profile !== null && !/^\s*(light|standard|ui)\.\s*Reason:\s*\S/.test(profile)) {
+  const profiles = [...text.matchAll(new RegExp(PROFILE_KEY.source + "(.*)$", "gim"))].map((m) => m[1]);
+  if (profiles.length > 1) report.errors.push("Suggested profile appears more than once. Keep one line.");
+  else if (profiles.length === 1 && !/^\s*(light|standard|ui)\.\s*Reason:\s*\S/i.test(profiles[0])) {
     report.errors.push("Suggested profile must read 'light | standard | ui. Reason: <why>', or be left out.");
   }
 
@@ -262,7 +266,7 @@ export function checkDecisionsCarried(handoff: string, brief: string): string[] 
 
 // A costly-to-be-wrong idea with no profile hint falls to the target's default, usually light.
 export function checkProfileForDepth(handoff: string, brief: string): string[] {
-  if (!/^Depth:\s*thorough\b/im.test(brief) || /^Suggested profile:/im.test(handoff)) return [];
+  if (!/^[\s>*-]*Depth\**:\s*\**thorough\b/im.test(brief) || PROFILE_KEY.test(handoff)) return [];
   return ["Depth is thorough but the handoff suggests no verification profile. Add 'Suggested profile: standard. Reason: <why>', or 'Suggested profile: light. Reason: <why>' when light is enough."];
 }
 

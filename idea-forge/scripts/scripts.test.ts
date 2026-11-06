@@ -165,6 +165,29 @@ test("light and ui with a reason pass", () => {
   }
 });
 
+test("the reason key and the value are read in any case", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("standard. Reason: money moves", "Standard. reason: money moves"));
+  assert.deepEqual(report.errors, []);
+});
+
+test("a suggested profile written as a bullet or in bold is still checked", () => {
+  for (const line of ["- Suggested profile: heavy.", "**Suggested profile**: heavy."]) {
+    const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard.", line));
+    assert.ok(report.errors.some((e) => e.includes("Suggested profile")), line);
+  }
+});
+
+test("a second suggested profile line fails", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("Reason: money moves\n", "Reason: money moves\nSuggested profile: heavy.\n"));
+  assert.ok(report.errors.some((e) => e.includes("Suggested profile")));
+});
+
+test("a thorough depth written in bold or as a bullet still warns", () => {
+  for (const brief of ["**Depth**: thorough\n", "- Depth: thorough\n"]) {
+    assert.equal(checkProfileForDepth(NO_PROFILE, `# Brief: x\n${brief}`).length, 1, brief);
+  }
+});
+
 test("a suggested profile key in another case is still checked", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("Suggested profile: standard.", "Suggested Profile: heavy."));
   assert.ok(report.errors.some((e) => e.includes("Suggested profile")));
