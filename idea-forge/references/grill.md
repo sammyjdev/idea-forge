@@ -33,7 +33,7 @@ Ask only two kinds of question, one at a time, with a recommended answer and one
 - a fact only the person has (their numbers, their customers, what happens today), when `brief.md` does not already hold it;
 - a choice with a real trade-off (two defensible answers with different costs), or any value on a risky path.
 
-Everything else is not asked. An item with one obvious default, an edge case the person is unlikely to know, wording, or a screen detail becomes `A-NN` in `brief.md` with the proposed default, the reason, and `Confirmed? n`. Stage 4 shows every one of them with the verdict, and the person corrects any of them in the same answer; a correction becomes `D-NN`. When the person answers "I don't know", record the recommendation as an assumption and move on; do not ask a follow-up on it.
+Everything else is not asked. An item with one obvious default, an edge case the person is unlikely to know (except on a risky path: money, health data, personal data, regulation or a change people cannot undo, where the behaviour is asked), wording, or a screen detail becomes `A-NN` in `brief.md` with the proposed default, the reason, and `Confirmed? n`. Stage 4 shows every one of them with the verdict, and the person corrects any of them in the same answer; a correction becomes `D-NN`. When the person answers "I don't know", record the recommendation as an assumption and move on; do not ask a follow-up on it.
 
 A rule the person states is a decision: record it as `D-NN` the moment they say it, so the handoff cannot drop it. Never present a proposed default as a fact about their business.
 
@@ -73,7 +73,7 @@ Add these after branch 4. They also suggest research questions for stage 2.
 | Mobile | Offline use, store rules, acquisition and retention |
 | Data platform | Sources, freshness, consumers, lineage |
 
-For a niche not listed, derive the branches from stage 2 findings and confirm them with the person.
+For a niche not listed, derive the branches from stage 2 findings and state them; the person corrects them if needed.
 
 ## Glossary
 

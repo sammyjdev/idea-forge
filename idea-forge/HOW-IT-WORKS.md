@@ -64,9 +64,9 @@ There is no setup. The focus is read from how you describe the idea and stated w
 
 The focus changes depth and language. Every focus still ends with evidence and a verdict. You can change it at any time.
 
-## You choose the format
+## Tables unless you ask
 
-Before any result, you are asked how you want it: text, tables, diagram, illustration or document. Tables are preselected, and once you choose, you are not asked again in that session. Diagrams use standard notation (BPMN, UML, C4); illustrations are flat drawings for people who read pictures faster than notation. Project files stay markdown, because the target skill reads them.
+Results come as tables, without a question. Say "show me" to get text, a diagram, an illustration or a document instead; the choice holds for the session. Diagrams use standard notation (BPMN, UML, C4); illustrations are flat drawings for people who read pictures faster than notation. Project files stay markdown, because the target skill reads them.
 
 ## Your own material
 

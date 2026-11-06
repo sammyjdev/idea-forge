@@ -35,4 +35,4 @@ When stage 1 recorded a committed decision, the verdict is a record, not a gate:
 
 Success is never "it shipped". A feature being live is an output.
 
-State the verdict with its reason, then the unconfirmed assumptions as one table (ID, proposed default), and ask for one answer: accept the verdict and correct any assumption. Each correction becomes `D-NN`. Then stop and wait. Write the dossier only after the person accepts it, and hand off only on go.
+State the verdict with its reason, then the unconfirmed assumptions as one table (ID, proposed default, why it matters), the ones that feed a rule or sit on a risky path first, and ask for one answer: accept the verdict and correct any assumption. Each correction becomes `D-NN`. An assumption the person does not correct stays `Confirmed? n`: accepting the verdict is not confirming the defaults. Then stop and wait. Write the dossier only after the person accepts it, and hand off only on go.

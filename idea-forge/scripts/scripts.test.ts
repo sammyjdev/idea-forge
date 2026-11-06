@@ -627,6 +627,16 @@ test("a dossier that lists every unconfirmed assumption passes, confirmed ones n
   assert.deepEqual(checkAssumptionsShown(dossier, ASSUMING_BRIEF), []);
 });
 
+test("brief assumptions written as a star bullet, a table row or with a dash are still read", () => {
+  const brief = "## Assumptions\n* A-01: x. Confirmed? n\n| A-02 | y | how | n |\n- A-03 - z. Confirmed? n\n";
+  assert.deepEqual(checkAssumptionsShown("## Assumptions\n", brief).map((e) => e.split(" ")[1]), ["A-01", "A-02", "A-03"]);
+});
+
+test("the template's y/n placeholder is not a confirmation", () => {
+  const brief = "## Assumptions\n- A-01: x. Confirmed? y/n\n";
+  assert.equal(checkAssumptionsShown("## Assumptions\n", brief).length, 1);
+});
+
 test("an assumption mentioned only outside the dossier's Assumptions section does not count", () => {
   const dossier = "## Risks\nA-01 and A-02 may be wrong.\n## Assumptions\n| A-01: 24 hours | docs | n |\n";
   assert.equal(checkAssumptionsShown(dossier, ASSUMING_BRIEF).length, 1);
