@@ -126,38 +126,44 @@ function withRule(rule: string): string {
   return GOOD_HANDOFF.replace("   Boundary: K1 at t=24h+1s -> 200\n", `   Boundary: K1 at t=24h+1s -> 200\n${rule}\n`);
 }
 
-test("a rule that sends a message without naming the channel fails", () => {
-  const report = validateHandoff(withRule("2. WHEN the payment is refused THEN the API shall send the customer a message within 5 minutes."));
-  assert.ok(report.errors.some((e) => /channel/.test(e) && /2\. WHEN the payment is refused/.test(e)), report.errors.join("\n"));
-});
+function channelWarnings(rule: string): { errors: string[]; channel: string[] } {
+  const report = validateHandoff(withRule(rule));
+  return { errors: report.errors, channel: report.warnings.filter((w) => /channel/.test(w)) };
+}
 
-test("a rule that sends a message via a named channel passes", () => {
-  const report = validateHandoff(withRule("2. WHEN the payment is refused THEN the API shall send the customer a message via email within 5 minutes."));
-  assert.deepEqual(report.errors, []);
-});
-
-test("a rule that shows text on a page is not taken for a message", () => {
-  const report = validateHandoff(withRule("2. The API shall show the refund rules text on the payment page within 1 second."));
-  assert.deepEqual(report.errors, []);
-});
+// The channel check reads free text, so it warns and never blocks a hand off.
+for (const rule of [
+  "2. WHEN the payment is refused THEN the API shall send the customer a message within 5 minutes.",
+  "2. WHEN the payment is refused THEN the API shall message the customer within 5 minutes.",
+  "2. WHEN the payment is refused THEN the API shall notify customers within 5 minutes.",
+  "2. WHEN the payment is refused THEN the API shall remind the user to pay within 5 minutes.",
+  "2. WHEN the user signs in THEN the API shall send the user a one-time code within 30 seconds.",
+]) {
+  test(`a message to a person with no channel is a warning, not an error: ${rule.slice(8, 70)}`, () => {
+    const result = channelWarnings(rule);
+    assert.deepEqual(result.errors, []);
+    assert.equal(result.channel.length, 1);
+  });
+}
 
 for (const rule of [
   "2. WHEN a known key arrives THEN the API shall send a 202 response within 1 second.",
   "2. WHEN the user clicks Send THEN the form shall submit within 1 second.",
   "2. WHEN the user updates their email THEN the API shall store it within 1 second.",
   "2. WHEN the payment is refused THEN the API shall send the customer a WhatsApp message within 5 minutes.",
+  "2. WHEN the payment is refused THEN the API shall send the customer a message via email within 5 minutes.",
   "2. WHEN the payment is refused THEN the API shall notify the customer by SMS within 5 minutes.",
+  "2. WHEN the payment is due THEN the API shall send a reminder by phone 1 day before.",
   "2. WHEN 3 payments fail in 1 minute THEN the API shall alert the operator dashboard.",
+  "2. WHEN the refund fails THEN the error message the user sees shall read 'Refund in 5 days'.",
+  "2. WHEN a payment settles THEN the API shall send a message to the queue within 1 second.",
+  "2. WHEN a payment settles THEN the API shall send a webhook notification to the merchant URL within 1 second.",
+  "2. The API shall show the refund rules text on the payment page within 1 second.",
 ]) {
-  test(`a rule that is not a message, or names its channel, passes: ${rule.slice(8, 60)}`, () => {
-    assert.deepEqual(validateHandoff(withRule(rule)).errors, []);
+  test(`a rule that is not a message to a person, or names its channel, gets no channel warning: ${rule.slice(8, 70)}`, () => {
+    assert.deepEqual(channelWarnings(rule), { errors: [], channel: [] });
   });
 }
-
-test("a rule that messages a person with no channel fails", () => {
-  const report = validateHandoff(withRule("2. WHEN the payment is refused THEN the API shall message the customer within 5 minutes."));
-  assert.ok(report.errors.some((e) => /channel/.test(e)), report.errors.join("\n"));
-});
 
 function withRelations(relations: string): string {
   return GOOD_HANDOFF.replace("| Key | Order 1..1 Key | payments |", relations);
@@ -173,7 +179,7 @@ test("the same entity relation given two different ranges fails", () => {
   assert.ok(report.errors.some((e) => /Payment.*Refund/.test(e) && /0\.\.1/.test(e) && /0\.\.n/.test(e)), report.errors.join("\n"));
 });
 
-for (const cell of ["Order 2..1 Item-v2", "Order 0..1 Invoice, Order 2..1 Item", "Order 2..1 Item (legacy)", "Order N..1 Item"]) {
+for (const cell of ["Order 2..1 Item-v2", "Order 0..1 Invoice, Order 2..1 Item", "Order 2..1 Item (legacy)", "Order N..1 Item", "Order 1..n Item and 2..1 Coupon", "Order (2..1) Item"]) {
   test(`a relation with the low end above the high end fails in any common notation: ${cell}`, () => {
     const report = validateHandoff(withRelations(`| Order | ${cell} | none |`));
     assert.ok(report.errors.some((e) => /Entities/.test(e)), report.errors.join("\n"));
@@ -193,6 +199,11 @@ test("star and capital N upper ends pass", () => {
 test("a pair given two ranges fails even when one row starts with each", () => {
   const report = validateHandoff(withRelations("| Order | each Order 0..1 Item | none |\n| Item | Order 0..n Item | none |"));
   assert.ok(report.errors.some((e) => /Order to Item/.test(e)), report.errors.join("\n"));
+});
+
+test("n and * are the same upper end, and a thousands comma is part of the number", () => {
+  const report = validateHandoff(withRelations("| Order | Order 1..n Item; Order 1..* Item; Order 0..1,000 Coupon | none |"));
+  assert.deepEqual(report.errors, []);
 });
 
 test("relations in both directions with valid ranges pass", () => {

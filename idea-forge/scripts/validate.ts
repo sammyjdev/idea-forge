@@ -52,32 +52,35 @@ const VAGUE_WORDS = [
 
 export type Report = { errors: string[]; warnings: string[] };
 
-// A rule that reaches a person must say how: "via WhatsApp", "by email", "on the order page".
-const MESSAGES = [
-  /\bsen(d|ds|t)\b[^.]*\b(message|notification|notice|e-?mail|sms|reminder)s?\b/i,
-  /\b(notify|notifies|message|messages|alert|alerts)\s+(the|a|an|each|every|all)\b/i,
-  /\bpush(es)?\b[^.]*\bnotification/i,
+// A rule that reaches a person should say how: "via WhatsApp", "by email", "on the order page".
+// It reads free text, so it only warns.
+const PERSON = String.raw`(?:the\s+|a\s+|an\s+|each\s+|every\s+|all\s+|their\s+)?(?:customer|user|owner|buyer|seller|merchant|admin|operator|manager|client|member|staff|person|people|recipient)s?\b`;
+const TO_PERSON = [
+  new RegExp(String.raw`\b(?:shall|and|then|to)\s+(?:also\s+)?(?:notify|remind|message|alert|email|text)\s+${PERSON}`, "i"),
+  new RegExp(String.raw`\bsen(?:d|ds|t)\s+${PERSON}`, "i"),
+  new RegExp(String.raw`\bsen(?:d|ds|t)\b[^.]*\bto\s+${PERSON}`, "i"),
 ];
-const CHANNEL = /\b(via|through|over)\s+\w|\b(whatsapp|e-?mail|sms|push|telegram|slack|dashboard|page|screen|in-app)\b/i;
+const MACHINE = /\b(webhook|queue|topic|endpoint|url|api call)\b/i;
+const CHANNEL = /\b(via|by|through|over)\s+\w|\b(whatsapp|e-?mail|sms|push|telegram|slack|phone|dashboard|page|screen|in-app)\b/i;
 
-function sendsWithoutChannel(rule: string): boolean {
-  return MESSAGES.some((m) => m.test(rule)) && !CHANNEL.test(rule);
+function messagesWithoutChannel(rule: string): boolean {
+  return TO_PERSON.some((m) => m.test(rule)) && !MACHINE.test(rule) && !CHANNEL.test(rule);
 }
 
 // "A lo..hi B" means each A has lo to hi B. lo is a number; hi is a number, n or *.
 function bound(end: string): number {
-  return /^[n*]$/i.test(end) ? Infinity : Number(end);
+  return /^[n*]$/i.test(end) ? Infinity : Number(end.replace(/,/g, ""));
 }
 
 function checkRelations(entities: string): string[] {
   const errors: string[] = [];
   const seen = new Map<string, string>();
-  const relation = /^(?:each\s+)?(.+?)\s+(\d+|[n*])\.\.(\d+|[n*])\s+(.+)$/i;
+  const relation = /^(?:each\s+)?(.+?)\s+(\d[\d,]*|[n*])\.\.(\d[\d,]*|[n*])\s+(.+)$/i;
   for (const row of entities.split("\n")) {
     const cells = row.split("|");
     if (cells.length < 4) continue;
-    for (const raw of cells[2].split(/[;,]/)) {
-      const text = raw.replace(/\([^)]*\)/g, "").trim();
+    for (const raw of cells[2].split(/;|,(?!\d)|\band\b/)) {
+      const text = raw.replace(/\(([^)]*)\)/g, (_, inner: string) => (inner.includes("..") ? inner : "")).replace(/\s+/g, " ").trim();
       if (!text.includes("..")) continue;
       const m = relation.exec(text);
       if (!m) {
@@ -90,7 +93,7 @@ function checkRelations(entities: string): string[] {
         continue;
       }
       const key = `${from} -> ${to}`;
-      const range = `${lo}..${/^n$/i.test(hi) ? "n" : hi}`;
+      const range = `${lo}..${bound(hi) === Infinity ? "n" : bound(hi)}`;
       const before = seen.get(key);
       if (before && before !== range) errors.push(`Entities: ${from} to ${to} is ${before} in one row and ${range} in another`);
       else seen.set(key, range);
@@ -161,8 +164,8 @@ export function validateHandoff(text: string): Report {
     if (!/\d/.test(line.replace(/^\s*\d+\.\s/, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
   }
   for (const line of ruleLines) {
-    if (sendsWithoutChannel(line)) {
-      report.errors.push(`Rule sends a message but names no channel ("via <channel>"): ${line.trim()}`);
+    if (messagesWithoutChannel(line)) {
+      report.warnings.push(`Rule messages a person but names no channel (via WhatsApp, by email, on a page): ${line.trim()}`);
     }
   }
   report.errors.push(...checkRelations(map.get("entities") ?? ""));
