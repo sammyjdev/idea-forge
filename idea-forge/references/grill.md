@@ -35,7 +35,7 @@ Before closing branch 4, close every rule. It names who or what triggers it, wha
 
 ## Customization
 
-The focus in `brief.md` sets which branches go deep: business goes deep on users (who pays), limits (cost) and out of scope; product on users, flow, rules and out of scope; technical on data, rules, edges and limits; design on flow, journey states, and edge outcomes as screens. The signals below adjust inside it.
+The focus in `brief.md` sets which branches go deep: business goes deep on users (who pays), limits (cost) and out of scope; product on users, flow, rules and out of scope; technical on data, rules, edges and limits; design on flow, journey states, and edge outcomes as screens; mixed on every branch at thorough depth. The signals below adjust inside it.
 
 | Signal | Effect |
 |---|---|

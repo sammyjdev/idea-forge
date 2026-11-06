@@ -35,7 +35,7 @@ When you resume a session, `freshness.ts` lists the checks that expired and they
 | 4. Synthesize | Should we build it? | You accept the verdict |
 | 5. Hand off | What does the target skill need? | `validate.ts` passes |
 
-Refine and stop are valid outcomes. Hand off happens only on go.
+Refine, not now and stop are valid outcomes. Hand off happens only on go.
 
 ## A turn
 

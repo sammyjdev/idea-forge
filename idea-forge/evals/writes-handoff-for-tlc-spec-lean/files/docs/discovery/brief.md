@@ -10,7 +10,7 @@ Problem kind: pain
 Focus: technical
 Niche: Fintech
 Constraints: two engineers, ship in 4 weeks, existing Java checkout service
-Target workflow: tlc-spec-lean
+Target: tlc-spec-lean
 
 ## Research questions
 - RQ-01: How long does the payment provider retry failed calls? Risk it tests: duplicate window. Status: answered

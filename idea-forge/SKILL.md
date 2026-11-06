@@ -33,7 +33,7 @@ Before presenting a research summary, a dossier or a handoff summary, ask "How d
 
 `<skill-dir>` is the folder holding this file. Run scripts from the project root as `node <skill-dir>/scripts/<name>.ts`, or pass `--root <project>`. Run them rather than read them. Without code execution, read only a script's usage header, do its checks by hand, and say once that scripts were not run.
 
-There is no setup and no profile. When the first message carries the idea, stage 1 starts. Read `references/frame.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
+There is no setup and no profile. When the first message carries the idea, stage 1 starts. On the first turn only, say in one line what happens: facts checked on the web, one question at a time, a verdict, and a file the next step can plan from. Read `references/frame.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
 
 | Person says | Do |
 |---|---|
@@ -42,6 +42,7 @@ There is no setup and no profile. When the first message carries the idea, stage
 | add this | Take the note, link or file as intake for stage 2 |
 | check this | Run a freshness check on the claim and report |
 | skip | Record the current question as an assumption, continue |
+| how does this work | Summarize `HOW-IT-WORKS.md` in five lines |
 | show me | Read `references/visuals.md`, ask the format, show the current topic |
 
 ## Rules
@@ -73,7 +74,7 @@ Example. User says: "An app for small bakeries in Brazil to take pre-orders by W
 
 | Stage | Goal | Read | Exit |
 |---|---|---|---|
-| 1. Frame | Situation, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | Person confirms sentence, focus and questions |
+| 1. Frame | Situation, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | Person confirms sentence, focus and questions, or a trivial change gets a one-paragraph answer |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
 | 4. Synthesize | Verdict (go, refine, not now or stop), then the dossier with evidence, options and risks | `references/synthesize.md` | Person accepts the verdict |

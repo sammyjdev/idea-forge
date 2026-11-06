@@ -252,7 +252,7 @@ export function checkDecisionsCarried(handoff: string, brief: string): string[] 
   const carried = sections(handoff).get("decisions") ?? "";
   return decided
     .map((line) => line.replace(/^\s*-\s*/, ""))
-    .filter((id) => !new RegExp(`^\\s*-\\s*${id}:\\s*\\S`, "m").test(carried))
+    .filter((id) => !new RegExp(`^[ \\t]*-[ \\t]*${id}:[ \\t]*\\S`, "m").test(carried))
     .map((id) => `Decisions: ${id} from brief.md is missing. Say where it lands or why it is not for this feature.`);
 }
 

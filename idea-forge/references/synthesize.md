@@ -31,7 +31,7 @@ Lead with what the focus needs: business with the verdict, market evidence and c
 
 Not now and stop argue for themselves in the same unit as the cost of building: what staying as is costs, and what would have to become true to reopen it. Their dossier keeps Verdict, Problem and Evidence, and puts the reopen condition under Next action. Do not invent options or candidate features for work you just declined.
 
-When stage 1 recorded a committed decision, the verdict is one line naming who committed and when. Stop only if the evidence contradicts the commitment.
+When stage 1 recorded a committed decision, the verdict is a record, not a gate: `go. Committed by <who> on <date>.` Stop only if the evidence contradicts the commitment.
 
 Success is never "it shipped". A feature being live is an output.
 

@@ -3,7 +3,7 @@ Updated: YYYY-MM-DD
 
 ## Verdict
 <go | refine | not now | stop>. Decided by: <F-NN>, <F-NN>.
-<Next action for refine; for not now or stop, what would have to become true to reopen it.>
+Next action: <for refine, what to do; for not now or stop, what would have to become true to reopen it>
 
 ## Problem
 <idea sentence>. Kind: <pain | absence | construction>. Backed by: <F-NN>.

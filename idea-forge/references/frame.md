@@ -9,9 +9,11 @@ Four facts, one line each. Ask only what the conversation has not answered.
 - Where the effort is: in use (it has a today you can measure), not shipped (no today at all), or under construction (a commitment and work in flight).
 - Whether the decision is open, or someone already committed, and who and when. A committed decision makes the stage 4 verdict a record, not a gate.
 - What in flight this touches, in one sentence.
-- What is at stake: how expensive it is to be wrong. Money, health data, personal data, regulation or a change people cannot undo means thorough depth. Cheap to undo means quick depth.
+- What is at stake: how expensive it is to be wrong. Money, health data, personal data, regulation or a change people cannot undo means thorough depth. Cheap to undo means quick depth. Record it as Depth.
 
-When it is cheap to undo, touches little, and nobody disagrees, all three at once, give the recommendation in one paragraph and stop. No files.
+Ask these in the person's own terms: "Is anyone using this today?", not "Where is the effort?".
+
+When it is cheap to undo, touches little, and nobody disagrees with the recommendation, all three at once, give the recommendation in one paragraph and stop. No files.
 
 ## Problem kind
 
@@ -33,6 +35,7 @@ Infer it from the first messages: the role the person mentions, their vocabulary
 | Users, problem, roadmap, metrics, or no signal | product | Problem, users, substitutes | Product terms, technical words explained in one line |
 | Stack, API, schema, latency, versions | technical | Technology, regulation that shapes data, existing systems | Technical, versions and limits exact |
 | Screens, journeys, flows, usability | design | Users, journeys, substitutes | Product terms only |
+| Several of the above, or the person asks for all | mixed | One question per area | Product terms, technical words explained in one line |
 
 Every focus still covers the problem sentence, one finding per research question, and the verdict. Focus changes depth, never skips the verdict.
 

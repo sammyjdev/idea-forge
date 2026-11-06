@@ -326,6 +326,13 @@ test("a brief decision the handoff never mentions fails", () => {
   ]);
 });
 
+test("a decision listed with nothing after it is still missing", () => {
+  const handoff = `${GOOD_HANDOFF}\n## Decisions\n- D-01:\n- D-02: not for this feature, it belongs to onboarding\n`;
+  assert.deepEqual(checkDecisionsCarried(handoff, BRIEF), [
+    "Decisions: D-01 from brief.md is missing. Say where it lands or why it is not for this feature.",
+  ]);
+});
+
 test("a brief with no decisions asks nothing of the handoff", () => {
   assert.deepEqual(checkDecisionsCarried(GOOD_HANDOFF, "# Brief: x\n## Decisions\n\n## Assumptions\n"), []);
 });

@@ -112,7 +112,7 @@ Script tests, from `idea-forge/`:
 node --test scripts/scripts.test.ts
 ```
 
-Expected: 59 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, and each script run as a command, including through a linked folder with a space in its path.
+Expected: 65 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, and each script run as a command, including through a linked folder with a space in its path.
 
 Skill structure, with skill-creator installed (its script needs PyYAML):
 
@@ -154,15 +154,15 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 
 | Check | Result | Evidence |
 |---|---|---|
-| Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks |
-| Script tests | Pass | 28 of 28, including each script run as a command, through a junction and from a path with a space |
+| Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks, rerun on 2026-11-06 |
+| Script tests | Pass | 65 of 65 on 2026-11-06, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
 | Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 800 words; references are 21 to 73 lines |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, or the verdict is refine |
 | Eval: first-use-starts-framing | Not run yet | Replaces first-use-runs-setup, which tested the setup form that was removed |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |
 | Eval: writes-handoff-for-tlc-spec-lean | 0.90, without skill 0.17 | Only `05-validator-passes` fails, because the run had no Bash. The file checks are deterministic regex graders |
-| End to end with tlc-spec-lean 2.2.0 | Pass, with handoff gaps | A simulated non-technical founder accepted a go verdict at answer 21 of 24. `validate.ts` passed the handoff with 5 warnings (rules with no number), and fails it when `Suggested profile` is removed, so the gate now checks. tlc-spec-lean wrote a plan that passes `validate_plan.py` with 1 warning, and logged 23 questions: the handoff answered 8 of them, and 15 were genuinely open, one of them a legal question carried rather than asked. The open ones show two gaps `validate.ts` does not catch: rules say "send a message" while the handoff names no channel that can send one, and two Entities rows disagree on how many refunds a Pix can have. tlc-spec-lean also has no place for `Suggested profile` |
+| End to end with tlc-spec-lean 2.2.0 | Pass, with handoff gaps | A simulated non-technical founder accepted a go verdict at answer 21 of 24. `validate.ts` passed the handoff with 5 warnings (rules with no number), and failed it when `Suggested profile` was removed; that field was dropped later, since no target reads it. tlc-spec-lean wrote a plan that passes `validate_plan.py` with 1 warning, and logged 23 questions: the handoff answered 8 of them, and 15 were genuinely open, one of them a legal question carried rather than asked. The open ones show two gaps `validate.ts` does not catch: rules say "send a message" while the handoff names no channel that can send one, and two Entities rows disagree on how many refunds a Pix can have. tlc-spec-lean also has no place for `Suggested profile` |
 | Description triggering | Pass, 23 of 24 | skill-creator trigger eval, 3 runs per query, one worker: 9 of 10 should-trigger queries fire, and 14 of 14 should-not-trigger queries stay silent, including 4 near misses (a price lookup, a free-tier check, an interview summary, a buy-or-host decision). The miss is "valida essa ideia". The harness does not record which skill fired instead; in a separate run by hand, an idea-validation skill installed on the same machine took it. The earlier 0 of 10 was a harness artifact: with several workers, each run wrote its own copy of the skill into one shared commands folder, and a run counted only if the model picked its own copy. Results in `dev/trigger-eval-results.json` |
 
 Not tested: the targets other than tlc-spec-lean, the diagram, illustration and document formats, the session commands marked No above, and runs without web access.
