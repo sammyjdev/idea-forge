@@ -632,6 +632,11 @@ test("brief assumptions written as a star bullet, a table row or with a dash are
   assert.deepEqual(checkAssumptionsShown("## Assumptions\n", brief).map((e) => e.split(" ")[1]), ["A-01", "A-02", "A-03"]);
 });
 
+test("a brief table row whose last cell is y is a confirmed assumption", () => {
+  const brief = "## Assumptions\n| A-01 | x | how | y |\n| A-02 | z | how | n |\n";
+  assert.deepEqual(checkAssumptionsShown("## Assumptions\n", brief).map((e) => e.split(" ")[1]), ["A-02"]);
+});
+
 test("the template's y/n placeholder is not a confirmation", () => {
   const brief = "## Assumptions\n- A-01: x. Confirmed? y/n\n";
   assert.equal(checkAssumptionsShown("## Assumptions\n", brief).length, 1);

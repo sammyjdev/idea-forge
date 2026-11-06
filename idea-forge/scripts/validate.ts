@@ -340,7 +340,7 @@ export function checkAssumptionsShown(dossier: string, brief: string): string[] 
   const shown = (sections(dossier).get("assumptions") ?? "").replace(/\*/g, "");
   const unconfirmed = (sections(brief).get("assumptions") ?? "")
     .split("\n")
-    .filter((line) => !/Confirmed\?\s*(y|yes)\s*([|.,;]|$)/i.test(line.trim()))
+    .filter((line) => !/Confirmed\?\s*(y|yes)\s*([|.,;]|$)/i.test(line.trim()) && !/\|\s*(y|yes)\s*\|\s*$/i.test(line.trim()))
     .map((line) => /^\s*[-*|]\s*\**(A-\d+)\**\s*[:|-]/.exec(line)?.[1])
     .filter((id): id is string => id !== undefined);
   return unconfirmed

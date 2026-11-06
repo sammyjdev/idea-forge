@@ -113,7 +113,7 @@ Script tests, from `idea-forge/`:
 node --test scripts/scripts.test.ts
 ```
 
-Expected: 117 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, the optional verification profile hint, source tags on every rule, boundary, edge and relation, and each script run as a command, including through a linked folder with a space in its path.
+Expected: 118 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, the optional verification profile hint, source tags on every rule, boundary, edge and relation, and each script run as a command, including through a linked folder with a space in its path.
 
 Skill structure, with skill-creator installed (its script needs PyYAML):
 
@@ -156,7 +156,7 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 | Check | Result | Evidence |
 |---|---|---|
 | Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks, rerun on 2026-11-06 |
-| Script tests | Pass | 117 of 117 on 2026-11-06, including each script run as a command, through a junction and from a path with a space |
+| Script tests | Pass | 118 of 118 on 2026-11-06, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
 | Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 948 words; references are 9 to 90 lines |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, a rule cites no source or a source that does not exist, or the verdict is refine |

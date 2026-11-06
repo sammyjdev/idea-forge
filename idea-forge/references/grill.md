@@ -18,11 +18,11 @@ Walk them in this order and skip what does not apply. A branch is done when its 
 | 6 | Limits | Numbers the system must hit: time, volume, cost | no |
 | 7 | Out of scope | What will not be built now, and why | yes |
 
-Thorough depth walks every branch. Risky work always gets branch 5. Risky means money, health data, personal data or regulation.
+Thorough depth walks every branch. Risky work always gets branch 5. Risky means money, health data, personal data, regulation or a change people cannot undo.
 
 Before closing branch 5, read each edge decision against the rules from branch 4. When two disagree (one says a late payment confirms, another says only a manual confirm does), ask which holds. Each rule also needs its neighbouring cases: below, above and exactly at its limit, and repeated.
 
-In branch 2, walk the states past the happy path: empty, first time, retry, half finished, expired, not allowed, and the person who walks away and comes back tomorrow. Spend real questions on the path that carries most of the volume and a line on the others. For each thing with a status (an order, a payment), ask what happens when each event arrives in each status, including the late ones: a payment after a cancel, a cancel after pickup, undoing a mark. Each confirmed state becomes a rule or a State transitions decision.
+In branch 2, walk the states past the happy path: empty, first time, retry, half finished, expired, not allowed, and the person who walks away and comes back tomorrow. Spend real questions on the path that carries most of the volume and a line on the others. For each thing with a status (an order, a payment), on a risky path ask what happens when each event arrives in each status, including the late ones: a payment after a cancel, a cancel after pickup, undoing a mark. Off a risky path, record those cases as `A-NN` with a default instead. Each settled state becomes a rule or a State transitions decision.
 
 Before closing branch 4, close every rule. It names who or what triggers it, what the system does, who learns of it and via which channel ("via WhatsApp", "via the order page"), and for any time limit, when the clock starts and in which time zone. A part the person cannot settle becomes an assumption with a chosen default, never left implicit. Wording and screen content they do not decide (a message's text, what a list shows, where a link goes) become assumptions with a draft default, not open questions. State each data relation once as `A lo..hi B`: each A has lo to hi B.
 
