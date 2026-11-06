@@ -1,0 +1,22 @@
+[
+  {"query": "tenho uma ideia de app pra clínicas veterinárias agendarem banho e tosa pelo whatsapp, antes de escrever spec quero entender se o mercado já tem isso e quanto cobram", "should_trigger": true},
+  {"query": "valida essa ideia pra mim: plataforma de cashback pra pequenos mercados de bairro em João Pessoa. sou dev mas não entendo nada de varejo", "should_trigger": true},
+  {"query": "before I open tlc-spec-lean I want to research whether building our own OCR for customs invoices makes sense vs buying something. can you dig into what exists today and the current pricing?", "should_trigger": true},
+  {"query": "meu sócio falou que a taxa do pix pra empresa é zero e que o open finance já permite iniciar pagamento recorrente. quero confirmar isso e ver se dá pra montar um produto de cobrança em cima", "should_trigger": true},
+  {"query": "vale a pena construir um marketplace de freelancers de design no nordeste? quero fazer o discovery direito antes de planejar", "should_trigger": true},
+  {"query": "I'm a PM, not technical. We're thinking about adding AI-generated meeting summaries to our HR product. Help me figure out if competitors already ship this, what the legal risks under LGPD are, and whether it's worth it", "should_trigger": true},
+  {"query": "pega essas notas da reunião com os clientes (tão em notes/entrevistas.md) e organiza o que é evidência e o que é achismo, quero saber se a ideia de exportação simplificada pra MEI se sustenta", "should_trigger": true},
+  {"query": "resume the discovery for the duplicate payment guard, the verdict is go, write the handoff for tlc-spec-lean", "should_trigger": true},
+  {"query": "quero explorar uma ideia de SaaS de controle de estoque pra restaurantes, mas antes de qualquer spec preciso saber se os números que eu tenho de 2023 ainda valem", "should_trigger": true},
+  {"query": "we keep saying stripe's brazil fees kill our margin, can you research the current fees and alternatives and tell me if building a direct acquirer integration is worth exploring", "should_trigger": true},
+  {"query": "o plano já tá aprovado em .specs/features/checkout-v2/plan.md, implementa as checks e roda o verifier", "should_trigger": false},
+  {"query": "escreve o spec.md da feature de login com google usando EARS, já decidimos tudo", "should_trigger": false},
+  {"query": "faz um ADR explicando por que escolhemos Kafka em vez de SQS no serviço de pedidos", "should_trigger": false},
+  {"query": "qual a diferença entre spec kit e tlc-spec-lean? só quero entender, não tenho ideia nenhuma pra validar agora", "should_trigger": false},
+  {"query": "me ajuda a escrever um post no linkedin sobre como validar ideias de startup antes de codar", "should_trigger": false},
+  {"query": "corta esse PRD em tarefas pro time, o PRD tá em docs/prd-billing.md", "should_trigger": false},
+  {"query": "faz um brainstorm de 20 nomes pra minha startup de logística", "should_trigger": false},
+  {"query": "research the latest papers on retrieval augmented generation evaluation and summarize them for me", "should_trigger": false},
+  {"query": "debug this: our payment webhook returns 500 when the provider retries, stack trace below", "should_trigger": false},
+  {"query": "design the system architecture for a multi-tenant notification service with kafka and postgres, I need the C4 diagrams", "should_trigger": false}
+]
