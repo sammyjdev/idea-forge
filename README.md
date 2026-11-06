@@ -147,14 +147,16 @@ Notes:
 Description triggering, with skill-creator, from the skill-creator directory with paths adjusted:
 
 ```
-python -m scripts.run_loop --eval-set dev/trigger-queries.json --skill-path idea-forge --model <model-id> --max-iterations 5 --verbose
+python -m scripts.run_loop --eval-set dev/trigger-queries.json --skill-path idea-forge --model <model-id> --max-iterations 5 --num-workers 1 --verbose
 ```
 
-`dev/trigger-queries.json` holds 10 queries that should trigger the skill and 10 that should not. On Windows, skill-creator's `run_eval.py` reads the `claude -p` pipe with `select()`, which works only on sockets there; it needs a reader thread instead.
+`dev/trigger-queries.json` holds 10 queries that should trigger the skill and 14 that should not. Two things skew the numbers:
+- Run `run_eval` and `run_loop` with `--num-workers 1`. Each worker writes its own copy of the skill into one shared `.claude/commands/` folder, and a run counts only when the model picks its own copy. With 5 workers, a description that fires 7 times in 10 scored close to 0.
+- On Windows, skill-creator's `run_eval.py` reads the `claude -p` pipe with `select()`, which works only on sockets there; it needs a reader thread instead.
 
 ## Validation status
 
-Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20.
+Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end and triggering rows were rerun on 2026-11-06.
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -167,8 +169,8 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20.
 | Eval: first-use-runs-setup | 1.00, without skill 0.17 | 3 runs per arm, without Bash (Windows) |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |
 | Eval: writes-handoff-for-tlc-spec-lean | 0.90, without skill 0.17 | Only `05-validator-passes` fails, because the run had no Bash. The file checks are deterministic regex graders |
-| End to end with tlc-spec-lean 2.2.0 | Partial, run before the fixes | A simulated non-technical founder reached go in 24 turns: setup ran once, each turn asked one question with a recommendation, prices and laws were searched before they were shown, and nothing was written under `.specs/features`. The handoff failed the working validator (a binding finding was unverifiable); the scripts then in place exited 0 without checking, which the fixes correct. tlc-spec-lean's `validate_plan.py` passed with 1 warning and raised 18 questions the handoff had not settled; the handoff template and rules now carry those answers. Not repeated after the fixes |
-| Description triggering | Weak, unresolved | skill-creator trigger eval, 3 runs per query: 10 of 10 should-not-trigger queries stay silent, but 0 of 10 should-trigger queries reach the 0.5 trigger rate (mean 0.1 to 0.2), with the current description, the previous one and 4 rewrites alike. Measured on a machine with competing idea-validation skills installed. In the plugin evals the skill was invoked in every with-skill run, so the gap is in description matching, not in the skill body |
+| End to end with tlc-spec-lean 2.2.0 | Pass, with handoff gaps | A simulated non-technical founder accepted a go verdict at answer 21 of 24. `validate.ts` passed the handoff with 5 warnings (rules with no number), and fails it when `Suggested profile` is removed, so the gate now checks. tlc-spec-lean wrote a plan that passes `validate_plan.py` with 1 warning, and logged 23 questions: the handoff answered 8 of them, and 15 were genuinely open, one of them a legal question carried rather than asked. The open ones show two gaps `validate.ts` does not catch: rules say "send a message" while the handoff names no channel that can send one, and two Entities rows disagree on how many refunds a Pix can have. tlc-spec-lean also has no place for `Suggested profile` |
+| Description triggering | Pass, 23 of 24 | skill-creator trigger eval, 3 runs per query, one worker: 9 of 10 should-trigger queries fire, and 14 of 14 should-not-trigger queries stay silent, including 4 near misses (a price lookup, a free-tier check, an interview summary, a buy-or-host decision). The miss is "valida essa ideia". The harness does not record which skill fired instead; in a separate run by hand, an idea-validation skill installed on the same machine took it. The earlier 0 of 10 was a harness artifact: with several workers, each run wrote its own copy of the skill into one shared commands folder, and a run counted only if the model picked its own copy. Results in `dev/trigger-eval-results.json` |
 
 Not tested: the targets other than tlc-spec-lean, the diagram, illustration and document formats, the session commands marked No above, and runs without web access.
 
