@@ -59,3 +59,26 @@ G and U come from the blind audit (B and C only). M2 caught of 2. M3 counts P-NN
 - The 3-C setup failure is the first-turn orientation line: "write a file the next step (tlc-spec-lean) can plan from".
 - 2-C and 3-C ended at refine, so their planner read the dossier, not a handoff. Both verdicts cite unaudited evidence or a fact the persona did not know, which is what refine is for, but it means those cells do not test the handoff.
 - Arm B had web access again: `--allowedTools` pre-approves tools and does not remove the others. A valid arm B needs `--disallowedTools WebSearch,WebFetch`. This is a protocol fault of the run, not of tlc-prd.
+
+## Arm B rerun without web (recorded deviation)
+
+The three B cells above are invalid under the pre-registration: `--allowedTools` only pre-approves tools, so they searched the web. Only they were rerun, with `--disallowedTools "WebSearch,WebFetch"`. A test prompt confirmed the flag blocks the tool, and the session logs show 0 WebSearch and 0 WebFetch calls in all three discoveries. Thresholds unchanged. Raw files: `C:\tmp\idea-forge-bench2\results-r2.md`, `audit_r2.md`.
+
+| Cell | M1 | G | U | M2 | M3 | M4 | M6 |
+|---|---|---|---|---|---|---|---|
+| 1-B-r2 | 7 | 7 | 9 | 0 (raised both from memory as unverified, corrected neither) | 8 | 3,231 | 0 |
+| 2-B-r2 | 5 | 3 | 5 | 0 | 7 | 3,231 | 0 |
+| 3-B-r2 | 7 | 3 | 6 | 0 | 7 | 3,231 | 0 |
+| B sum | 19 | 13 | 20 | 0 | 22 | 9,693 | |
+| C sum | 21 | 3 | 31 | 6 | 54 | 18,290 | |
+
+A second blind audit re-measured the unchanged C cells: G 3 and 3, U 32 and 31 across the two audits, with per-cell swings up to 3 on U. The sums are stable.
+
+Reading with the valid arm B:
+
+- New: **pass**. C caught 6 of 6; B caught 0.
+- Quality: **fail**. Gaps pass (C 3, B 13). Unsupported claims fail (C 31, B 20).
+- Effort: **fail**. C 54 persona messages against B 22, 2.45 times; the limit is 1.5.
+- Growth guard: **pass**. 18,290, two C cells stopped at refine.
+- Setup: **fail**. 3-C named tlc-spec-lean in its first line.
+- Guard: **pass**.
