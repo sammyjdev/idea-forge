@@ -6,6 +6,8 @@ Updated: 2026-11-05
 Shop owners on our checkout refund about 3% of card orders because customers are charged twice when they retry within seconds. Done means one charge per order.
 
 ## Context
+Depth: thorough
+Situation: in use. Decision: open. In flight: none. At stake: customers charged twice
 Problem kind: pain
 Focus: technical
 Niche: Fintech

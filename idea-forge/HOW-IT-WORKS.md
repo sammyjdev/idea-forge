@@ -60,6 +60,7 @@ There is no setup. The focus is read from how you describe the idea and stated w
 | Users, problem, metrics | product | Problem, users, substitutes, success criteria |
 | Stack, APIs, versions, limits | technical | Feasibility, data, rules, edge cases, current versions and limits |
 | Screens and journeys | design | Journeys, states, what each screen must answer |
+| Several of these | mixed | Every area, at thorough depth |
 
 The focus changes depth and language. Every focus still ends with evidence and a verdict. You can change it at any time.
 
@@ -81,6 +82,7 @@ Say "add this" with notes, links or files. Each item is read, dated, split into 
 | check this | Verifies one claim now |
 | skip | Records the current question as an assumption |
 | show me | One visual for the current topic |
+| how does this work | A five-line summary of this guide |
 
 ## Handoff targets
 

@@ -20,7 +20,7 @@ Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 | Open questions | Tagged `blocks`, `blocks go-live` or `open` |
 | Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate |
 
-Lead with what the focus needs: business with the verdict, market evidence and cheaper-than-building options; product with the problem, users and success; technical with decisions, door candidates, risks and feasibility; design with the journey, its states and open design questions.
+Lead with what the focus needs: business with the verdict, market evidence and cheaper-than-building options; product with the problem, users and success; technical with decisions, door candidates, risks and feasibility; design with the journey, its states and open design questions; mixed with the verdict, then one short summary per area.
 
 ## Verdict
 

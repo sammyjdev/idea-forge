@@ -84,6 +84,7 @@ Say these during a session:
 | check this | Verifies one claim now | No |
 | skip | Records the current question as an assumption | No |
 | show me | One visual for the current topic | No |
+| how does this work | A five-line summary of HOW-IT-WORKS.md | No |
 
 ## Files it writes in a project
 
@@ -161,7 +162,7 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, or the verdict is refine |
 | Eval: first-use-starts-framing | Not run yet | Replaces first-use-runs-setup, which tested the setup form that was removed |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |
-| Eval: writes-handoff-for-tlc-spec-lean | 0.90, without skill 0.17 | Only `05-validator-passes` fails, because the run had no Bash. The file checks are deterministic regex graders |
+| Eval: writes-handoff-for-tlc-spec-lean | 0.90, without skill 0.17, not rerun | Measured before the grader required the Decisions section. Only `05-validator-passes` failed, because the run had no Bash. The file checks are deterministic regex graders |
 | End to end with tlc-spec-lean 2.2.0 | Pass, with handoff gaps | A simulated non-technical founder accepted a go verdict at answer 21 of 24. `validate.ts` passed the handoff with 5 warnings (rules with no number), and failed it when `Suggested profile` was removed; that field was dropped later, since no target reads it. tlc-spec-lean wrote a plan that passes `validate_plan.py` with 1 warning, and logged 23 questions: the handoff answered 8 of them, and 15 were genuinely open, one of them a legal question carried rather than asked. The open ones show two gaps `validate.ts` does not catch: rules say "send a message" while the handoff names no channel that can send one, and two Entities rows disagree on how many refunds a Pix can have. tlc-spec-lean also has no place for `Suggested profile` |
 | Description triggering | Pass, 23 of 24 | skill-creator trigger eval, 3 runs per query, one worker: 9 of 10 should-trigger queries fire, and 14 of 14 should-not-trigger queries stay silent, including 4 near misses (a price lookup, a free-tier check, an interview summary, a buy-or-host decision). The miss is "valida essa ideia". The harness does not record which skill fired instead; in a separate run by hand, an idea-validation skill installed on the same machine took it. The earlier 0 of 10 was a harness artifact: with several workers, each run wrote its own copy of the skill into one shared commands folder, and a run counted only if the model picked its own copy. Results in `dev/trigger-eval-results.json` |
 
