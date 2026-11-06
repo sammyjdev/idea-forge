@@ -6,6 +6,7 @@ Updated: YYYY-MM-DD
 <who> loses <cost> today because <problem>. Done means <observable outcome>.
 
 ## Context
+Situation: <in use | not shipped | under construction>. Decision: <open | committed by who, when>. In flight: <one sentence>. At stake: <cost of being wrong>
 Problem kind: <pain | absence | construction>
 Focus: <business | product | technical | design | mixed>
 Niche: <niche>

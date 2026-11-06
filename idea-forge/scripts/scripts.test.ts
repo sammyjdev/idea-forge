@@ -405,3 +405,9 @@ test("dossier must say go and have no blocking question", () => {
   assert.ok(validateDossier("## Verdict\nrefine. Next: interviews.\n").errors.length > 0);
   assert.ok(validateDossier("## Verdict\ngo.\n\n- Q-01: who pays [blocks]\n").errors.length > 0);
 });
+
+test("a not now verdict is read as a verdict and still refuses the hand off", () => {
+  assert.deepEqual(validateDossier("## Verdict\nnot now. After: the payment slice ships.\n").errors, [
+    'Dossier verdict is "not now". Hand off only on go.',
+  ]);
+});

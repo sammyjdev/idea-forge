@@ -36,13 +36,13 @@ Five stages, in order:
 
 | Stage | Question it answers | Done when |
 |---|---|---|
-| 1. Frame | What is the idea, what kind of problem is it, what must we find out? | You confirm the idea sentence and the research questions |
+| 1. Frame | Where does the effort stand, what kind of problem is it, what must we find out? | You confirm the idea sentence and the research questions |
 | 2. Research | What does current evidence say? | Every question has a status and every finding the verdict rests on is checked |
 | 3. Grill | Does the idea hold against the evidence? | Every decision is made, assumed or recorded as a tagged question |
-| 4. Synthesize | Should we build it? | You accept the verdict: go, refine or stop |
+| 4. Synthesize | Should we build it? | You accept the verdict: go, refine, not now or stop |
 | 5. Hand off | What does the spec skill need? | `validate.ts` passes |
 
-Refine and stop are valid outcomes. A handoff is written only on go.
+Refine, not now and stop are valid outcomes. A handoff is written only on go.
 
 The freshness rule: before any turn that shows a result, idea-forge lists the time-sensitive claims it depends on, searches for each one, and marks it current, outdated with the correction, or unverifiable. Each finding records its volatility and the date it was checked, and the check expires:
 

@@ -258,8 +258,8 @@ export function checkDecisionsCarried(handoff: string, brief: string): string[] 
 
 export function validateDossier(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
-  const verdict = /^## Verdict\s*\n+\s*(go|refine|stop)\b/im.exec(text);
-  if (!verdict) report.errors.push("Dossier has no verdict (go, refine or stop).");
+  const verdict = /^## Verdict\s*\n+\s*(go|refine|not now|stop)\b/im.exec(text);
+  if (!verdict) report.errors.push("Dossier has no verdict (go, refine, not now or stop).");
   else if (verdict[1].toLowerCase() !== "go") report.errors.push(`Dossier verdict is "${verdict[1]}". Hand off only on go.`);
   if (/^- Q-\d+.*\[blocks\]/m.test(text)) report.errors.push("Dossier has an open question tagged [blocks].");
   return report;

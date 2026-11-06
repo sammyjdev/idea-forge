@@ -11,7 +11,7 @@ Walk them in this order and skip what does not apply. A branch is done when its 
 | # | Branch | Settle | Quick depth |
 |---|---|---|---|
 | 1 | Users | Who acts, who pays, who approves | yes |
-| 2 | Flow | The main path step by step, and where it fails today | yes |
+| 2 | Flow | The main path step by step, where it fails today, and its journey states | yes |
 | 3 | Data | What is stored, who owns it, what already exists | no |
 | 4 | Rules | Every rule that changes an outcome, with one normal and one boundary example | yes |
 | 5 | Edges | Validation, failure, retries and duplicates, permissions, concurrency, data retention, external service down, state changes, logging | no |
@@ -21,6 +21,8 @@ Walk them in this order and skip what does not apply. A branch is done when its 
 Thorough depth walks every branch. Risky work always gets branch 5. Risky means money, health data, personal data or regulation.
 
 Before closing branch 5, read each edge decision against the rules from branch 4. When two disagree (one says a late payment confirms, another says only a manual confirm does), ask which holds. Each rule also needs its neighbouring cases: below, above and exactly at its limit, and repeated.
+
+In branch 2, walk the states past the happy path: empty, first time, retry, half finished, expired, not allowed, and the person who walks away and comes back tomorrow. Spend real questions on the path that carries most of the volume and a line on the others. For each thing with a status (an order, a payment), ask what happens when each event arrives in each status, including the late ones: a payment after a cancel, a cancel after pickup, undoing a mark. Each confirmed state becomes a rule or a State transitions decision.
 
 Before closing branch 4, close every rule. It names who or what triggers it, what the system does, who learns of it and via which channel ("via WhatsApp", "via the order page"), and for any time limit, when the clock starts and in which time zone. A part the person cannot settle becomes an assumption with a chosen default, never left implicit. Wording and screen content they do not decide (a message's text, what a list shows, where a link goes) become assumptions with a draft default, not open questions. State each data relation once as `A lo..hi B`: each A has lo to hi B.
 
@@ -33,7 +35,7 @@ Before closing branch 4, close every rule. It names who or what triggers it, wha
 
 ## Customization
 
-The focus from `references/focus.md` sets which branches go deep. The signals below adjust inside it.
+The focus in `brief.md` sets which branches go deep: business goes deep on users (who pays), limits (cost) and out of scope; product on users, flow, rules and out of scope; technical on data, rules, edges and limits; design on flow, journey states, and edge outcomes as screens. The signals below adjust inside it.
 
 | Signal | Effect |
 |---|---|

@@ -1,33 +1,6 @@
 # Research
 
-Read at the start of stage 2. Every check follows `references/freshness.md`.
-
-## Problem kind
-
-Decide the kind in stage 1. It changes which questions make sense.
-
-| Kind | Meaning | Anchor questions |
-|---|---|---|
-| Pain | Something happens now and costs something | Who hurts? What does it cost today, in the unit the business feels? What happens if nothing changes? |
-| Absence | A capability is missing; nobody is hurt because nobody is doing it | Who cannot do this today? What do they do instead? The substitute is the evidence |
-| Construction | The next piece of something still being built | What was this piece promised to enable? What stalls without it? Why now and not after the next piece? |
-
-Never run pain questions on an absence or construction problem. "What breaks if we do nothing" answers itself under absence, and the empty answer is not a weak case.
-
-## Research questions
-
-Stage 1 ends with 3 to 8 research questions, `RQ-NN`, each tied to a risk of the idea. For each one, write first which answer would change the decision. Data with no decision attached is noise.
-
-| Area | Typical question |
-|---|---|
-| Problem | Does it exist at the stated size? What do people use today? |
-| Users | Who has it, who pays, how do they decide? |
-| Market | Who solves it already, at what price, with what gaps? |
-| Regulation | Which laws, standards or licenses apply where it will run? |
-| Technology | Which services, libraries or models make it feasible, at what cost and limits? |
-| Distribution | How does it reach users, and at what cost? |
-
-For non-technical people, skip the technology area unless they ask; record its questions for the target skill instead.
+Read at the start of stage 2. Every check follows `references/freshness.md`. The research questions come from stage 1.
 
 ## Intake
 

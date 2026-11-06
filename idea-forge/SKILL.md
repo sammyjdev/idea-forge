@@ -33,7 +33,7 @@ Before presenting a research summary, a dossier or a handoff summary, ask "How d
 
 `<skill-dir>` is the folder holding this file. Run scripts from the project root as `node <skill-dir>/scripts/<name>.ts`, or pass `--root <project>`. Run them rather than read them. Without code execution, read only a script's usage header, do its checks by hand, and say once that scripts were not run.
 
-There is no setup and no profile. When the first message carries the idea, stage 1 starts. Infer the focus per `references/focus.md` and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
+There is no setup and no profile. When the first message carries the idea, stage 1 starts. Read `references/frame.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
 
 | Person says | Do |
 |---|---|
@@ -73,10 +73,10 @@ Example. User says: "An app for small bakeries in Brazil to take pre-orders by W
 
 | Stage | Goal | Read | Exit |
 |---|---|---|---|
-| 1. Frame | Idea sentence, problem kind, focus, research questions `RQ-NN` | `references/focus.md`, `templates/brief.md` | Person confirms sentence, focus and questions |
+| 1. Frame | Situation, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | Person confirms sentence, focus and questions |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
-| 3. Grill | Confront the idea with the findings, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
-| 4. Synthesize | Dossier with evidence, options, risks and a verdict: go, refine or stop | `references/handoff.md` | Person accepts the verdict |
+| 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
+| 4. Synthesize | Verdict (go, refine, not now or stop), then the dossier with evidence, options and risks | `references/synthesize.md` | Person accepts the verdict |
 | 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>` until it exits 0 | `references/handoff.md`, `references/targets.md` | Validator passes or gaps are listed |
 
 Hand off only on go. Update `docs/discovery/brief.md` at the end of each stage. Before writing any project file, read `references/files.md`. Before long prose, read `references/writing.md`.

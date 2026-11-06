@@ -12,7 +12,7 @@ It does not write plans, specs, tasks or code, and never writes inside a target'
 - Your own claims checked, and corrected plainly when they are out of date.
 - Contradictions between sources, or between beliefs and evidence, named and settled.
 - A glossary (`CONTEXT.md`) where every term has one meaning.
-- A dossier with evidence, options, risks, success criteria and a verdict: go, refine or stop.
+- A dossier with evidence, options, risks, success criteria and a verdict: go, refine, not now or stop.
 - On go, one handoff per feature, sized and ready for the target skill.
 
 ## Verify before you show
@@ -102,11 +102,12 @@ idea-forge/
   HOW-IT-WORKS.md       this file
   references/           read only when the step needs them
     freshness.md        what to check, how, statuses, before the first check
-    focus.md            inferring the focus, at stage 1
+    frame.md            situation, problem kind, focus, research questions, at stage 1
     targets.md          target detection and mappings, at stage 5
-    research.md         problem kinds, questions, intake, gathering, at stage 2
-    grill.md            branches, niches, customization, at stage 3
-    handoff.md          dossier, verdict, targets, at stage 4
+    research.md         intake, gathering, cheaper than building, at stage 2
+    grill.md            branches, journey states, niches, at stage 3
+    synthesize.md       verdict and dossier, at stage 4
+    handoff.md          handoff and EARS, at stage 5
     files.md            project files, before writing one
     visuals.md          output formats, before any result
     writing.md          before long prose
