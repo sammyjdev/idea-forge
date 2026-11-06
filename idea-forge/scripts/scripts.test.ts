@@ -172,6 +172,18 @@ test("an edge that is not applicable, already guarded or an open question needs 
   }
 });
 
+test("an edge exemption with no reason or guard after it still needs a tag", () => {
+  for (const cell of ["n/a", "existing", "existing data is fine"]) {
+    const report = validateHandoff(GOOD_HANDOFF.replace("unique index [F-01]", cell));
+    assert.ok(report.errors.some((e) => e.startsWith("Edges: Concurrency must end with its source tag")), cell);
+  }
+});
+
+test("a relation inside a fenced block in Entities is an example and gets no warning", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("| Key | Order 1..1 Key [F-01] | payments |", "| Key | Order 1..1 Key [F-01] | payments |\n```\n| X | Order 0..n X | none |\n```"));
+  assert.ok(!report.warnings.some((w) => w.startsWith("Entities: relation cites no source")));
+});
+
 test("an entity relation that cites no source warns", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("Order 1..1 Key [F-01]", "Order 1..1 Key"));
   assert.ok(report.warnings.some((w) => w.startsWith("Entities: relation cites no source")));

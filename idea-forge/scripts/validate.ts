@@ -251,12 +251,12 @@ export function validateHandoff(text: string): Report {
     else if (/^\|[^|]+\|\s*\|\s*$/.test(row.trim())) report.errors.push(`Edges dimension undecided: ${dim}`);
     else {
       const decision = row.split("|")[2]?.trim() ?? "";
-      if (!/^(n\/a|existing)\b/i.test(decision) && !/^Q-\d+$/.test(decision) && !ENDS_WITH_TAG.test(decision)) {
+      if (!/^(n\/a|existing)\s+-\s+\S/i.test(decision) && !/^Q-\d+$/.test(decision) && !ENDS_WITH_TAG.test(decision)) {
         report.errors.push(`Edges: ${dim} must end with its source tag, or read "n/a - reason", "existing - guard" or Q-NN: ${decision}`);
       }
     }
   }
-  for (const row of (map.get("entities") ?? "").split("\n").filter((l) => /\d\.\.|\.\.[n*\d]/.test(l))) {
+  for (const row of stripFences(map.get("entities") ?? "").split("\n").filter((l) => /\d\.\.|\.\.[n*\d]/.test(l))) {
     if (!SOURCE_TAG.test(row)) report.warnings.push(`Entities: relation cites no source: ${row.trim()}`);
   }
 
