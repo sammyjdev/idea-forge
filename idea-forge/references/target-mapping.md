@@ -1,6 +1,6 @@
 # Target mapping
 
-Read only when the target is not tlc-spec-lean 2.2.0. It says where each handoff section lands, so a change in the target shows which sections lose their home.
+Read only when a readable target is not tlc-spec-lean 2.2.0. It says where each handoff section lands, so a change in the target shows which sections lose their home.
 
 ## tlc-spec-lean
 
