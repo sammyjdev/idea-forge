@@ -310,10 +310,10 @@ export function checkSourcesBinding(handoff: string, findings: Finding[]): strin
 // Every decision in brief.md must reach the handoff, or say why it does not.
 export function checkDecisionsCarried(handoff: string, brief: string): string[] {
   const decided = (sections(brief).get("decisions") ?? "").match(/^\s*-\s*\**D-\d+/gm) ?? [];
-  const carried = sections(handoff).get("decisions") ?? "";
+  const carried = (sections(handoff).get("decisions") ?? "").replace(/\*/g, "");
   return decided
     .map((line) => line.replace(/^\s*-\s*\**/, ""))
-    .filter((id) => !new RegExp(`^[ \\t]*-[ \\t]*\\**${id}\\**:\\**[ \\t]*[^\\s*]`, "m").test(carried))
+    .filter((id) => !new RegExp(`^[ \\t]*-[ \\t]*${id}:[ \\t]*\\S`, "m").test(carried))
     .map((id) => `Decisions: ${id} from brief.md is missing. Say where it lands or why it is not for this feature.`);
 }
 

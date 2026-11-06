@@ -554,6 +554,13 @@ test("a decision written in bold in the brief must still reach the handoff", () 
   ]);
 });
 
+test("a handoff decision whose text starts in bold is carried", () => {
+  for (const line of ["- D-01: **Rules S1.1**", "- **D-01**: **Rules S1.1**"]) {
+    const handoff = `${GOOD_HANDOFF}\n## Decisions\n${line}\n- D-02: not for this feature, it belongs to onboarding\n`;
+    assert.deepEqual(checkDecisionsCarried(handoff, BRIEF), [], line);
+  }
+});
+
 test("a rule whose tag is not last is told to end with it", () => {
   const report = validateHandoff(GOOD_HANDOFF.replace("return 409. [F-01]", "return 409 [F-01]."));
   assert.ok(report.errors.some((e) => e.startsWith("Rule must end with its source tag")));
