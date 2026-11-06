@@ -138,6 +138,7 @@ for (const rule of [
   "2. WHEN the payment is refused THEN the API shall notify customers within 5 minutes.",
   "2. WHEN the payment is refused THEN the API shall remind the user to pay within 5 minutes.",
   "2. WHEN the user signs in THEN the API shall send the user a one-time code within 30 seconds.",
+  "2. WHEN the order is paid THEN the API shall send the receipt to the buyer by 18:00.",
 ]) {
   test(`a message to a person with no channel is a warning, not an error: ${rule.slice(8, 70)}`, () => {
     const result = channelWarnings(rule);
@@ -203,6 +204,11 @@ test("a pair given two ranges fails even when one row starts with each", () => {
 
 test("n and * are the same upper end, and a thousands comma is part of the number", () => {
   const report = validateHandoff(withRelations("| Order | Order 1..n Item; Order 1..* Item; Order 0..1,000 Coupon | none |"));
+  assert.deepEqual(report.errors, []);
+});
+
+test("entity names that contain and are read whole", () => {
+  const report = validateHandoff(withRelations("| User | User 1..1 Terms and conditions; User 0..n Terms and privacy notes | none |"));
   assert.deepEqual(report.errors, []);
 });
 

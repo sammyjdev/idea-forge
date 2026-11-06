@@ -61,7 +61,7 @@ const TO_PERSON = [
   new RegExp(String.raw`\bsen(?:d|ds|t)\b[^.]*\bto\s+${PERSON}`, "i"),
 ];
 const MACHINE = /\b(webhook|queue|topic|endpoint|url|api call)\b/i;
-const CHANNEL = /\b(via|by|through|over)\s+\w|\b(whatsapp|e-?mail|sms|push|telegram|slack|phone|dashboard|page|screen|in-app)\b/i;
+const CHANNEL = /\b(via|by|through|over)\s+(?!\d)\w|\b(whatsapp|e-?mail|sms|push|telegram|slack|phone|dashboard|page|screen|in-app)\b/i;
 
 function messagesWithoutChannel(rule: string): boolean {
   return TO_PERSON.some((m) => m.test(rule)) && !MACHINE.test(rule) && !CHANNEL.test(rule);
@@ -72,6 +72,18 @@ function bound(end: string): number {
   return /^[n*]$/i.test(end) ? Infinity : Number(end.replace(/,/g, ""));
 }
 
+// "and" separates two relations only when a range sits on both sides; "Terms and conditions" stays one name.
+function splitOnAnd(part: string): string[] {
+  const pieces = part.split(/\band\b/);
+  const out: string[] = [pieces[0]];
+  for (const piece of pieces.slice(1)) {
+    const last = out.length - 1;
+    if (out[last].includes("..") && piece.includes("..")) out.push(piece);
+    else out[last] += `and${piece}`;
+  }
+  return out;
+}
+
 function checkRelations(entities: string): string[] {
   const errors: string[] = [];
   const seen = new Map<string, string>();
@@ -79,7 +91,7 @@ function checkRelations(entities: string): string[] {
   for (const row of entities.split("\n")) {
     const cells = row.split("|");
     if (cells.length < 4) continue;
-    for (const raw of cells[2].split(/;|,(?!\d)|\band\b/)) {
+    for (const raw of cells[2].split(/;|,(?!\d)/).flatMap(splitOnAnd)) {
       const text = raw.replace(/\(([^)]*)\)/g, (_, inner: string) => (inner.includes("..") ? inner : "")).replace(/\s+/g, " ").trim();
       if (!text.includes("..")) continue;
       const m = relation.exec(text);

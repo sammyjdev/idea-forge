@@ -42,7 +42,7 @@ The target should be able to plan without asking again what the discovery alread
 - Literal text: when the person decided wording the user will see (a rule shown before payment, a message, a label), copy it word for word in the person's language.
 - Surface hints: each one names who uses it and what they get back.
 - Rules: each rule names its neighbouring cases in its examples (below, above, exactly at the limit, repeated). A rule that sends a message names its channel (`via WhatsApp`, `by email`, `on the order page`); a time limit says when the clock starts and in which time zone.
-- Entities: `A lo..hi B` means each A has lo to hi B, with hi a number, `n` or `*`, lo at or below hi, relations separated by `;`, and each pair has one range. `validate.ts` refuses a broken relation and warns on a rule that messages a person with no channel; a warning still needs fixing or a reason.
+- Entities: `A lo..hi B` means each A has lo to hi B, with hi a number, `n` or `*`, lo at or below hi, each relation written in full (`A 1..1 Key; A 0..n Refund`, not `A 1..1 Key and 0..n Refund`) and separated by `;`, and each pair has one range. `validate.ts` refuses a broken relation and warns on a rule that messages a person with no channel; a warning still needs fixing or a reason.
 - Edges and Rules agree. Every state transition in Edges is caused by a rule. A conflict is a grill question, not a choice you make.
 - Sources: each finding's binding mark matches `findings.md`. `validate.ts` checks this.
 
