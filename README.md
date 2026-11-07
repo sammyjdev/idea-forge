@@ -16,6 +16,9 @@ idea-forge checks each time-sensitive claim before it shows a result, whether th
 | Product manager | product | Problem, users, substitutes and success criteria |
 | Engineer | technical | Feasibility, data, rules, edge cases, exact versions and limits |
 | Designer | design | Journeys, states and what each screen must answer |
+| Team lead or anyone changing how work gets done | process | How it works today, who is affected and the rules that bind it |
+
+The subject can be a product or feature idea, a technical question (which approach, is it feasible, should we migrate) or a change to how a team works.
 
 There is no setup and no user profile. The focus is read from how you describe the idea, stated with the first question, and changes whenever you ask.
 

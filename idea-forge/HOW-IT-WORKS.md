@@ -68,6 +68,7 @@ There is no setup. The focus is read from how you describe the idea and stated w
 | Users, problem, metrics | product | Problem, users, substitutes, success criteria |
 | Stack, APIs, versions, limits | technical | Feasibility, data, rules, edge cases, current versions and limits |
 | Screens and journeys | design | Journeys, states, what each screen must answer |
+| Team, workflow, approvals | process | How it works today, who is affected, the rules that bind it |
 | Several of these | mixed | Every area, at thorough depth |
 
 The focus changes depth and language. Every focus still ends with evidence and a verdict. You can change it at any time.
