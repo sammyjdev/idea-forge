@@ -54,7 +54,7 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 3. Every claim about the world has a source and a check date. No source: "no verified source found".
 4. Separate what the person believes from what the evidence shows. Surface contradictions.
 5. Match the focus and level: product terms for non-technical people, technical depth for engineers.
-6. Unknowns become assumptions or open questions. Never block or wait for someone else's answer: record it as an open question with `Held by:` and carry on to the verdict; the person can resume with it later. Never write a value nobody gave: every concrete value traces to something the person said or accepted, a finding, or an assumption.
+6. Unknowns become assumptions or open questions. Never block, and never wait for someone else's answer: record it as an open question with `Held by:` and carry on to the verdict. Never write a value nobody gave: every concrete value traces to something the person said or accepted, a finding, or an assumption.
 7. Short sentences, concrete values, no filler, no em-dash.
 
 ## Stages
