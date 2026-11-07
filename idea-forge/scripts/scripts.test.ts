@@ -1003,3 +1003,28 @@ test("status command does not count a question from a fenced Open questions exam
   assert.equal(code, 0, out);
   assert.match(out, /Open questions: 1 \(0 blocking\)/);
 });
+
+test("a binding finding unverifiable only for lack of web access is flagged to search when access returns", () => {
+  const flags = flagFindings(parseFindings(finding("F-01", "high", "2026-11-05", true, "unverifiable (no web access)")), NOW);
+  assert.equal(flags.length, 1);
+  assert.equal(flags[0].kind, "unverifiable");
+  assert.match(flags[0].reason, /search it when web access returns/);
+});
+
+test("a binding finding a search found unverifiable is flagged to list under evidence to collect", () => {
+  const flags = flagFindings(parseFindings(finding("F-01", "high", "2026-11-05", true, "unverifiable")), NOW);
+  assert.match(flags[0].reason, /Evidence to collect/);
+  assert.doesNotMatch(flags[0].reason, /web access/);
+});
+
+test("a freshness status with a note after it is read by its first word", () => {
+  const flags = flagFindings(parseFindings(finding("F-01", "high", "2026-11-05", true, "outdated (fee rose in 2026)")), NOW);
+  assert.equal(flags[0]?.kind, "outdated");
+});
+
+test("validate command tells to search a finding unverifiable only for lack of web access, not to collect it", () => {
+  const { code, out } = runScript("validate.ts", ["x"], freshnessProject(finding("F-01", "high", today(), true, "unverifiable (no web access)")));
+  assert.equal(code, 0, out);
+  assert.match(out, /warn .*F-01.*search it when web access returns/);
+  assert.doesNotMatch(out, /F-01.*Evidence to collect/);
+});

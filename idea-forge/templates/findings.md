@@ -10,7 +10,7 @@ Status: answered | partial | unanswerable (<why>)
 - Kind: evidence | belief
 - Source: [<title>](<url>) or intake/<file>, page dated YYYY-MM-DD, or <record the person named>, covering <period>
 - Volatility: high | medium | low
-- Freshness: current | outdated | unverifiable
+- Freshness: current | outdated | unverifiable | unverifiable (no web access)
 - Correction: <current value, only when outdated>
 - Checked: YYYY-MM-DD
 - Quality: primary | secondary | weak

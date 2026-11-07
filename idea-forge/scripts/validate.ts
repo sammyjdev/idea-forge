@@ -387,6 +387,7 @@ function main(): void {
     for (const flag of flagFindings(findings, new Date())) {
       // Only evidence against a claim blocks; a claim nobody could check or recheck is advice to collect.
       if (flag.binding && (flag.kind === "outdated" || flag.kind === "format")) errors.push(`Freshness: ${flag.id} ${flag.reason}`);
+      else if (flag.binding && flag.kind === "unverifiable") warnings.push(`Freshness: ${flag.id} ${flag.reason}`);
       else if (flag.binding) warnings.push(`Freshness: ${flag.id} ${flag.reason}; list it under Evidence to collect`);
       else warnings.push(`Freshness: ${flag.id} ${flag.reason}`);
     }

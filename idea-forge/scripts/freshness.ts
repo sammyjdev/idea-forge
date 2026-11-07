@@ -58,11 +58,16 @@ export function flagFindings(findings: Finding[], now: Date): Flag[] {
         kind: "stale",
       });
     }
-    if (f.freshness === "outdated" && f.binding) {
+    // The status is the first word; a note may follow: "unverifiable (no web access)".
+    const status = /^[a-z]*/.exec(f.freshness)?.[0] ?? "";
+    if (status === "outdated" && f.binding) {
       flags.push({ id: f.id, reason: "binding finding is outdated; use the correction or replace it", binding: true, kind: "outdated" });
     }
-    if (f.freshness === "unverifiable" && f.binding) {
-      flags.push({ id: f.id, reason: "binding finding is unverifiable; it cannot decide the verdict alone", binding: true, kind: "unverifiable" });
+    if (status === "unverifiable" && f.binding) {
+      const reason = /no web access/.test(f.freshness)
+        ? "binding finding is unverifiable only for lack of web access; search it when web access returns"
+        : "binding finding is unverifiable; it cannot decide the verdict alone; list it under Evidence to collect";
+      flags.push({ id: f.id, reason, binding: true, kind: "unverifiable" });
     }
   }
   return flags;
