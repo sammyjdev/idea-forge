@@ -65,8 +65,11 @@ export function fail(message: string): never {
   process.exit(1);
 }
 
-// An open question line: "- Q-01:", "* **Q-01**:", optionally indented.
-export const QUESTION_LINE = /^\s*[-*]\s+\**Q-\d+/;
+// A list item's bullet: "-", "*" or "1.", optionally indented.
+export const ITEM_BULLET = /^\s*(?:[-*]|\d+\.)\s+/;
+
+// An open question line: "- Q-01:", "* **Q-01**:", "1. Q-01:". The ID is group 1.
+export const QUESTION_LINE = new RegExp(String.raw`${ITEM_BULLET.source}\**(Q-\d+)`);
 
 // A question blocks when any of its bracket tags reads "blocks", in any case: [Blocks], [blocks, open].
 export function isBlockingQuestion(line: string): boolean {

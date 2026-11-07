@@ -940,3 +940,23 @@ test("status command counts only questions under Open questions and outside fenc
   assert.equal(code, 0, out);
   assert.match(out, /Open questions: 1 \(0 blocking\)/);
 });
+
+test("an item to collect written as a star or numbered bullet counts", () => {
+  for (const item of ["* A current pricing page: would confirm F-01", "1. A current pricing page: would confirm F-01"]) {
+    const dossier = `## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n${item}\n`;
+    assert.deepEqual(validateDossier(dossier).errors, [], item);
+  }
+});
+
+test("an edge left to a brief open question written as a star or numbered bullet passes", () => {
+  const handoff = GOOD_HANDOFF.replace("unique index [F-01]", "Q-01").replace("400 on missing key [F-01]", "Q-02");
+  assert.deepEqual(checkRuleSources(handoff, `${SOURCED_BRIEF}## Open questions\n* Q-01: who pays [open]\n1. Q-02: which bank [open]\n`, ["F-01"]), []);
+});
+
+test("a numbered blocking question blocks the hand off and counts in status", () => {
+  const dossier = "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Open questions\n1. Q-01: who pays [blocks]\n";
+  assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."));
+  const { code, out } = runScript("status.ts", [], project({ "docs/discovery/brief.md": "Position: Stage 3 of 5\n## Open questions\n1. Q-01: who pays [blocks]\n" }));
+  assert.equal(code, 0, out);
+  assert.match(out, /Open questions: 1 \(1 blocking\)/);
+});

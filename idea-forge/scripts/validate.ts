@@ -4,7 +4,7 @@
 
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { fail, isBlockingQuestion, isMain, openQuestions, parseArgs, readText, sections, stripFences } from "./lib.ts";
+import { ITEM_BULLET, QUESTION_LINE, fail, isBlockingQuestion, isMain, openQuestions, parseArgs, readText, sections, stripFences } from "./lib.ts";
 import { type Finding, flagFindings, parseFindings } from "./freshness.ts";
 
 const REQUIRED_SECTIONS = [
@@ -127,10 +127,11 @@ const ENDS_WITH_TAG = new RegExp(`${SOURCE_TAG.source}\\s*$`);
 export function checkRuleSources(handoff: string, brief: string, findingIds: string[]): string[] {
   const own = sections(brief);
   const known = new Set<string>();
-  for (const [section, prefix] of [["facts", "K"], ["decisions", "D"], ["assumptions", "A"], ["open questions", "Q"]]) {
+  for (const [section, prefix] of [["facts", "K"], ["decisions", "D"], ["assumptions", "A"]]) {
     const ids = (own.get(section) ?? "").matchAll(new RegExp(`^\\s*-\\s*\\**(${prefix}-\\d+)\\**:`, "gm"));
     for (const m of ids) known.add(m[1]);
   }
+  for (const line of openQuestions(brief)) known.add(QUESTION_LINE.exec(line)![1]);
   const map = sections(handoff);
   const errors: string[] = [];
   for (const [label, key] of [["Entities", "entities"], ["Rules", "rules"], ["Edges", "edges"], ["Door candidates", "door candidates"]]) {
@@ -336,8 +337,9 @@ export function validateDossier(text: string): Report {
     const evidence = /^\**Evidence\**:\s*\**(strong|thin)\b/im.exec(stripFences(sections(text).get("verdict") ?? ""));
     const toCollect = stripFences(sections(text).get("evidence to collect") ?? "")
       .split("\n")
-      .filter((line) => /^\s*-\s*\S/.test(line) && !/<(?!https?:\/\/)[a-z][^>]*>/i.test(line))
-      .filter((line) => !EMPTY_ITEM.test(line.replace(/^\s*-\s*/, "").replace(/[*_`()~[\]]/g, "").trim()));
+      .filter((line) => ITEM_BULLET.test(line) && !/<(?!https?:\/\/)[a-z][^>]*>/i.test(line))
+      .map((line) => line.replace(ITEM_BULLET, "").replace(/[*_`()~[\]]/g, "").trim())
+      .filter((item) => item !== "" && !EMPTY_ITEM.test(item));
     if (!evidence) report.errors.push("Dossier has no evidence line under the verdict: 'Evidence: strong' or 'Evidence: thin'.");
     else if (evidence[1].toLowerCase() === "thin" && toCollect.length === 0) {
       report.errors.push("Evidence is thin but '## Evidence to collect' lists nothing. Say what record or check would strengthen it.");
