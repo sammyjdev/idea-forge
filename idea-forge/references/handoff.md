@@ -1,6 +1,6 @@
 # Hand off
 
-Read at the start of stage 5, after the person accepted a go verdict.
+Read at the start of stage 5, after the person accepted a go verdict on something to be built (code, a system, a product change). For any other subject the dossier is the end: write no handoff.
 
 Offer the rank 1 candidate feature as the recommendation; the person selects which ones to hand off. The `<feature>` slug is the kebab-case name from the Candidate features table. For each selected feature, write `docs/discovery/handoff/<feature>.md` from `templates/handoff.md`. It is neutral input for any spec-driven skill, not a plan or a spec.
 

@@ -35,7 +35,7 @@ When you resume a session, `freshness.ts` lists the checks that expired; those w
 | 4. Synthesize | Should we build it? | You accept the verdict |
 | 5. Hand off | What does the target skill need? | `validate.ts` passes |
 
-Refine, not now and stop are valid outcomes. Refine means the evidence contradicts part of the idea, not that data is missing. Hand off happens only on go.
+Refine, not now and stop are valid outcomes. Refine means the evidence contradicts part of the idea, not that data is missing. Hand off happens only on go, and only for something to be built; for a process change or a research question the dossier is the end.
 
 ## A turn
 

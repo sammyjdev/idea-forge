@@ -67,4 +67,4 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 | 4. Synthesize | Verdict (go, refine, not now or stop) with how strong the evidence is, then the dossier with evidence, options, risks and what evidence to collect | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |
 | 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>` until it exits 0 | `references/handoff.md`, `references/targets.md`; `references/target-mapping.md` only when a readable target is not tlc-spec-lean 2.2.0 | Validator passes or gaps are listed |
 
-Hand off only on go. Update `docs/discovery/brief.md` at the end of each stage. Before writing any project file, read `references/files.md`. Before long prose, read `references/writing.md`.
+Hand off only on go for something to be built (code, a system, a product change); for any other subject the dossier is the end. Update `docs/discovery/brief.md` at the end of each stage. Before writing any project file, read `references/files.md`. Before long prose, read `references/writing.md`.

@@ -42,7 +42,7 @@ Five stages, in order:
 | 4. Synthesize | Should we build it? | You accept the verdict: go, refine, not now or stop |
 | 5. Hand off | What does the spec skill need? | `validate.ts` passes |
 
-Refine, not now and stop are valid outcomes. Refine means the evidence contradicts part of the idea; missing data never blocks, it becomes a list of what to collect. A handoff is written only on go.
+Refine, not now and stop are valid outcomes. Refine means the evidence contradicts part of the idea; missing data never blocks, it becomes a list of what to collect. A handoff is written only on go, and only for something to be built; for a process change or a research question the dossier is the end.
 
 The freshness rule: before any turn that shows a result, idea-forge lists the time-sensitive claims it depends on, searches for each one, and marks it current, outdated with the correction, or unverifiable. Each finding records its volatility and the date it was checked, and the check expires:
 
