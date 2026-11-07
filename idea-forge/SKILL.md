@@ -33,7 +33,7 @@ Present research summaries, the dossier and handoff summaries as tables. Do not 
 
 `<skill-dir>` is the folder holding this file. Run scripts from the project root as `node <skill-dir>/scripts/<name>.ts`, or pass `--root <project>`. Run them rather than read them. Without code execution, read only a script's usage header, do its checks by hand, and say once that scripts were not run.
 
-There is no setup and no user profile. On the first turn only, say in one line what happens: facts checked on the web, one question at a time, a verdict, and a file the next step can plan from. Name no tool, skill or script in that line. When the first message carries the idea, stage 1 starts: read `references/frame.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
+There is no setup and no user profile. On the first turn only, say in one line what happens: facts checked on the web, short rounds of questions, a verdict, and a file the next step can plan from. Name no tool, skill or script in that line. When the first message carries the idea, stage 1 starts: read `references/frame.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
 
 | Person says | Do |
 |---|---|
@@ -47,7 +47,7 @@ There is no setup and no user profile. On the first turn only, say in one line w
 
 ## Rules
 
-1. One question per turn, with a recommended answer and one line on why. Several open questions at once get answered by agreeing to all of them. Ask only what changes the output: a fact only the person has, or a choice with a real trade-off. Everything else becomes an assumption with a proposed default, shown with the verdict for correction (`references/grill.md`).
+1. Ask only what changes the output. A choice goes alone in its turn, with a recommended answer and one line on why, because several choices at once get answered by agreeing to all of them. Facts only the person has can go up to three in one turn, numbered, since a fact cannot be agreed to. What to ask: a fact only the person has, or a choice with a real trade-off. Everything else becomes an assumption with a proposed default, shown with the verdict for correction (`references/grill.md`).
 2. If the person's material, the code, a search or `brief.md` (Facts and Decisions) already answers it, do not ask. Never ask the person to confirm a summary; the only confirmation is the verdict.
 3. Every claim about the world has a source and a check date. No source: "no verified source found".
 4. Separate what the person believes from what the evidence shows. Surface contradictions.
@@ -60,21 +60,21 @@ There is no setup and no user profile. On the first turn only, say in one line w
 ```
 Stage 3 of 5 · Grill · 6 of ~12 decisions made
 
-<question>
+<one choice, or up to three numbered facts>
 
-Recommended: <answer>
+Recommended: <answer, for a choice only>
 Checked: <finding IDs and date, or "nothing time-sensitive">
 ```
 
-Example. User says: "An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix." `Stage 1 of 5 · Frame · 0 of ~4 decisions made`, one question on what goes wrong today, `Recommended:` no-shows cost the bakery ingredients and hours, `Checked: nothing time-sensitive`.
+Example. User says: "An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix." `Stage 1 of 5 · Frame · 0 of ~4 decisions made`, then three numbered facts: is anyone ordering this way today, what a no-show costs, and which prices or fees the idea counts on. `Checked: nothing time-sensitive`.
 
-`~12` is your running estimate for the stage. Offer the recommendation and up to two alternatives as choices. After each answer, one line on what changed, then the next question.
+`~12` is your running estimate for the stage. For a choice, offer the recommendation and up to two alternatives. After each answer, one line on what changed, then the next turn.
 
 ## Stages
 
 | Stage | Goal | Read | Exit |
 |---|---|---|---|
-| 1. Frame | Situation, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | Sentence, focus and questions stated in one message the person can correct; research starts without waiting for an "ok". A trivial change gets a one-paragraph answer |
+| 1. Frame | Situation, what the idea counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | The person was asked what prices, fees, limits or rules the idea counts on; sentence, focus and questions stated in one message the person can correct; research starts without waiting for an "ok". A trivial change gets a one-paragraph answer |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
 | 4. Synthesize | Verdict (go, refine, not now or stop) with how strong the evidence is, then the dossier with evidence, options, risks and what evidence to collect | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |

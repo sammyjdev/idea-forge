@@ -28,12 +28,14 @@ Before closing branch 4, close every rule. It names who or what triggers it, wha
 
 ## Asking
 
-Ask only two kinds of question, one at a time, with a recommended answer and one line on why:
+Ask only two kinds of question:
 
-- a fact only the person has (their numbers, their customers, what happens today), when `brief.md` does not already hold it;
-- a choice with a real trade-off (two defensible answers with different costs), or any value on a risky path.
+- a fact only the person has (their numbers, their customers, what happens today), when `brief.md` does not already hold it. Up to three in one turn, numbered, no recommended answer;
+- a choice with a real trade-off (two defensible answers with different costs), or any value on a risky path. One per turn, with a recommended answer and one line on why.
 
-Everything else is not asked. An item with one obvious default, an edge case the person is unlikely to know (except on a risky path: money, health data, personal data, regulation or a change people cannot undo, where the behaviour is asked), wording, or a screen detail becomes `A-NN` in `brief.md` with the proposed default, the reason, and `Confirmed? n`. Stage 4 shows every one of them with the verdict, and the person corrects any of them in the same answer; a correction becomes `D-NN`. When the person answers "I don't know", record the recommendation as an assumption and move on; do not ask a follow-up on it.
+Before asking, check the answer would still change something: a question made moot by an earlier decision is not asked.
+
+Everything else is not asked. An item with one obvious default, an edge case the person is unlikely to know (except on a risky path: money, health data, personal data, regulation or a change people cannot undo, where the behaviour is asked), wording, or a screen detail becomes `A-NN` in `brief.md` with the proposed default, the reason, and `Confirmed? n`. Stage 4 shows every one of them with the verdict, and the person corrects any of them in the same answer; a correction becomes `D-NN`. When the person answers "I don't know", record the recommendation as an assumption and move on; do not ask a follow-up on it. When the fact sits with someone else ("I'd have to ask Ines"), put it under Evidence to collect with who holds it; do not ask who knows.
 
 A rule the person states is a decision: record it as `D-NN` the moment they say it, so the handoff cannot drop it. Never present a proposed default as a fact about their business.
 

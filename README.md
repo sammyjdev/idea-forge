@@ -28,7 +28,7 @@ There is no setup and no user profile. The focus is read from how you describe t
    An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix.
    ```
 
-3. idea-forge starts framing the idea at once. It asks only what changes the result, one question at a time with a recommended answer. Everything else becomes a proposed default that you see and correct together with the verdict.
+3. idea-forge starts framing the idea at once. It asks only what changes the result: up to three facts per turn, and each choice on its own with a recommended answer. Everything else becomes a proposed default that you see and correct together with the verdict.
 
 ## How it works
 
@@ -158,7 +158,7 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 | Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks, rerun on 2026-11-06 |
 | Script tests | Pass | 129 of 129 on 2026-11-06, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
-| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 958 words; references are 9 to 90 lines |
+| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 1,023 words; references are 9 to 90 lines |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, a rule cites no source or a source that does not exist, or the verdict is refine |
 | Eval: first-use-starts-framing | Not run yet | Replaces first-use-runs-setup, which tested the setup form that was removed |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |
