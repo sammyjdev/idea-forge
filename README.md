@@ -52,7 +52,7 @@ The freshness rule: before any turn that shows a result, idea-forge lists the ti
 | medium | Laws in force, market sizes, provider terms, platform policies | Always | 180 days |
 | low | Concepts, definitions, history | No | Unlimited |
 
-When you resume, `freshness.ts` lists the expired checks; those with a web source are redone first, and a stale record of your own goes to the list of evidence to collect. `validate.ts` blocks the handoff only on a binding finding that current evidence contradicts; an expired or unverifiable one is a warning and goes to the list of evidence to collect.
+When you resume, `freshness.ts` lists the expired checks; those with a web source are redone first, and a stale record of your own goes to the list of evidence to collect. `validate.ts` blocks the handoff only on a binding finding that current evidence contradicts or that has no volatility set; an expired or unverifiable one is a warning and goes to the list of evidence to collect.
 
 Output formats: results come as tables. Say "show me" to get text, a diagram, an illustration or a document instead; the choice holds for the session. Project files are always markdown, because the spec skill reads them. Only tables and text were exercised in testing.
 
