@@ -8,7 +8,7 @@ Status: answered | partial | unanswerable (<why>)
 - Claim: <paraphrased fact>
 - Origin: person | material | search | model
 - Kind: evidence | belief
-- Source: [<title>](<url>) or intake/<file>, page dated YYYY-MM-DD
+- Source: [<title>](<url>) or intake/<file>, page dated YYYY-MM-DD, or <record the person named>, covering <period>
 - Volatility: high | medium | low
 - Freshness: current | outdated | unverifiable
 - Correction: <current value, only when outdated>

@@ -23,7 +23,7 @@ For each RQ without enough evidence:
 3. Use at least two independent sources for any claim the verdict depends on. With one dated source the finding can still be current, but its confidence is at most 60% and the dossier says so.
 4. Record each finding as it lands. Do not batch.
 
-A missing number is not evidence. "We measured and it is small" is a finding about the problem. "Nobody measured it" is a finding about instrumentation. When a number is missing, ask the person what they see in support, sales or their own week, and record it as belief.
+A missing number is not evidence. "We measured and it is small" is a finding about the problem. "Nobody measured it" is a finding about instrumentation. When a number is missing, ask the person what they see in support, sales or their own week. A figure from memory goes to `brief.md` as `K-NN`; a record they keep becomes a finding (`references/freshness.md`).
 
 ## Cheaper than building
 

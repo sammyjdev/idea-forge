@@ -16,8 +16,8 @@ When unsure, pick the higher class. The window runs from the check date; a sourc
 
 The person's first-hand data is not checkable on the web. Two kinds:
 
-- A record they keep and can name: an order notebook, a spreadsheet, a bank statement, interview notes. It is a finding: the record as the source, the period it covers as the check date, volatility by what it measures, status current, confidence 60% or less unless the record was read in this session. It is never unverifiable.
-- A figure from memory or an estimate ("about 1 in 6 do not show up"). It is a `K-NN` fact the person stated, not a finding; when the verdict depends on it, ask once whether a record backs it, and when one does, record that record as the finding.
+- A record they keep and can name: an order notebook, a spreadsheet, a bank statement, interview notes. It is a finding: the record and the period it covers as the source, the last date it covers as `Checked: YYYY-MM-DD`, volatility by what it measures, status current, confidence 60% or less unless the record was read in this session. It is never unverifiable.
+- A figure from memory or an estimate ("about 1 in 6 do not show up"). It is a `K-NN` fact the person stated, not a finding; when the verdict depends on it, ask once whether a record backs it and write the answer on the `K-NN` line (`Record: none`, or the record's name), so it is never asked again; when one does, record that record as the finding.
 
 ## How to check
 

@@ -18,7 +18,7 @@ Target: <spec-driven skill, tlc-spec-lean unless the repo or the person names an
 - RQ-01: <question>. Risk it tests: <risk>. Changes the decision if: <answer>. Status: open
 
 ## Facts
-- K-01: <what the person stated, in their numbers>. Said at: <message or date>
+- K-01: <what the person stated, in their numbers>. Said at: <message or date>. Record: <name of the record behind it, or none, once asked>
 
 ## Decisions
 - D-01: <decision>. Because: <finding ID, the person's answer, or reason>
