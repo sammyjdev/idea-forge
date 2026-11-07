@@ -152,11 +152,11 @@ const SOURCE_TAG = /\[\s*[DKFA]-\d+(\s*,\s*[DKFA]-\d+)*\s*\]/;
 const SOURCE_TAGS = new RegExp(SOURCE_TAG.source, "g");
 const ENDS_WITH_TAG = new RegExp(`${SOURCE_TAG.source}\\s*$`);
 
-// Every tag in Rules must name a D, K or A in brief.md, or an F in findings.md.
+// Every tag in Rules must name a D, K or A in brief.md, or an F in findings.md; every Q-NN in Edges an open question in brief.md.
 export function checkRuleSources(handoff: string, brief: string, findingIds: string[]): string[] {
   const own = sections(brief);
   const known = new Set<string>();
-  for (const [section, prefix] of [["facts", "K"], ["decisions", "D"], ["assumptions", "A"]]) {
+  for (const [section, prefix] of [["facts", "K"], ["decisions", "D"], ["assumptions", "A"], ["open questions", "Q"]]) {
     const ids = (own.get(section) ?? "").matchAll(new RegExp(`^\\s*-\\s*\\**(${prefix}-\\d+)\\**:`, "gm"));
     for (const m of ids) known.add(m[1]);
   }
@@ -171,6 +171,10 @@ export function checkRuleSources(handoff: string, brief: string, findingIds: str
         errors.push(`${label}: ${id} is not in ${inFindings ? "findings.md" : "brief.md"}. Cite a source that exists or move the value to Assumptions.`);
       }
     }
+  }
+  const asked = (stripFences(map.get("edges") ?? "").match(/\bQ-\d+\b/g) ?? []);
+  for (const id of new Set(asked)) {
+    if (!known.has(id)) errors.push(`Edges: ${id} is not in brief.md Open questions. Cite an open question that exists or decide the edge.`);
   }
   return errors;
 }

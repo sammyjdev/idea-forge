@@ -843,3 +843,15 @@ test("a question tagged blocks go-live does not block the hand off", () => {
   const dossier = "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Open questions\n- Q-01: who signs [blocks go-live]\n";
   assert.deepEqual(validateDossier(dossier).errors, []);
 });
+
+test("an edge left to an open question the brief does not have fails", () => {
+  const handoff = GOOD_HANDOFF.replace("unique index [F-01]", "Q-07");
+  assert.deepEqual(checkRuleSources(handoff, `${SOURCED_BRIEF}## Open questions\n- Q-01: who pays [open]\n`, ["F-01"]), [
+    "Edges: Q-07 is not in brief.md Open questions. Cite an open question that exists or decide the edge.",
+  ]);
+});
+
+test("an edge left to an open question the brief has passes", () => {
+  const handoff = GOOD_HANDOFF.replace("unique index [F-01]", "Q-01");
+  assert.deepEqual(checkRuleSources(handoff, `${SOURCED_BRIEF}## Open questions\n- **Q-01**: who pays [open]\n`, ["F-01"]), []);
+});
