@@ -77,7 +77,7 @@ Example. User says: "An app for small bakeries in Brazil to take pre-orders by W
 | 1. Frame | Situation, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | Sentence, focus and questions stated in one message the person can correct; research starts without waiting for an "ok". A trivial change gets a one-paragraph answer |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
-| 4. Synthesize | Verdict (go, refine, not now or stop), then the dossier with evidence, options and risks | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |
+| 4. Synthesize | Verdict (go, refine, not now or stop) with how strong the evidence is, then the dossier, including what evidence to collect with evidence, options and risks | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |
 | 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>` until it exits 0 | `references/handoff.md`, `references/targets.md`; `references/target-mapping.md` only when a readable target is not tlc-spec-lean 2.2.0 | Validator passes or gaps are listed |
 
 Hand off only on go. Update `docs/discovery/brief.md` at the end of each stage. Before writing any project file, read `references/files.md`. Before long prose, read `references/writing.md`.

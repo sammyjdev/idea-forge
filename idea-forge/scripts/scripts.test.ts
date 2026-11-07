@@ -235,7 +235,7 @@ test("a door candidate that cites a decision nobody made fails", () => {
 test("validate command refuses a rule that cites a decision nobody made", () => {
   const root = project({
     "docs/discovery/handoff/x.md": UNTAGGED.replace("return 409.", "return 409. [D-09]"),
-    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n",
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n",
     "docs/discovery/findings.md": finding("F-01", "high", today()),
     "docs/discovery/brief.md": SOURCED_BRIEF,
   });
@@ -378,7 +378,7 @@ test("a quick brief with no suggested profile warns nothing", () => {
 test("validate command shows the thorough-depth warning without failing", () => {
   const root = project({
     "docs/discovery/handoff/x.md": NO_PROFILE,
-    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n",
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n",
     "docs/discovery/findings.md": finding("F-01", "high", today()),
     "docs/discovery/brief.md": "# Brief: x\nDepth: thorough\n",
   });
@@ -616,7 +616,7 @@ test("a rule whose tag is not last is told to end with it", () => {
 const ASSUMING_BRIEF = "# Brief: x\n## Assumptions\n- A-01: 24 hours. Validate by: docs. Confirmed? n\n- **A-02**: 50% deposit. Validate by: owner. Confirmed? n\n- A-03: Brasilia time. Validate by: owner. Confirmed? y\n";
 
 test("every unconfirmed assumption is shown in the dossier for the person to correct", () => {
-  const dossier = "## Verdict\ngo. Decided by: F-01.\n\n## Assumptions\n| Assumption | Validate by | Confirmed? |\n|---|---|---|\n| A-01: 24 hours | docs | n |\n";
+  const dossier = "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Assumptions\n| Assumption | Validate by | Confirmed? |\n|---|---|---|\n| A-01: 24 hours | docs | n |\n";
   assert.deepEqual(checkAssumptionsShown(dossier, ASSUMING_BRIEF), [
     "Dossier: A-02 is an unconfirmed assumption the person never saw. List it under Assumptions so they can correct it with the verdict.",
   ]);
@@ -650,7 +650,7 @@ test("an assumption mentioned only outside the dossier's Assumptions section doe
 test("validate command refuses a dossier that hides an unconfirmed assumption", () => {
   const root = project({
     "docs/discovery/handoff/x.md": GOOD_HANDOFF,
-    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n\n## Assumptions\n| A-01: 24 hours | docs | n |\n",
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Assumptions\n| A-01: 24 hours | docs | n |\n",
     "docs/discovery/findings.md": finding("F-01", "high", today()),
     "docs/discovery/brief.md": ASSUMING_BRIEF,
   });
@@ -666,7 +666,7 @@ test("a brief with no decisions asks nothing of the handoff", () => {
 test("validate command refuses a handoff that drops a brief decision", () => {
   const root = project({
     "docs/discovery/handoff/x.md": GOOD_HANDOFF,
-    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n",
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n",
     "docs/discovery/findings.md": finding("F-01", "high", today()),
     "docs/discovery/brief.md": BRIEF,
   });
@@ -718,7 +718,7 @@ test("validate command refuses a hand off when the verdict is refine", () => {
 test("validate command passes a complete handoff and says so", () => {
   const root = project({
     "docs/discovery/handoff/x.md": GOOD_HANDOFF,
-    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\n",
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n",
     "docs/discovery/findings.md": finding("F-01", "high", today()),
   });
   const { code, out } = runScript("validate.ts", ["x"], root);
@@ -734,9 +734,23 @@ test("freshness command reports a binding finding to re-check", () => {
 });
 
 test("dossier must say go and have no blocking question", () => {
-  assert.deepEqual(validateDossier("## Verdict\ngo. Decided by: F-01.\n").errors, []);
+  assert.deepEqual(validateDossier("## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n").errors, []);
   assert.ok(validateDossier("## Verdict\nrefine. Next: interviews.\n").errors.length > 0);
   assert.ok(validateDossier("## Verdict\ngo.\n\n- Q-01: who pays [blocks]\n").errors.length > 0);
+});
+
+test("a go dossier that does not say how strong its evidence is fails", () => {
+  assert.ok(validateDossier("## Verdict\ngo. Decided by: F-01.\n").errors.some((e) => e.startsWith("Dossier has no evidence line")));
+});
+
+test("a go on thin evidence passes when it lists the evidence to collect", () => {
+  const dossier = "## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n- One week of orders counted in the notebook: would confirm the no-show rate (A-02).\n";
+  assert.deepEqual(validateDossier(dossier).errors, []);
+});
+
+test("a go on thin evidence with nothing to collect fails", () => {
+  const dossier = "## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n";
+  assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Evidence is thin")));
 });
 
 test("a not now verdict is read as a verdict and still refuses the hand off", () => {

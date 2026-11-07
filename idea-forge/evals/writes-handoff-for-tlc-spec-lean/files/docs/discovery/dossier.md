@@ -3,6 +3,7 @@ Updated: 2026-11-05
 
 ## Verdict
 go. Decided by: F-01, F-02.
+Evidence: strong
 
 ## Problem
 Shop owners refund about 3% of card orders because of double charges on retry. Kind: pain. Backed by: F-01.

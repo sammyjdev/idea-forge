@@ -12,7 +12,7 @@ It does not write plans, specs, tasks or code, and never writes inside a target'
 - Your own claims checked, and corrected plainly when they are out of date.
 - Contradictions between sources, or between beliefs and evidence, named and settled.
 - A glossary (`CONTEXT.md`) where every term has one meaning.
-- A dossier with evidence, options, risks, success criteria and a verdict: go, refine, not now or stop.
+- A dossier with evidence, options, risks, success criteria and a verdict: go, refine, not now or stop. Missing evidence does not block: it becomes a list of what to collect.
 - On go, one handoff per feature, sized and ready for the target skill.
 
 ## Verify before you show
@@ -35,7 +35,7 @@ When you resume a session, `freshness.ts` lists the checks that expired and they
 | 4. Synthesize | Should we build it? | You accept the verdict |
 | 5. Hand off | What does the target skill need? | `validate.ts` passes |
 
-Refine, not now and stop are valid outcomes. Hand off happens only on go.
+Refine, not now and stop are valid outcomes. Refine means the evidence contradicts part of the idea, not that data is missing. Hand off happens only on go.
 
 ## A turn
 
@@ -125,5 +125,5 @@ Scripts are TypeScript with no dependencies. They run from the project root with
 
 ## Limits
 
-- Checks depend on reachable sources. Without web access, high and medium claims stay unverifiable and the verdict stays at refine.
+- Checks depend on reachable sources. Without web access, high and medium claims stay unverifiable, the evidence is marked thin and the unchecked claims go to the list of what to collect.
 - The tlc-spec-lean mapping was checked on 2026-11-05 against tlc-spec-lean 2.2.0. The other targets have not been checked against the live tools. Each session re-checks the target before giving the next command. If a target asks for something missing, add it to the handoff and rerun `validate.ts`.

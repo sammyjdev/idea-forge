@@ -354,6 +354,13 @@ export function validateDossier(text: string): Report {
   if (!verdict) report.errors.push("Dossier has no verdict (go, refine, not now or stop).");
   else if (verdict[1].toLowerCase() !== "go") report.errors.push(`Dossier verdict is "${verdict[1]}". Hand off only on go.`);
   if (/^- Q-\d+.*\[blocks\]/m.test(text)) report.errors.push("Dossier has an open question tagged [blocks].");
+  if (verdict && verdict[1].toLowerCase() === "go") {
+    const evidence = /^Evidence:\s*(strong|thin)\b/im.exec(text);
+    if (!evidence) report.errors.push("Dossier has no evidence line under the verdict: 'Evidence: strong' or 'Evidence: thin'.");
+    else if (evidence[1].toLowerCase() === "thin" && !/^\s*-\s*\S/m.test(sections(text).get("evidence to collect") ?? "")) {
+      report.errors.push("Evidence is thin but '## Evidence to collect' lists nothing. Say what record or check would strengthen it.");
+    }
+  }
   return report;
 }
 

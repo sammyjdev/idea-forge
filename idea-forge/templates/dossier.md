@@ -2,8 +2,9 @@
 Updated: YYYY-MM-DD
 
 ## Verdict
-<go | refine | not now | stop>. Decided by: <F-NN>, <F-NN>.
-Next action: <for go, the feature to hand off first; for refine, what to do; for not now or stop, what would have to become true to reopen it>
+<go | refine | not now | stop>. Decided by: <F-NN or K-NN>, <F-NN or K-NN>.
+Evidence: <strong | thin>
+Next action: <for go, the feature to hand off first; for refine, what to change; for not now or stop, what would have to become true to reopen it>
 
 ## Problem
 <idea sentence>. Kind: <pain | absence | construction>. Backed by: <F-NN>.
@@ -50,6 +51,9 @@ Ratings: the assistant's assessment from <F-NN>; correct any of them.
 
 ## Open questions
 - Q-01: <question> [blocks | blocks go-live | open]
+
+## Evidence to collect
+- <record or check>: <how to get it>. Would confirm or change: <A-NN, D-NN or the verdict>
 
 ## Candidate features
 | Rank | Feature | Goal | Value | Risk | Size |

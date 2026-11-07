@@ -7,7 +7,7 @@ Offer the rank 1 candidate feature as the recommendation; the person selects whi
 The target should be able to plan without asking again what the discovery already settled. Before validating:
 
 - Assumptions: each row carries the chosen default and the rationale, not only how to validate it. Do not leave a decision "for the plan review" when the person can settle it now: if it is a trade-off or on a risky path, ask it as one grill question; otherwise record it as an assumption.
-- Open questions: copy every open question from the dossier with its tag. Write `- None` when there are none.
+- Open questions: copy every open question from the dossier with its tag, and each item under Evidence to collect as a question tagged `open` with what it would change. Write `- None` when there are none.
 - Literal text: when the person decided wording the user will see (a rule shown before payment, a message, a label), copy it word for word in the language the user will see, even when the conversation and the files are in another one.
 - Surface hints: each one names who uses it and what they get back.
 - Rules: each rule names its neighbouring cases in its examples (below, above, exactly at the limit, repeated). A rule that sends a message names its channel (`via WhatsApp`, `by email`, `on the order page`); a time limit says when the clock starts and in which time zone.
