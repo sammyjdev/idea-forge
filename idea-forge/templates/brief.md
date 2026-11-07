@@ -3,7 +3,7 @@ Position: Stage 1 of 5 · Frame
 Updated: YYYY-MM-DD
 
 ## Idea
-<who> loses <cost> today because <problem>. Done means <observable outcome>. For a question: <decision> waits on <question>. Done means <the answer that settles it>.
+By problem kind. Pain: <who> loses <cost> today because <problem>. Absence: <who> cannot <do what> today and uses <substitute>. Construction: <piece> enables <what>, which stalls without it. Question: <decision> waits on <question>. Then: Done means <observable outcome, or the answer that settles it>.
 
 ## Context
 Depth: <quick | thorough>

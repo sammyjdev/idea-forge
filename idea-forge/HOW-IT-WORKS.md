@@ -32,7 +32,7 @@ When you resume a session, `freshness.ts` lists the checks that expired; those w
 | 1. Frame | What is the idea, what kind of problem, what must we find out? | The idea sentence and research questions are stated; you correct them if needed |
 | 2. Research | What does current evidence say? | Every question has a status and every binding finding is checked |
 | 3. Grill | Does the idea hold against the evidence? | Every branch is decided, assumed or a tagged question |
-| 4. Synthesize | Should we build it? | You accept the verdict |
+| 4. Synthesize | What is the verdict, and how strong is the evidence? | You accept the verdict |
 | 5. Hand off | What does the target skill need? | `validate.ts` passes |
 
 Refine, not now and stop are valid outcomes. Refine means the evidence contradicts part of the idea, not that data is missing. Hand off happens only on go, and only for something to be built; for a process change or a research question the dossier is the end.

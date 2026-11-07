@@ -49,7 +49,9 @@ Every focus still covers the problem sentence, one finding per research question
 
 ## Research questions
 
-Stage 1 ends with 3 to 8 questions, `RQ-NN`, each tied to a risk of the idea. For each one, write first which answer would change the decision. Data with no decision attached is noise. Say which questions this round does not answer, so research has an end.
+Stage 1 ends with 3 to 8 questions, `RQ-NN`, each tied to a risk of the idea. For each one, write first which answer would change the decision. Data with no decision attached is noise. Say which questions this round does not answer, so research has an end. Pick the areas that fit the subject's kind.
+
+For a product or feature idea:
 
 | Area | Typical question |
 |---|---|
@@ -59,5 +61,9 @@ Stage 1 ends with 3 to 8 questions, `RQ-NN`, each tied to a risk of the idea. Fo
 | Regulation | Which laws, standards or licenses apply where it will run? |
 | Technology | Which services, libraries or models make it feasible, at what cost and limits? |
 | Distribution | How does it reach users, and at what cost? |
+
+For a technical question: the current system (what runs today, its versions and limits), the alternatives (what each costs and supports), compatibility (what breaks or must change), and migration effort and risk.
+
+For a process change: how it works today, who is affected and how, and the rules that bind it (policy, contract, law).
 
 For a non-technical person, skip the technology area unless they ask; record its questions for the target skill instead.
