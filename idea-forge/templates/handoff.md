@@ -2,10 +2,10 @@
 Source dossier: docs/discovery/dossier.md
 Target: <spec-driven skill>, checked YYYY-MM-DD
 Size: <small | medium | large | complex>
-Suggested profile: <light | standard | ui>. Reason: <reason>
+Suggested profile: <optional, leave this line out for light unless the brief says Depth: thorough: light | standard | ui>. Reason: <why>
 
 ## Intent
-<present tense, no solution: what is true today, who pays, what it costs. Ends with what changes for the user.>
+<present tense, no solution: what is true today, who bears the cost, what it costs. Ends with what changes for the user.>
 
 ## Flow
 1. <step> (exists)
@@ -14,18 +14,19 @@ Suggested profile: <light | standard | ui>. Reason: <reason>
 ## Entities
 | Entity | Relations | Existing data touched |
 |---|---|---|
-| <entity> | <entity> 1..n <entity> | <table or none> |
+| <entity> | <entity> 1..n <entity> [<D-NN, K-NN, F-NN or A-NN>] | <table or none> |
 
 ## Rules
 ### S1: <slice name> (P1)
-1. WHEN <trigger> THEN the <system> SHALL <response with concrete value>.
+1. WHEN <trigger> THEN the <system> SHALL <response with concrete value, naming the channel when it sends a message>. [<D-NN, K-NN, F-NN or A-NN>]
+   Plain words: <the rule in plain words, for a non-technical person; leave the line out otherwise>
    Normal: <input> -> <output>
-   Boundary: <neighbouring case: below, above or exactly at the limit> -> <output>
+   Boundary: <neighbouring case: below, above or exactly at the limit> -> <output> [<D-NN, K-NN, F-NN or A-NN>]
 
 ## Edges
 | Dimension | Decision |
 |---|---|
-| Validation | <decision, existing - guard, n/a - reason, or Q-NN> |
+| Validation | <decision ending with its source tag, existing - guard, n/a - reason, or Q-NN> |
 | Failure modes | |
 | Idempotency | |
 | Authorization | |
@@ -36,13 +37,14 @@ Suggested profile: <light | standard | ui>. Reason: <reason>
 | Observability | |
 
 ## Door candidates
-1. <choice>. Preferred: <option>. Rejected: <alternative> because <reason>
+1. <choice>. Preferred: <option>. Rejected: <alternative> because <reason> [<D-NN, F-NN or A-NN>]
+Or "- None - <why no choice here is hard to reverse>"
 
 ## Surface hints
 - <route or screen>: used by <who>, returns or shows <what>. Or "None - nothing consumed outside"
 
 ## Literal text
-- <wording the person decided, word for word in their language, or "None">
+- <wording the person decided, word for word in the language the user will see, or "None">
 
 ## Limits
 - <metric>: <target>
@@ -52,10 +54,13 @@ Suggested profile: <light | standard | ui>. Reason: <reason>
 |---|---|
 | <capability> | <reason> |
 
+## Decisions
+- D-NN: <where it lands in this handoff, or "not for this feature: <reason>">
+
 ## Assumptions
 | Assumption | Chosen default | Rationale | Validate by | Confirmed? |
 |---|---|---|---|---|
-| <ambiguity> | <what we will do> | <why> | <how> | n |
+| A-NN: <ambiguity> | <what we will do> | <why> | <how> | n |
 
 ## Open questions
 - Q-NN: <question> [blocks | blocks go-live | open], or "None"

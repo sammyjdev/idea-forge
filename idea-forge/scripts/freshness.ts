@@ -18,7 +18,7 @@ export type Finding = {
   binding: boolean;
 };
 
-export type Flag = { id: string; reason: string; binding: boolean };
+export type Flag = { id: string; reason: string; binding: boolean; kind: "format" | "stale" | "outdated" | "unverifiable" };
 
 export function parseFindings(text: string): Finding[] {
   const findings: Finding[] = [];
@@ -43,25 +43,34 @@ export function flagFindings(findings: Finding[], now: Date): Flag[] {
   for (const f of findings) {
     const volatility = ["high", "medium", "low"].includes(f.volatility) ? f.volatility : "";
     if (!volatility) {
-      flags.push({ id: f.id, reason: "volatility not set (high, medium or low)", binding: f.binding });
+      flags.push({ id: f.id, reason: "volatility not set (high, medium or low)", binding: f.binding, kind: "format" });
       continue;
     }
     if (volatility === "low") continue;
     const age = daysSince(f.checked, now);
     if (age === null) {
-      flags.push({ id: f.id, reason: `${volatility} volatility, never checked`, binding: f.binding });
+      flags.push({ id: f.id, reason: `${volatility} volatility, never checked`, binding: f.binding, kind: "stale" });
     } else if (age > VALIDITY_DAYS[volatility]) {
       flags.push({
         id: f.id,
         reason: `${volatility} volatility, checked ${age} days ago (limit ${VALIDITY_DAYS[volatility]})`,
         binding: f.binding,
+        kind: "stale",
       });
     }
-    if (f.freshness === "outdated" && f.binding) {
-      flags.push({ id: f.id, reason: "binding finding is outdated; use the correction or replace it", binding: true });
+    // The status is the first word; a note may follow: "unverifiable (no web access)".
+    const status = /^[a-z]*/.exec(f.freshness)?.[0] ?? "";
+    if (status === "outdated" && f.binding) {
+      flags.push({ id: f.id, reason: "binding finding is outdated; use the correction or replace it", binding: true, kind: "outdated" });
     }
-    if (f.freshness === "unverifiable" && f.binding) {
-      flags.push({ id: f.id, reason: "binding finding is unverifiable; it cannot decide the verdict alone", binding: true });
+    const offline = /no web access/.test(f.freshness);
+    if (status === "unverifiable" && f.binding) {
+      const reason = offline
+        ? "binding finding is unverifiable only for lack of web access; it cannot decide the verdict alone; list it under Evidence to collect now and search it when web access returns"
+        : "binding finding is unverifiable; it cannot decide the verdict alone; list it under Evidence to collect";
+      flags.push({ id: f.id, reason, binding: true, kind: "unverifiable" });
+    } else if (status === "unverifiable" && offline) {
+      flags.push({ id: f.id, reason: "unverifiable only for lack of web access; search it when web access returns", binding: false, kind: "unverifiable" });
     }
   }
   return flags;

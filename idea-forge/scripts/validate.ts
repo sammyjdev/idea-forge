@@ -4,7 +4,7 @@
 
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { fail, isMain, parseArgs, readText } from "./lib.ts";
+import { ITEM_BULLET, QUESTION_LINE, fail, isBlockingQuestion, isMain, openQuestions, parseArgs, readText, sections, stripFences } from "./lib.ts";
 import { type Finding, flagFindings, parseFindings } from "./freshness.ts";
 
 const REQUIRED_SECTIONS = [
@@ -52,19 +52,107 @@ const VAGUE_WORDS = [
 
 export type Report = { errors: string[]; warnings: string[] };
 
-function sections(text: string): Map<string, string> {
-  const map = new Map<string, string>();
-  for (const part of text.split(/^## /m).slice(1)) {
-    const newline = part.indexOf("\n");
-    const title = (newline === -1 ? part : part.slice(0, newline)).trim();
-    map.set(title.toLowerCase(), newline === -1 ? "" : part.slice(newline + 1));
+// A rule that reaches a person should say how: "via WhatsApp", "by email", "on the order page".
+// It reads free text, so it only warns.
+const PERSON = String.raw`(?:the\s+|a\s+|an\s+|each\s+|every\s+|all\s+|their\s+)?(?:customer|user|owner|buyer|seller|merchant|admin|operator|manager|client|member|staff|person|people|recipient)s?\b`;
+const TO_PERSON = [
+  new RegExp(String.raw`\b(?:shall|and|then|to)\s+(?:also\s+)?(?:notify|remind|message|alert|email|text)\s+${PERSON}`, "i"),
+  new RegExp(String.raw`\bsen(?:d|ds|t)\s+${PERSON}`, "i"),
+  new RegExp(String.raw`\bsen(?:d|ds|t)\b[^.]*\bto\s+${PERSON}`, "i"),
+];
+const MACHINE = /\b(webhook|queue|topic|endpoint|url|api call)\b/i;
+const CHANNEL = /\b(via|by|through|over)\s+(?!\d)\w|\b(whatsapp|e-?mail|sms|push|telegram|slack|phone|dashboard|page|screen|in-app)\b/i;
+
+function messagesWithoutChannel(rule: string): boolean {
+  return TO_PERSON.some((m) => m.test(rule)) && !MACHINE.test(rule) && !CHANNEL.test(rule);
+}
+
+// "A lo..hi B" means each A has lo to hi B. lo is a number; hi is a number, n or *.
+function bound(end: string): number {
+  return /^[n*]$/i.test(end) ? Infinity : Number(end.replace(/,/g, ""));
+}
+
+// "and" separates two relations only when a range sits on both sides; "Terms and conditions" stays one name.
+function splitOnAnd(part: string): string[] {
+  const pieces = part.split(/\band\b/);
+  const out: string[] = [pieces[0]];
+  for (const piece of pieces.slice(1)) {
+    const last = out.length - 1;
+    if (out[last].includes("..") && piece.includes("..")) out.push(piece);
+    else out[last] += `and${piece}`;
   }
-  return map;
+  return out;
+}
+
+function checkRelations(entities: string): string[] {
+  const errors: string[] = [];
+  const seen = new Map<string, string>();
+  const relation = /^(?:each\s+)?(.+?)\s+(\d[\d,]*|[n*])\.\.(\d[\d,]*|[n*])\s+(.+)$/i;
+  for (const row of entities.split("\n")) {
+    const cells = row.replace(SOURCE_TAGS, "").split("|");
+    if (cells.length < 4) continue;
+    for (const raw of cells[2].split(/;|,(?!\d)/).flatMap(splitOnAnd)) {
+      const text = raw.replace(/\(([^)]*)\)/g, (_, inner: string) => (inner.includes("..") ? inner : "")).replace(/\s+/g, " ").trim();
+      if (!text.includes("..")) continue;
+      const m = relation.exec(text);
+      if (!m) {
+        errors.push(`Entities: cannot read "${text}"; write it as "A lo..hi B", hi a number, n or *`);
+        continue;
+      }
+      const [from, lo, hi, to] = [m[1].trim(), m[2], m[3], m[4].trim()];
+      if (bound(lo) === Infinity || bound(lo) > bound(hi)) {
+        errors.push(`Entities: "${text}" reads as each ${from} has ${lo} to ${hi} ${to}; the low end is above the high end`);
+        continue;
+      }
+      const key = `${from} -> ${to}`;
+      const range = `${lo}..${bound(hi) === Infinity ? "n" : bound(hi)}`;
+      const before = seen.get(key);
+      if (before && before !== range) errors.push(`Entities: ${from} to ${to} is ${before} in one row and ${range} in another`);
+      else seen.set(key, range);
+    }
+  }
+  return errors;
 }
 
 function stripCode(text: string): string {
   return text.replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, "");
 }
+
+// Where a value came from: a decision, a fact the person stated, a finding, or an assumption.
+const SOURCE_TAG = /\[\s*[DKFA]-\d+(\s*,\s*[DKFA]-\d+)*\s*\]/;
+const SOURCE_TAGS = new RegExp(SOURCE_TAG.source, "g");
+const ENDS_WITH_TAG = new RegExp(`${SOURCE_TAG.source}\\s*$`);
+
+// Every tag in Rules must name a D, K or A in brief.md, or an F in findings.md; every Q-NN in Edges an open question in brief.md.
+export function checkRuleSources(handoff: string, brief: string, findingIds: string[]): string[] {
+  const own = sections(brief);
+  const known = new Set<string>();
+  for (const [section, prefix] of [["facts", "K"], ["decisions", "D"], ["assumptions", "A"]]) {
+    const ids = (own.get(section) ?? "").matchAll(new RegExp(`^\\s*-\\s*\\**(${prefix}-\\d+)\\**:`, "gm"));
+    for (const m of ids) known.add(m[1]);
+  }
+  for (const line of openQuestions(brief)) known.add(QUESTION_LINE.exec(line)![1]);
+  const map = sections(handoff);
+  const errors: string[] = [];
+  for (const [label, key] of [["Entities", "entities"], ["Rules", "rules"], ["Edges", "edges"], ["Door candidates", "door candidates"]]) {
+    const body = stripFences(map.get(key) ?? "");
+    const cited = [...body.matchAll(SOURCE_TAGS)].flatMap((m) => m[0].match(/[DKFA]-\d+/g) ?? []);
+    for (const id of new Set(cited)) {
+      const inFindings = id.startsWith("F-");
+      if (inFindings ? !findingIds.includes(id) : !known.has(id)) {
+        errors.push(`${label}: ${id} is not in ${inFindings ? "findings.md" : "brief.md"}. Cite a source that exists or move the value to Assumptions.`);
+      }
+    }
+  }
+  const asked = (stripFences(map.get("edges") ?? "").match(/\bQ-\d+\b/g) ?? []);
+  for (const id of new Set(asked)) {
+    if (!known.has(id)) errors.push(`Edges: ${id} is not in brief.md Open questions. Cite an open question that exists or decide the edge.`);
+  }
+  return errors;
+}
+
+// The key may sit in a bullet or in bold; any case.
+const PROFILE_KEY = /^[\s>*-]*Suggested profile\**:\**/im;
 
 export function validateHandoff(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
@@ -80,7 +168,7 @@ export function validateHandoff(text: string): Report {
     report.errors.push("Approval line present. Only the person approves, inside the target skill.");
   }
 
-  if (/<[a-z][^>\n]*>/i.test(stripCode(text))) {
+  if (/<(?!https?:\/\/)[a-z][^>\n]*>/i.test(stripCode(text))) {
     report.errors.push("Template placeholders like <...> remain.");
   }
 
@@ -92,8 +180,10 @@ export function validateHandoff(text: string): Report {
   if (!/^Size:\s*(small|medium|large|complex)\b/m.test(text)) {
     report.errors.push("Missing 'Size: small | medium | large | complex'.");
   }
-  if (target.startsWith("tlc-spec-lean") && !/^Suggested profile:\s*(light|standard|ui)\b/m.test(text)) {
-    report.errors.push("tlc-spec-lean target needs 'Suggested profile: light | standard | ui'.");
+  const profiles = [...stripFences(text).matchAll(new RegExp(PROFILE_KEY.source + "(.*)$", "gim"))].map((m) => m[1]);
+  if (profiles.length > 1) report.errors.push("Suggested profile appears more than once. Keep one line.");
+  else if (profiles.length === 1 && !/^\s*\**(light|standard|ui)\**\.\s*Reason:\s*\S/i.test(profiles[0])) {
+    report.errors.push("Suggested profile must read 'light | standard | ui. Reason: <why>', or be left out.");
   }
 
   const flow = map.get("flow") ?? "";
@@ -103,7 +193,7 @@ export function validateHandoff(text: string): Report {
     if (!/\((exists|new)\)/.test(step)) report.warnings.push(`Flow step not tagged (exists) or (new): ${step.trim()}`);
   }
 
-  const rules = map.get("rules") ?? "";
+  const rules = stripFences(map.get("rules") ?? "");
   if (!/^### S\d+(: .+)? \(P\d\)/m.test(rules) && !/^### S\d+ \(P\d\)/m.test(rules)) {
     report.errors.push("Rules have no slice heading like '### S1: name (P1)'. tlc-spec-lean criteria are grouped by slice.");
   }
@@ -111,10 +201,22 @@ export function validateHandoff(text: string): Report {
   if (ruleLines.length === 0) report.errors.push("Rules has no numbered rules.");
   for (const line of ruleLines) {
     if (!/\bshall\b/i.test(line)) report.errors.push(`Rule is not in EARS form (no "shall"): ${line.trim()}`);
-    if (!/\d/.test(line.replace(/^\s*\d+\.\s/, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
+    if (!ENDS_WITH_TAG.test(line)) {
+      report.errors.push(`Rule must end with its source tag, [D-NN], [K-NN], [F-NN] or [A-NN], with nothing after it: ${line.trim()}`);
+    }
+    if (!/\d/.test(line.replace(/^\s*\d+\.\s/, "").replace(SOURCE_TAGS, ""))) report.warnings.push(`Rule has no concrete number: ${line.trim()}`);
   }
+  for (const line of ruleLines) {
+    if (messagesWithoutChannel(line)) {
+      report.warnings.push(`Rule messages a person but names no channel (via WhatsApp, by email, on a page): ${line.trim()}`);
+    }
+  }
+  report.errors.push(...checkRelations(map.get("entities") ?? ""));
   const normals = (rules.match(/^\s*Normal:/gm) ?? []).length;
   const boundaries = (rules.match(/^\s*Boundary:/gm) ?? []).length;
+  for (const line of rules.split("\n").filter((l) => /^\s*Boundary:/.test(l))) {
+    if (!ENDS_WITH_TAG.test(line)) report.errors.push(`Boundary example must end with its source tag: ${line.trim()}`);
+  }
   if (normals < ruleLines.length) report.warnings.push(`${ruleLines.length - normals} rule(s) without a Normal example.`);
   if (boundaries < ruleLines.length) report.warnings.push(`${ruleLines.length - boundaries} rule(s) without a Boundary example.`);
 
@@ -123,11 +225,23 @@ export function validateHandoff(text: string): Report {
     const row = edges.split("\n").find((l) => l.startsWith(`| ${dim} |`));
     if (!row) report.errors.push(`Edges missing dimension: ${dim}`);
     else if (/^\|[^|]+\|\s*\|\s*$/.test(row.trim())) report.errors.push(`Edges dimension undecided: ${dim}`);
+    else {
+      const decision = row.split("|")[2]?.trim() ?? "";
+      if (!/^(n\/a|existing)\s+-\s+\S/i.test(decision) && !/^Q-\d+$/.test(decision) && !ENDS_WITH_TAG.test(decision)) {
+        report.errors.push(`Edges: ${dim} must end with its source tag, or read "n/a - reason", "existing - guard" or Q-NN: ${decision}`);
+      }
+    }
+  }
+  for (const row of stripFences(map.get("entities") ?? "").split("\n").filter((l) => /\d\.\.|\.\.[n*\d]/.test(l))) {
+    if (!SOURCE_TAG.test(row)) report.warnings.push(`Entities: relation cites no source: ${row.trim()}`);
   }
 
   const doors = map.get("door candidates") ?? "";
-  if (doors.trim() && !/^None - /m.test(doors.trim()) && !/Rejected:/i.test(doors)) {
+  if (doors.trim() && !/^(?:[-*]\s+|\d+\.\s+)?None - \S/im.test(doors.trim()) && !/Rejected:/i.test(doors)) {
     report.errors.push("Door candidate without a rejected alternative.");
+  }
+  for (const line of doors.split("\n").filter((l) => /Preferred:/i.test(l))) {
+    if (!SOURCE_TAG.test(line)) report.warnings.push(`Door candidate cites no source for its preferred option: ${line.trim()}`);
   }
 
   const assumptions = map.get("assumptions") ?? "";
@@ -181,12 +295,56 @@ export function checkSourcesBinding(handoff: string, findings: Finding[]): strin
   return errors;
 }
 
+// Every decision in brief.md must reach the handoff, or say why it does not.
+export function checkDecisionsCarried(handoff: string, brief: string): string[] {
+  const decided = (sections(brief).get("decisions") ?? "").match(/^\s*-\s*\**D-\d+/gm) ?? [];
+  const carried = (sections(handoff).get("decisions") ?? "").replace(/\*/g, "");
+  return decided
+    .map((line) => line.replace(/^\s*-\s*\**/, ""))
+    .filter((id) => !new RegExp(`^[ \\t]*-[ \\t]*${id}:[ \\t]*\\S`, "m").test(carried))
+    .map((id) => `Decisions: ${id} from brief.md is missing. Say where it lands or why it is not for this feature.`);
+}
+
+// A costly-to-be-wrong idea with no profile hint falls to the target's default, usually light.
+export function checkProfileForDepth(handoff: string, brief: string): string[] {
+  if (!/^[\s>*-]*Depth\**:\**\s*\**thorough\b/im.test(brief) || PROFILE_KEY.test(stripFences(handoff))) return [];
+  return ["Depth is thorough but the handoff suggests no verification profile. Add 'Suggested profile: standard. Reason: <why>', or 'Suggested profile: light. Reason: <why>' when light is enough."];
+}
+
+// Defaults are not asked one by one; the person corrects them with the verdict, so the dossier shows each one.
+export function checkAssumptionsShown(dossier: string, brief: string): string[] {
+  const shown = (sections(dossier).get("assumptions") ?? "").replace(/\*/g, "");
+  const unconfirmed = (sections(brief).get("assumptions") ?? "")
+    .split("\n")
+    .filter((line) => !/Confirmed\?\s*(y|yes)\s*([|.,;]|$)/i.test(line.trim()) && !/\|\s*(y|yes)\s*\|\s*$/i.test(line.trim()))
+    .map((line) => /^\s*[-*|]\s*\**(A-\d+)\**\s*[:|-]/.exec(line)?.[1])
+    .filter((id): id is string => id !== undefined);
+  return unconfirmed
+    .filter((id) => !new RegExp(`\\b${id}\\b`).test(shown))
+    .map((id) => `Dossier: ${id} is an unconfirmed assumption the person never saw. List it under Assumptions so they can correct it with the verdict.`);
+}
+
+// An item that is only a nothing word or a dash once its markup is gone: "None", "**n/a**", "Nada.". "None - a tally..." is an item.
+const EMPTY_ITEM = /^(?:-|none|nenhum|nenhuma|nada|nil|n\/a|n\.a\.?|tbd|nothing)[.,;:!?]*$/i;
+
 export function validateDossier(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
-  const verdict = /^## Verdict\s*\n+\s*(go|refine|stop)\b/im.exec(text);
-  if (!verdict) report.errors.push("Dossier has no verdict (go, refine or stop).");
+  const verdict = /^## Verdict\s*\n+\s*(go|refine|not now|stop)\b/im.exec(text);
+  if (!verdict) report.errors.push("Dossier has no verdict (go, refine, not now or stop).");
   else if (verdict[1].toLowerCase() !== "go") report.errors.push(`Dossier verdict is "${verdict[1]}". Hand off only on go.`);
-  if (/^- Q-\d+.*\[blocks\]/m.test(text)) report.errors.push("Dossier has an open question tagged [blocks].");
+  if (openQuestions(text).some(isBlockingQuestion)) report.errors.push("Dossier has an open question tagged [blocks].");
+  if (verdict && verdict[1].toLowerCase() === "go") {
+    const evidence = /^\**Evidence\**:\s*\**(strong|thin)\b/im.exec(stripFences(sections(text).get("verdict") ?? ""));
+    const toCollect = stripFences(sections(text).get("evidence to collect") ?? "")
+      .split("\n")
+      .filter((line) => ITEM_BULLET.test(line) && !/<(?!https?:\/\/)[a-z][^>]*>/i.test(line))
+      .map((line) => line.replace(ITEM_BULLET, "").replace(/[*_`()~[\]]/g, "").trim())
+      .filter((item) => item !== "" && !EMPTY_ITEM.test(item));
+    if (!evidence) report.errors.push("Dossier has no evidence line under the verdict: 'Evidence: strong' or 'Evidence: thin'.");
+    else if (evidence[1].toLowerCase() === "thin" && toCollect.length === 0) {
+      report.errors.push("Evidence is thin but '## Evidence to collect' lists nothing. Say what record or check would strengthen it.");
+    }
+  }
   return report;
 }
 
@@ -212,12 +370,25 @@ function main(): void {
     errors.push(`No dossier at ${dossier}`);
   }
 
+  const briefPath = join(root, "docs", "discovery", "brief.md");
+  if (existsSync(briefPath)) {
+    errors.push(...checkDecisionsCarried(readText(handoff), readText(briefPath)));
+    warnings.push(...checkProfileForDepth(readText(handoff), readText(briefPath)));
+    if (existsSync(dossier)) errors.push(...checkAssumptionsShown(readText(dossier), readText(briefPath)));
+    const findingsFile = join(root, "docs", "discovery", "findings.md");
+    const findingIds = existsSync(findingsFile) ? parseFindings(readText(findingsFile)).map((f) => f.id) : [];
+    errors.push(...checkRuleSources(readText(handoff), readText(briefPath), findingIds));
+  }
+
   const findingsPath = join(root, "docs", "discovery", "findings.md");
   if (existsSync(findingsPath)) {
     const findings = parseFindings(readText(findingsPath));
     errors.push(...checkSourcesBinding(readText(handoff), findings));
     for (const flag of flagFindings(findings, new Date())) {
-      if (flag.binding) errors.push(`Freshness: ${flag.id} ${flag.reason}`);
+      // Only evidence against a claim blocks; a claim nobody could check or recheck is advice to collect.
+      if (flag.binding && (flag.kind === "outdated" || flag.kind === "format")) errors.push(`Freshness: ${flag.id} ${flag.reason}`);
+      else if (flag.binding && flag.kind === "unverifiable") warnings.push(`Freshness: ${flag.id} ${flag.reason}`);
+      else if (flag.binding) warnings.push(`Freshness: ${flag.id} ${flag.reason}; list it under Evidence to collect`);
       else warnings.push(`Freshness: ${flag.id} ${flag.reason}`);
     }
   } else {

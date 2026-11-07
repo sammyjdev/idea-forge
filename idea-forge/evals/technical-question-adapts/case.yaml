@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: technical-question-adapts
+expected_outcome: |
+  The person brings a technical question, not a product idea. The assistant starts stage 1
+  and frames it as a question to answer before planning code: its first turn asks about this
+  subject (what runs today, what the change should fix, what decision waits on the answer,
+  or the versions and limits it counts on), and asks nothing about customers, pricing,
+  market or who the person is. In Portuguese, naming no spec-driven tool. It does not write
+  a plan, spec or handoff.

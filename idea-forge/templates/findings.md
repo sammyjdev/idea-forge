@@ -8,9 +8,9 @@ Status: answered | partial | unanswerable (<why>)
 - Claim: <paraphrased fact>
 - Origin: person | material | search | model
 - Kind: evidence | belief
-- Source: [<title>](<url>) or intake/<file>, page dated YYYY-MM-DD
+- Source: [<title>](<url>) or intake/<file>, page dated YYYY-MM-DD, or <record the person named>, covering <period>
 - Volatility: high | medium | low
-- Freshness: current | outdated | unverifiable
+- Freshness: current | outdated | unverifiable | unverifiable (no web access)
 - Correction: <current value, only when outdated>
 - Checked: YYYY-MM-DD
 - Quality: primary | secondary | weak

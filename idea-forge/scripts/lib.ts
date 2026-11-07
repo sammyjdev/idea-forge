@@ -1,16 +1,8 @@
 import { existsSync, readFileSync, realpathSync } from "node:fs";
-import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const SKILL_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-
-export const PROFILE_HOME = join(homedir(), ".config", "idea-forge", "profile.md");
-export function repoProfile(root: string = process.cwd()): string {
-  return join(root, ".idea-forge", "profile.md");
-}
-
-export const STALE_DAYS = 90;
 
 export type Args = { positional: string[]; flags: Record<string, string> };
 
@@ -33,16 +25,6 @@ export function parseArgs(argv: string[]): Args {
     }
   }
   return { positional, flags };
-}
-
-export function findProfile(explicit?: string, root?: string): string | null {
-  const candidates = [explicit, repoProfile(root), PROFILE_HOME].filter(
-    (p): p is string => typeof p === "string" && p.length > 0,
-  );
-  for (const path of candidates) {
-    if (existsSync(path)) return path;
-  }
-  return null;
 }
 
 export function readFields(text: string): Record<string, string> {
@@ -81,4 +63,71 @@ export function readText(path: string): string {
 export function fail(message: string): never {
   process.stderr.write(`${message}\n`);
   process.exit(1);
+}
+
+// A list item's bullet: "-", "*" or "1.", optionally indented.
+export const ITEM_BULLET = /^\s*(?:[-*]|\d+\.)\s+/;
+
+// An open question line: "- Q-01:", "* **Q-01**:", "1. Q-01:". The ID is group 1.
+export const QUESTION_LINE = new RegExp(String.raw`${ITEM_BULLET.source}\**(Q-\d+)`);
+
+// A question blocks when any of its bracket tags reads "blocks", in any case: [Blocks], [blocks, open].
+export function isBlockingQuestion(line: string): boolean {
+  if (!QUESTION_LINE.test(line)) return false;
+  return [...line.matchAll(/\[([^\]]*)\]/g)].some((m) => m[1].split(",").some((t) => t.trim().toLowerCase() === "blocks"));
+}
+
+// Markdown sections by their "## " title, lowercased.
+export function sections(text: string): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const part of text.split(/^## /m).slice(1)) {
+    const newline = part.indexOf("\n");
+    const title = (newline === -1 ? part : part.slice(0, newline)).trim();
+    map.set(title.toLowerCase(), newline === -1 ? "" : part.slice(newline + 1));
+  }
+  return map;
+}
+
+// Fenced blocks hold examples; inline code stays, since a reason may name a file.
+// CommonMark rules: a fence is 3+ backticks or tildes, a backtick fence's info has no backtick,
+// it closes on the same character at least as long with nothing after it, or at the end of the text.
+// With keepUnclosed, a fence never closed is read as plain text instead, so a gate fails closed.
+export function stripFences(text: string, keepUnclosed = false): string {
+  const kept: string[] = [];
+  const lines = text.split("\n");
+  let open: { char: string; size: number; at: number } | null = null;
+  for (const [i, line] of lines.entries()) {
+    const fence = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line.replace(/\r$/, ""));
+    if (open) {
+      if (fence && fence[1][0] === open.char && fence[1].length >= open.size && fence[2].trim() === "") open = null;
+    } else if (fence && !(fence[1][0] === "`" && fence[2].includes("`"))) {
+      open = { char: fence[1][0], size: fence[1].length, at: i };
+    } else {
+      kept.push(line);
+    }
+  }
+  if (open && keepUnclosed) {
+    kept.push(lines[open.at], stripFences(lines.slice(open.at + 1).join("\n"), true));
+  }
+  return kept.join("\n");
+}
+
+// The question lines under "## Open questions", leaving out fenced examples.
+// A section is a level 2 or 3 heading whose title starts with "open questions": "(3)", ":" or closing "#"s may follow.
+// Every such section is read; one ends at the next heading of its level or higher. Fences go first, so an example heading counts for nothing.
+export function openQuestions(text: string): string[] {
+  const body: string[] = [];
+  let level = 0;
+  for (const line of stripFences(text, true).split("\n")) {
+    const heading = /^ {0,3}(#{1,6})(?:[ \t]+(.*))?$/.exec(line.replace(/\r$/, ""));
+    if (heading) {
+      const depth = heading[1].length;
+      const title = (heading[2] ?? "").replace(/(?:^|[ \t]+)#+[ \t]*$/, "").trim().toLowerCase();
+      if (level && depth <= level) level = 0;
+      if (!level && (depth === 2 || depth === 3) && title.startsWith("open questions")) level = depth;
+      continue;
+    }
+    if (level) body.push(line);
+  }
+  return body.filter((line) => QUESTION_LINE.test(line));
 }

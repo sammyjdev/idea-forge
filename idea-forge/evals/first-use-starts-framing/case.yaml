@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: first-use-starts-framing
+expected_outcome: |
+  The person describes an idea and the assistant starts stage 1 right away, with no setup
+  form: it asks no questions about who the person is, their preferred format or which
+  spec-driven skill comes next, and runs no profile script. Its first turn asks about the subject
+  and its situation (up to three numbered facts, or one choice with a recommended answer), in Portuguese and
+  without naming any spec-driven tool. It does not write a plan, spec or handoff.

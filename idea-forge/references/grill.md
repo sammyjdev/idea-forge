@@ -10,17 +10,25 @@ Walk them in this order and skip what does not apply. A branch is done when its 
 
 | # | Branch | Settle | Quick depth |
 |---|---|---|---|
-| 1 | Users | Who acts, who pays, who approves | yes |
-| 2 | Flow | The main path step by step, and where it fails today | yes |
+| 1 | Users | Who acts, who is affected, who approves (and who pays, for a product) | yes |
+| 2 | Flow | The main path step by step, where it fails today, and its journey states when it has a user journey | yes |
 | 3 | Data | What is stored, who owns it, what already exists | no |
 | 4 | Rules | Every rule that changes an outcome, with one normal and one boundary example | yes |
 | 5 | Edges | Validation, failure, retries and duplicates, permissions, concurrency, data retention, external service down, state changes, logging | no |
 | 6 | Limits | Numbers the system must hit: time, volume, cost | no |
 | 7 | Out of scope | What will not be built now, and why | yes |
 
-Thorough depth walks every branch. Risky work always gets branch 5. Risky means money, health data, personal data or regulation.
+Thorough depth walks every branch. Risky work always gets branch 5. Risky means money, health data, personal data, regulation or a change people cannot undo.
 
 Before closing branch 5, read each edge decision against the rules from branch 4. When two disagree (one says a late payment confirms, another says only a manual confirm does), ask which holds. Each rule also needs its neighbouring cases: below, above and exactly at its limit, and repeated.
+
+In branch 2, when the subject has a user journey, walk the states past the happy path: empty, first time, retry, half finished, expired, not allowed, and the person who walks away and comes back tomorrow. Spend real questions on the path that carries most of the volume and a line on the others. For each thing with a status (an order, a payment), on a risky path ask what happens when each event arrives in each status, including the late ones: a payment after a cancel, a cancel after pickup, undoing a mark. Off a risky path, record those cases as `A-NN` with a default instead. Each settled state becomes a rule or a State transitions decision.
+
+Before closing branch 4, close every rule. It names who or what triggers it, what the system does, who learns of it and via which channel ("via WhatsApp", "via the order page"), and for any time limit, when the clock starts and in which time zone. A part the person cannot settle becomes an assumption with a chosen default, never left implicit. Wording and screen content they do not decide (a message's text, what a list shows, where a link goes) become assumptions with a draft default, not open questions. State each data relation once as `A lo..hi B`: each A has lo to hi B.
+
+## Asking
+
+Ask as `references/asking.md` says: facts up to three per turn, each choice alone with a recommendation, everything else an assumption shown with the verdict.
 
 ## Using the findings
 
@@ -31,7 +39,7 @@ Before closing branch 5, read each edge decision against the rules from branch 4
 
 ## Customization
 
-The focus from `references/focus.md` sets which branches go deep. The signals below adjust inside it.
+The focus in `brief.md` sets which branches go deep: business goes deep on users (who pays), limits (cost) and out of scope; product on users, flow, rules and out of scope; technical on data, rules, edges and limits; design on flow, journey states, and edge outcomes as screens; process on flow, users (who is affected), rules and out of scope; mixed on every branch at thorough depth. The signals below adjust inside it.
 
 | Signal | Effect |
 |---|---|
@@ -58,7 +66,7 @@ Add these after branch 4. They also suggest research questions for stage 2.
 | Mobile | Offline use, store rules, acquisition and retention |
 | Data platform | Sources, freshness, consumers, lineage |
 
-For a niche not listed, derive the branches from stage 2 findings and confirm them with the person.
+For a niche not listed, derive the branches from stage 2 findings and state them; the person corrects them if needed.
 
 ## Glossary
 

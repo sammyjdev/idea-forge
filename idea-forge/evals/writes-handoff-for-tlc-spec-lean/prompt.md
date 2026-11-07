@@ -7,4 +7,4 @@ allowed_tools: [Read, Glob, Grep, Skill, Write, Edit, Bash, WebSearch, WebFetch]
 
 resume a discovery. o veredito go tá aceito. gera o handoff da feature duplicate-payment-guard pro tlc-spec-lean e me mostra o resumo em tabela.
 
-Input files: .idea-forge/profile.md, docs/discovery/brief.md, docs/discovery/findings.md, docs/discovery/dossier.md
+Input files: docs/discovery/brief.md, docs/discovery/findings.md, docs/discovery/dossier.md
