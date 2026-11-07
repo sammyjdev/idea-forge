@@ -4,7 +4,7 @@ Read at the start of stage 2. Every check follows `references/freshness.md`. The
 
 ## Intake
 
-The person's material comes first: notes, links, files, past chats, interviews.
+The person's material comes first: notes, links, files, past chats, interviews, and every time-sensitive `K-NN` in `brief.md` (what the idea counts on), each treated as a belief to check.
 
 1. Read each item and note its date.
 2. Extract claims, one per line, tagged with the item.
