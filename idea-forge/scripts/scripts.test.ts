@@ -855,3 +855,26 @@ test("an edge left to an open question the brief has passes", () => {
   const handoff = GOOD_HANDOFF.replace("unique index [F-01]", "Q-01");
   assert.deepEqual(checkRuleSources(handoff, `${SOURCED_BRIEF}## Open questions\n- **Q-01**: who pays [open]\n`, ["F-01"]), []);
 });
+
+test("status command counts a blocking question in any case, with a second tag, as a star bullet, in bold or indented", () => {
+  const brief = [
+    "Position: Stage 3 of 5 · Grill",
+    "## Open questions",
+    "- Q-01: who pays [Blocks]",
+    "- Q-02: who signs [blocks, open]",
+    "* **Q-03**: which bank [blocks]",
+    "  - Q-04: which law [blocks]",
+    "- Q-05: when [blocks go-live]",
+    "",
+  ].join("\n");
+  const { code, out } = runScript("status.ts", [], project({ "docs/discovery/brief.md": brief }));
+  assert.equal(code, 0, out);
+  assert.match(out, /Open questions: 5 \(4 blocking\)/);
+});
+
+test("a blocking question written as a star bullet, in bold or indented still blocks the hand off", () => {
+  for (const line of ["* Q-01: who pays [blocks]", "- **Q-01**: who pays [blocks]", "  - Q-01: who pays [blocks]"]) {
+    const dossier = `## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Open questions\n${line}\n`;
+    assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."), line);
+  }
+});

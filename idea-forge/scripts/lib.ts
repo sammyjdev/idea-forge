@@ -64,3 +64,12 @@ export function fail(message: string): never {
   process.stderr.write(`${message}\n`);
   process.exit(1);
 }
+
+// An open question line: "- Q-01:", "* **Q-01**:", optionally indented.
+export const QUESTION_LINE = /^\s*[-*]\s+\**Q-\d+/;
+
+// A question blocks when any of its bracket tags reads "blocks", in any case: [Blocks], [blocks, open].
+export function isBlockingQuestion(line: string): boolean {
+  if (!QUESTION_LINE.test(line)) return false;
+  return [...line.matchAll(/\[([^\]]*)\]/g)].some((m) => m[1].split(",").some((t) => t.trim().toLowerCase() === "blocks"));
+}
