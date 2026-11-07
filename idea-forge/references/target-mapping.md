@@ -8,7 +8,7 @@ Checked 2026-11-05 against tlc-spec-lean 2.2.0: its SKILL.md, references/plan.md
 
 | Handoff section | plan.md section | Notes |
 |---|---|---|
-| Intent | Problem | Present tense, no solution, who pays, what it costs |
+| Intent | Problem | Present tense, no solution, who bears the cost, what it costs |
 | Flow | Shape numbered path | Steps tagged exists or new. tlc-spec-lean names the modules, adds `(door n)` and the Mermaid diagrams |
 | Entities | Shape erDiagram and Changes underneath | Existing data touched becomes Changes underneath |
 | Surface hints | Surface | tlc-spec-lean derives route, in, out, statuses and who; the hint must name who uses it. `None - nothing consumed outside` is valid |

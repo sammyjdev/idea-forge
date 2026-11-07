@@ -1,6 +1,6 @@
 # idea-forge
 
-idea-forge is a skill for Claude Code that researches and questions a product or feature idea before any spec is written. It checks every fact that can change over time on the web, then hands a neutral handoff file to a spec-driven skill, tlc-spec-lean by default.
+idea-forge is a skill for Claude Code that researches and questions an idea, a technical question or a process change before any spec or plan is written. It checks every fact that can change over time on the web, then hands a neutral handoff file to a spec-driven skill, tlc-spec-lean by default.
 
 ## Why
 

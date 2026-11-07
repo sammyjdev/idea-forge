@@ -5,7 +5,7 @@ Size: <small | medium | large | complex>
 Suggested profile: <optional, leave this line out for light unless the brief says Depth: thorough: light | standard | ui>. Reason: <why>
 
 ## Intent
-<present tense, no solution: what is true today, who pays, what it costs. Ends with what changes for the user.>
+<present tense, no solution: what is true today, who bears the cost, what it costs. Ends with what changes for the user.>
 
 ## Flow
 1. <step> (exists)

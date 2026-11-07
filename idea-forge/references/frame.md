@@ -38,9 +38,11 @@ Infer it from the first messages: the role the person mentions, their vocabulary
 | Signal | Focus | Research questions first | Language |
 |---|---|---|---|
 | Customers, sales, price, market; no technical words | business | Market, competitors, pricing, distribution, regulation | Product terms only |
-| Users, problem, roadmap, metrics, or no signal | product | Problem, users, substitutes | Product terms, technical words explained in one line |
+| Users, problem, roadmap, metrics | product | Problem, users, substitutes | Product terms, technical words explained in one line |
 | Stack, API, schema, latency, versions | technical | Technology, regulation that shapes data, existing systems | Technical, versions and limits exact |
 | Screens, journeys, flows, usability | design | Users, journeys, substitutes | Product terms only |
+| Team, workflow, approvals, how work gets done | process | Current process, people affected, rules that bind it | Plain terms |
+| No signal | the focus that fits the subject kind: product for an idea, technical for a technical question, process for a way of working | As that row | As that row |
 | Several of the above, or the person asks for all | mixed | One question per area | Product terms, technical words explained in one line |
 
 Every focus still covers the problem sentence, one finding per research question, and the verdict. Focus changes depth, never skips the verdict.

@@ -10,7 +10,7 @@ Walk them in this order and skip what does not apply. A branch is done when its 
 
 | # | Branch | Settle | Quick depth |
 |---|---|---|---|
-| 1 | Users | Who acts, who pays, who approves | yes |
+| 1 | Users | Who acts, who is affected, who approves (and who pays, for a product) | yes |
 | 2 | Flow | The main path step by step, where it fails today, and its journey states | yes |
 | 3 | Data | What is stored, who owns it, what already exists | no |
 | 4 | Rules | Every rule that changes an outcome, with one normal and one boundary example | yes |
@@ -39,7 +39,7 @@ Ask as `references/asking.md` says: facts up to three per turn, each choice alon
 
 ## Customization
 
-The focus in `brief.md` sets which branches go deep: business goes deep on users (who pays), limits (cost) and out of scope; product on users, flow, rules and out of scope; technical on data, rules, edges and limits; design on flow, journey states, and edge outcomes as screens; mixed on every branch at thorough depth. The signals below adjust inside it.
+The focus in `brief.md` sets which branches go deep: business goes deep on users (who pays), limits (cost) and out of scope; product on users, flow, rules and out of scope; technical on data, rules, edges and limits; design on flow, journey states, and edge outcomes as screens; process on flow, users (who is affected), rules and out of scope; mixed on every branch at thorough depth. The signals below adjust inside it.
 
 | Signal | Effect |
 |---|---|
