@@ -18,6 +18,11 @@ Review: 60 days after release, payments lead
 |---|---|---|---|
 | Key storage fails during a provider outage | low | high | Fall back to provider key only |
 
+## Assumptions
+| Assumption | Default | Validate by | Confirmed? |
+|---|---|---|---|
+| A-01: Customers never legitimately pay the same order twice | Treat a second charge on the same order as a duplicate | Support ticket review | n |
+
 ## Open questions
 - Q-01: Refund automation for past duplicates [open]
 
