@@ -19,7 +19,7 @@ Nothing that can change over time reaches the person unchecked: claims from the 
 
 Before any turn that presents a result, a recommendation or a finding:
 1. List the time-sensitive claims it depends on.
-2. Search the web for each one not checked in this session.
+2. Search the web for each web-checkable one not checked in this session. A person's own record is never searched.
 3. Mark each as current, outdated (with the correction) or unverifiable.
 4. Only then write the turn, and cite what was checked.
 
@@ -40,7 +40,7 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 | Person says | Do |
 |---|---|
 | start | Begin stage 1 |
-| resume | Run `status.ts`, then `freshness.ts`. Re-check on the web what it flags from a web source; the rest goes to Evidence to collect. Read `references/asking.md`, then continue |
+| resume | Run `status.ts`, then `freshness.ts`. Re-check on the web what it flags from a web source; a flagged record or unverifiable finding goes to Evidence to collect, not searched again. Read `references/asking.md`, then continue |
 | add this | Take the note, link or file as intake for stage 2 |
 | check this | Run a freshness check on the claim and report |
 | skip | Record the current question as an assumption, continue |
