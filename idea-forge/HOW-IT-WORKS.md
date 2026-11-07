@@ -113,6 +113,7 @@ idea-forge/
   references/           read only when the step needs them
     freshness.md        what to check, how, statuses, before the first check
     frame.md            situation, problem kind, focus, research questions, at stage 1
+    asking.md           what to ask, what to assume, the turn format, from stage 1
     targets.md          pick and check the target, next command, at stage 5
     target-mapping.md   where each handoff section lands, only when a readable target is not tlc-spec-lean 2.2.0
     research.md         intake, gathering, cheaper than building, at stage 2
