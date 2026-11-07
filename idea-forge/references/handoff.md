@@ -42,4 +42,4 @@ IF <condition> THEN the <system> SHALL <response>.
 WHERE <feature> the <system> SHALL <response>.
 ```
 
-Run `node <skill-dir>/scripts/validate.ts <feature>`, fix what it reports and run it again, at most three runs in all. When a fix attempt does not clear an error, list the remaining errors as gaps in the handoff summary and stop fixing. Then give the next command for the target from `references/targets.md`.
+Run `node <skill-dir>/scripts/validate.ts <feature>`. Some errors block the handoff: a binding finding outdated or with no volatility, a question tagged `blocks`, no dossier, or a verdict other than go. On one of these, give no target command: say what blocks and go back to the stage that fixes it (research for a finding, the grill for a question, synthesis for the dossier or verdict). Every other error is format: fix it and run again, at most three runs in all, then list what remains as gaps in the handoff summary. Then give the next command for the target from `references/targets.md`.

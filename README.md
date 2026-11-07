@@ -43,7 +43,7 @@ Five stages, in order:
 | 2. Research | What does current evidence say? | Every question has a status and every finding the verdict rests on is checked |
 | 3. Grill | Does the idea hold against the evidence? | Every decision is made, assumed or recorded as a tagged question |
 | 4. Synthesize | What is the verdict, and how strong is the evidence? | You accept the verdict: go, refine, not now or stop |
-| 5. Hand off | What does the spec skill need? | `validate.ts` passes |
+| 5. Hand off | What does the spec skill need? | `validate.ts` passes, or the format errors it still reports are listed as gaps |
 
 Refine, not now and stop are valid outcomes. Refine means the evidence contradicts part of the idea; missing data never blocks, it becomes a list of what to collect. A handoff is written only on go, and only for something to be built; for a process change or a research question the dossier is the end.
 
