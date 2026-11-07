@@ -826,3 +826,8 @@ test("a go on thin evidence whose list to collect only says none fails", () => {
     assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Evidence is thin")), item);
   }
 });
+
+test("a markdown autolink in the handoff is a link, not a template placeholder", () => {
+  const report = validateHandoff(GOOD_HANDOFF.replace("[Docs](https://example.com)", "Docs <https://example.com/pricing>"));
+  assert.ok(!report.errors.includes("Template placeholders like <...> remain."), report.errors.join("\n"));
+});

@@ -192,7 +192,7 @@ export function validateHandoff(text: string): Report {
     report.errors.push("Approval line present. Only the person approves, inside the target skill.");
   }
 
-  if (/<[a-z][^>\n]*>/i.test(stripCode(text))) {
+  if (/<(?!https?:\/\/)[a-z][^>\n]*>/i.test(stripCode(text))) {
     report.errors.push("Template placeholders like <...> remain.");
   }
 
