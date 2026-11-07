@@ -28,6 +28,7 @@ Review: <date or trigger, and who>
 |---|---|---|---|
 | <criterion> | <1-5> | <score> | <score> |
 Recommended: <option>, because <reason>.
+Weights and scores: the assistant's assessment from <F-NN>; correct any of them.
 
 ## Decisions
 - D-01: <decision>. Because: <reason>. ADR: <link or none>
@@ -36,6 +37,7 @@ Recommended: <option>, because <reason>.
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
 | <risk> | high | high | <mitigation> |
+Ratings: the assistant's assessment from <F-NN>; correct any of them.
 
 ## Assumptions
 | Assumption | Default | Validate by | Confirmed? |

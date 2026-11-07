@@ -10,15 +10,15 @@ Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 |---|---|
 | Verdict | go, refine, not now or stop, with the two or three findings that decide it |
 | Problem | Stage 1 sentence and kind, backed by findings |
-| Success | Worked if, in the problem's own unit. Early signal. Review date or trigger |
+| Success | Worked if, in the problem's own unit. Early signal. Review date or trigger. What the person did not state is marked as the assistant's proposal |
 | Evidence | Per RQ: status, strongest findings, outdated claims corrected, contradictions settled |
 | Users | From the grill, with the finding behind each claim |
-| Options | When more than one approach exists, including the cheaper-than-building ones: weighted comparison and recommendation |
+| Options | When more than one approach exists, including the cheaper-than-building ones: weighted comparison and recommendation. Weights and scores are labelled as the assistant's assessment, with the findings behind them |
 | Decisions | What was decided and why. ADR links where written |
-| Risks | Likelihood, impact, mitigation, sorted by score |
+| Risks | Likelihood, impact, mitigation, sorted by score. Ratings are labelled as the assistant's assessment |
 | Assumptions | Every `A-NN` from `brief.md` with its default, a way to validate it and `Confirmed? y/n`. `validate.ts` refuses a dossier that leaves out an unconfirmed one |
 | Open questions | Tagged `blocks`, `blocks go-live` or `open` |
-| Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate |
+| Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate, labelled as the assistant's assessment |
 
 Lead with what the focus needs: business with the verdict, market evidence and cheaper-than-building options; product with the problem, users and success; technical with decisions, door candidates, risks and feasibility; design with the journey, its states and open design questions; mixed with the verdict, then one short summary per area.
 

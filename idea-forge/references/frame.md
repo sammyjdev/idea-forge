@@ -4,12 +4,13 @@ Read at the start of stage 1. Stage 1 settles where the effort stands, what kind
 
 ## Situation
 
-Four facts, one line each. Ask only what the conversation has not answered.
+Five facts, one line each. Ask only what the conversation has not answered.
 
 - Where the effort is: in use (it has a today you can measure), not shipped (no today at all), or under construction (a commitment and work in flight).
 - Whether the decision is open, or someone already committed, and who and when. A committed decision makes the stage 4 verdict a record, not a gate.
 - What in flight this touches, in one sentence.
 - What is at stake: how expensive it is to be wrong. Money, health data, personal data, regulation or a change people cannot undo means thorough depth. Cheap to undo means quick depth. Infer Depth from the answer and record it; never ask for it by name or as a choice.
+- What the idea counts on: the prices, fees, limits, tools or rules the person believes hold. Ask once, in their terms: "Which numbers or facts are you counting on, like prices, fees or limits?" Each becomes `K-NN`, and each time-sensitive one becomes a claim stage 2 checks. People rarely volunteer these, and they are what goes stale.
 
 Ask these in the person's own terms: "Is anyone using this today?", not "Where is the effort?".
 
