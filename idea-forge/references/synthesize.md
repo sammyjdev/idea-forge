@@ -21,7 +21,7 @@ Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 | Evidence to collect | Under any verdict, each open question someone else holds (`Held by:` in `brief.md`); with thin evidence, also each record or check that would strengthen it. How to get it and what it would change. Suggestions, not conditions |
 | Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate, labelled as the assistant's assessment |
 
-Lead with what the focus needs: business with the verdict, market evidence and cheaper-than-building options; product with the problem, users and success; technical with decisions, door candidates, risks and feasibility; design with the journey, its states and open design questions; mixed with the verdict, then one short summary per area.
+Lead with what the focus needs: business with the verdict, market evidence and cheaper-than-building options; product with the problem, users and success; technical with decisions, door candidates, risks and feasibility; design with the journey, its states and open design questions; process with the current process, who is affected, the rules that bind it and the verdict; mixed with the verdict, then one short summary per area.
 
 ## Verdict
 

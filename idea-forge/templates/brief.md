@@ -9,7 +9,7 @@ Updated: YYYY-MM-DD
 Depth: <quick | thorough>
 Situation: <in use | not shipped | under construction>. Decision: <open | committed by who, when>. In flight: <one sentence>. At stake: <cost of being wrong>
 Problem kind: <pain | absence | construction | question>
-Focus: <business | product | technical | design | mixed>
+Focus: <business | product | technical | design | process | mixed>
 Niche: <niche>
 Constraints: <deadline, budget, team, stack>
 Target: <spec-driven skill, tlc-spec-lean unless the repo or the person names another>
