@@ -1028,3 +1028,13 @@ test("validate command tells to search a finding unverifiable only for lack of w
   assert.match(out, /warn .*F-01.*search it when web access returns/);
   assert.doesNotMatch(out, /F-01.*Evidence to collect/);
 });
+
+const NESTED_OPEN_QUESTIONS = "## Open questions\n### Open questions for finance\n- Q-01: a [open]\n### Product\n- Q-02: b [blocks]\n";
+
+test("a nested Open questions heading does not end the outer section early", () => {
+  const dossier = `## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n${NESTED_OPEN_QUESTIONS}`;
+  assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."));
+  const { code, out } = runScript("status.ts", [], project({ "docs/discovery/brief.md": `Position: Stage 3 of 5\n${NESTED_OPEN_QUESTIONS}` }));
+  assert.equal(code, 0, out);
+  assert.match(out, /Open questions: 2 \(1 blocking\)/);
+});

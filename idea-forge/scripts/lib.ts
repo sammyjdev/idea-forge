@@ -119,7 +119,7 @@ export function openQuestions(text: string): string[] {
       const depth = heading[1].length;
       const title = (heading[2] ?? "").replace(/(?:^|[ \t]+)#+[ \t]*$/, "").trim().toLowerCase();
       if (level && depth <= level) level = 0;
-      if ((depth === 2 || depth === 3) && title.startsWith("open questions")) level = depth;
+      if (!level && (depth === 2 || depth === 3) && title.startsWith("open questions")) level = depth;
       continue;
     }
     if (level) body.push(line);
