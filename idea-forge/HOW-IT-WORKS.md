@@ -48,7 +48,15 @@ Recommended: reject the second payment and show the first receipt
 Checked: F-07, provider retries failed calls for up to 60 s (docs, 2026-11-05)
 ```
 
-Pick the recommendation, an alternative, or type your own answer.
+Pick the recommendation, an alternative, or type your own answer. A choice like this comes alone. Facts only you have come up to three at once, numbered, with no recommendation:
+
+```
+Stage 1 of 5 · Frame · 1 of ~4 decisions made
+
+1. How many orders a week do you take today?
+2. How many of them are never picked up?
+3. Which prices or fees is the idea counting on?
+```
 
 ## Focus
 

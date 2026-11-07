@@ -27,4 +27,4 @@ Target: <spec-driven skill, tlc-spec-lean unless the repo or the person names an
 - A-01: <default>. Because: <reason>. Validate by: <how>. Confirmed? n
 
 ## Open questions
-- Q-01: <question> [blocks | blocks go-live | open]
+- Q-01: <question>. Held by: <who, when someone else holds the answer> [blocks | blocks go-live | open]

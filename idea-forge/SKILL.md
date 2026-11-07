@@ -47,7 +47,7 @@ There is no setup and no user profile. On the first turn only, say in one line w
 
 ## Rules
 
-1. Ask only what changes the output. A choice goes alone in its turn, with a recommended answer and one line on why, because several choices at once get answered by agreeing to all of them. Facts only the person has can go up to three in one turn, numbered, since a fact cannot be agreed to. What to ask: a fact only the person has, or a choice with a real trade-off. Everything else becomes an assumption with a proposed default, shown with the verdict for correction (`references/grill.md`).
+1. Ask only what changes the output. A choice goes alone in its turn, with a recommended answer and one line on why, because several choices at once get answered by agreeing to all of them. Facts only the person has can go up to three in one turn, numbered, since a fact cannot be agreed to. A fact is what is true today; anything about what the product should do is a choice, and a turn never mixes the two. What to ask: a fact only the person has, or a choice with a real trade-off, and only while the answer can still change something: a question made moot by an earlier decision is not asked. Everything else becomes an assumption with a proposed default, shown with the verdict for correction (`references/grill.md`).
 2. If the person's material, the code, a search or `brief.md` (Facts and Decisions) already answers it, do not ask. Never ask the person to confirm a summary; the only confirmation is the verdict.
 3. Every claim about the world has a source and a check date. No source: "no verified source found".
 4. Separate what the person believes from what the evidence shows. Surface contradictions.
@@ -74,7 +74,7 @@ Example. User says: "An app for small bakeries in Brazil to take pre-orders by W
 
 | Stage | Goal | Read | Exit |
 |---|---|---|---|
-| 1. Frame | Situation, what the idea counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | The person was asked what prices, fees, limits or rules the idea counts on; sentence, focus and questions stated in one message the person can correct; research starts without waiting for an "ok". A trivial change gets a one-paragraph answer |
+| 1. Frame | Situation, what the idea counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `templates/brief.md` | What the idea counts on (prices, fees, limits, rules) is recorded as `K-NN`, from the person's words or one question; sentence, focus and questions stated in one message the person can correct; research starts without waiting for an "ok". A trivial change gets a one-paragraph answer |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
 | 4. Synthesize | Verdict (go, refine, not now or stop) with how strong the evidence is, then the dossier with evidence, options, risks and what evidence to collect | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |

@@ -53,7 +53,7 @@ Ratings: the assistant's assessment from <F-NN>; correct any of them.
 - Q-01: <question> [blocks | blocks go-live | open]
 
 ## Evidence to collect
-- <record or check>: <how to get it>. Would confirm or change: <A-NN, D-NN or the verdict>
+- <record or check>: <how to get it>. Held by: <who>. Would confirm or change: <A-NN, D-NN or the verdict>
 
 ## Candidate features
 | Rank | Feature | Goal | Value | Risk | Size |

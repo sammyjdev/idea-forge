@@ -18,7 +18,7 @@ Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 | Risks | Likelihood, impact, mitigation, sorted by score. Ratings are labelled as the assistant's assessment |
 | Assumptions | Every `A-NN` from `brief.md` with its default, a way to validate it and `Confirmed? y/n`. `validate.ts` refuses a dossier that leaves out an unconfirmed one |
 | Open questions | Tagged `blocks`, `blocks go-live` or `open` |
-| Evidence to collect | With thin evidence: each record or check that would strengthen it, how to get it, and what it would change. Suggestions, not conditions |
+| Evidence to collect | Under any verdict, each open question someone else holds (`Held by:` in `brief.md`); with thin evidence, also each record or check that would strengthen it. How to get it and what it would change. Suggestions, not conditions |
 | Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate, labelled as the assistant's assessment |
 
 Lead with what the focus needs: business with the verdict, market evidence and cheaper-than-building options; product with the problem, users and success; technical with decisions, door candidates, risks and feasibility; design with the journey, its states and open design questions; mixed with the verdict, then one short summary per area.
