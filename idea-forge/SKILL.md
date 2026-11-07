@@ -35,7 +35,7 @@ Present research summaries, the dossier and handoff summaries as tables. Do not 
 
 There is no setup and no user profile. On the first turn only, say in one line what happens: facts checked on the web, short rounds of questions, a verdict, and a file the next step can plan from. Name no tool, skill or script in that line. When the first message carries the idea, stage 1 starts: read `references/frame.md` and `references/asking.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
 
-Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp with a Pix deposit" starts stage 1 with two numbered facts (is anyone ordering this way today, what a no-show costs); the next turn asks alone which prices, fees or rules the idea counts on; research then checks the WhatsApp and Pix pricing on the web before anything is recommended.
+Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp with a Pix deposit" starts stage 1 with two numbered facts (is anyone ordering this way today, what a no-show costs); the next turn asks alone which prices, fees, limits or rules the idea counts on; research then checks the WhatsApp and Pix pricing on the web before anything is recommended.
 
 | Person says | Do |
 |---|---|
@@ -54,14 +54,14 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 3. Every claim about the world has a source and a check date. No source: "no verified source found".
 4. Separate what the person believes from what the evidence shows. Surface contradictions.
 5. Match the focus and level: product terms for non-technical people, technical depth for engineers.
-6. Unknowns become assumptions or open questions. Never block, and never pause to wait for someone else's answer. Never write a value nobody gave: every concrete value traces to something the person said or accepted, a finding, or an assumption.
+6. Unknowns become assumptions or open questions. Never block, and never pause to wait for someone else's answer: record it as an open question with `Held by:` and carry on to the verdict; the person can say "resume" later with it. Never write a value nobody gave: every concrete value traces to something the person said or accepted, a finding, or an assumption.
 7. Short sentences, concrete values, no filler, no em-dash.
 
 ## Stages
 
 | Stage | Goal | Read | Exit |
 |---|---|---|---|
-| 1. Frame | Situation, what the idea counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `references/asking.md`, `templates/brief.md` | What the idea counts on (prices, fees, limits, rules) is recorded as `K-NN`, from the person's words or one question; sentence, focus and questions stated in one message for the person to correct, with no wait for an "ok". A trivial change gets a one-paragraph answer |
+| 1. Frame | Situation, what the idea counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `references/asking.md`, `templates/brief.md` | What the idea counts on (prices, fees, limits, rules) is recorded as `K-NN`, from the person's words or one question; sentence, focus and questions stated in one message for the person to correct; research starts without waiting for an "ok". A trivial change gets a one-paragraph answer |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
 | 4. Synthesize | Verdict (go, refine, not now or stop) with how strong the evidence is, then the dossier with evidence, options, risks and what evidence to collect | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |
