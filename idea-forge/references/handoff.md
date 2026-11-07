@@ -42,4 +42,4 @@ IF <condition> THEN the <system> SHALL <response>.
 WHERE <feature> the <system> SHALL <response>.
 ```
 
-Run `node <skill-dir>/scripts/validate.ts <feature>` until it exits 0, then give the next command for the target from `references/targets.md`.
+Run `node <skill-dir>/scripts/validate.ts <feature>`, fix what it reports and run it again, at most three runs in all. When a fix attempt does not clear an error, list the remaining errors as gaps in the handoff summary and stop fixing. Then give the next command for the target from `references/targets.md`.
