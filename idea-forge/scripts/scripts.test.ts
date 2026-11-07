@@ -890,3 +890,10 @@ test("an item to collect that starts with the word none but names a record still
   const dossier = "## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n- None of the shops log no-shows; a two-week tally from three shops would confirm A-02\n";
   assert.deepEqual(validateDossier(dossier).errors, []);
 });
+
+test("a door candidates section that says none with a reason as a numbered line or in lowercase passes", () => {
+  for (const none of ["1. None - every choice is cheap to undo", "none - every choice is cheap to undo", "- none - every choice is cheap to undo"]) {
+    const report = validateHandoff(GOOD_HANDOFF.replace("1. Key storage. Preferred: table. Rejected: cache because keys are lost on restart [F-01]", none));
+    assert.ok(!report.errors.includes("Door candidate without a rejected alternative."), none);
+  }
+});

@@ -265,7 +265,7 @@ export function validateHandoff(text: string): Report {
   }
 
   const doors = map.get("door candidates") ?? "";
-  if (doors.trim() && !/^(?:[-*]\s+)?None - \S/m.test(doors.trim()) && !/Rejected:/i.test(doors)) {
+  if (doors.trim() && !/^(?:[-*]\s+|\d+\.\s+)?None - \S/im.test(doors.trim()) && !/Rejected:/i.test(doors)) {
     report.errors.push("Door candidate without a rejected alternative.");
   }
   for (const line of doors.split("\n").filter((l) => /Preferred:/i.test(l))) {
