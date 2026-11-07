@@ -116,7 +116,7 @@ Script tests, from `idea-forge/`:
 node --test scripts/scripts.test.ts
 ```
 
-Expected: 147 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, the optional verification profile hint, source tags on every rule, boundary, edge and relation, and each script run as a command, including through a linked folder with a space in its path.
+Expected: 156 tests pass. They cover freshness expiry, handoff and dossier validation, the Sources binding check, Entities relations, rules with no channel, the optional verification profile hint, source tags on every rule, boundary, edge and relation, and each script run as a command, including through a linked folder with a space in its path.
 
 Skill structure, with skill-creator installed (its script needs PyYAML):
 
@@ -160,9 +160,9 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 | Check | Result | Evidence |
 |---|---|---|
 | Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks, rerun on 2026-11-06 |
-| Script tests | Pass | 147 of 147 on 2026-11-07, including each script run as a command, through a junction and from a path with a space |
+| Script tests | Pass | 156 of 156 on 2026-11-07, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
-| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 1000 words (counted after the frontmatter); references are 9 to 90 lines |
+| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 997 words (counted after the frontmatter); references are 9 to 90 lines |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, a rule cites no source or a source that does not exist, or the verdict is refine |
 | Eval: first-use-starts-framing | 1.00, without skill 0.67 | 2026-11-07. The first run failed 3 of 3: the skill asked the person's role and link to the market; fixed by asking about the subject, never the person |
 | Eval: technical-question-adapts | 0.92, without skill 0.92 | 2026-11-07. A REST-to-gRPC question got technical questions in every run; one run left the progress line in English, fixed after. It guards against product questions on a technical subject rather than separating the arms |
