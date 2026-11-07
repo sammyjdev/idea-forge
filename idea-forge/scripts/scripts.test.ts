@@ -878,3 +878,15 @@ test("a blocking question written as a star bullet, in bold or indented still bl
     assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."), line);
   }
 });
+
+test("an item to collect that only says nothing, in any language or markup, does not count", () => {
+  for (const item of ["- **None**", "- `none`", "- (none)", "- None - the evidence is enough", "- Nenhum.", "- nenhuma", "- Nada", "- TBD", "- n.a.", "- None: nothing to add"]) {
+    const dossier = `## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n${item}\n`;
+    assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Evidence is thin")), item);
+  }
+});
+
+test("an item to collect that starts with the word none but names a record still counts", () => {
+  const dossier = "## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n- None of the shops log no-shows; a two-week tally from three shops would confirm A-02\n";
+  assert.deepEqual(validateDossier(dossier).errors, []);
+});
