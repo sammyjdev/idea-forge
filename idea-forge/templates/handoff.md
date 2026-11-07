@@ -37,6 +37,7 @@ Suggested profile: <optional, leave this line out for light unless the brief say
 
 ## Door candidates
 1. <choice>. Preferred: <option>. Rejected: <alternative> because <reason> [<D-NN, F-NN or A-NN>]
+Or "- None - <why no choice here is hard to reverse>"
 
 ## Surface hints
 - <route or screen>: used by <who>, returns or shows <what>. Or "None - nothing consumed outside"

@@ -812,3 +812,10 @@ test("a not now verdict is read as a verdict and still refuses the hand off", ()
     'Dossier verdict is "not now". Hand off only on go.',
   ]);
 });
+
+test("a door candidates section that says none with a reason, as a bullet or a plain line, passes", () => {
+  for (const none of ["- None - every choice is cheap to undo", "None - every choice is cheap to undo"]) {
+    const report = validateHandoff(GOOD_HANDOFF.replace("1. Key storage. Preferred: table. Rejected: cache because keys are lost on restart [F-01]", none));
+    assert.ok(!report.errors.includes("Door candidate without a rejected alternative."), none);
+  }
+});
