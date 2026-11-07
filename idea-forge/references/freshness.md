@@ -36,4 +36,4 @@ The person's first-hand data is not checkable on the web. Two kinds:
 
 Every checked claim becomes or updates a finding in `docs/discovery/findings.md` with volatility, status and check date, which `scripts/freshness.ts` reads to flag expired checks. On resume, run `node <skill-dir>/scripts/freshness.ts` and re-check on the web every flagged finding whose source is on the web before showing a result that depends on it, verdict findings first. A flagged finding whose source is the person's record, or that is unverifiable, is not searched again: list under Evidence to collect the newer record or the check that would settle it, and count the evidence as thin when the verdict rests on it.
 
-Without web access, say so once, mark every high and medium claim unverifiable, and mark the verdict's evidence thin, with each unchecked claim under Evidence to collect.
+Without web access, say so once, mark every high and medium claim unverifiable, and mark the verdict's evidence thin unless the verdict rests on the person's records read in this session, with each unchecked claim under Evidence to collect.
