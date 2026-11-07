@@ -13,7 +13,7 @@ Worked if: <outcome in the problem's unit, by when>
 Early signal: <visible in days, and what failure looks like>
 Review: <date or trigger, and who>
 
-What the person did not state above is the assistant's proposal; correct it.
+End each line the person did not state with `(proposed)`; they correct it.
 
 ## Evidence
 | RQ | Status | Strongest findings | Outdated corrected | Contradictions |
