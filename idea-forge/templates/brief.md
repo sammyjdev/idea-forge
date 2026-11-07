@@ -12,7 +12,7 @@ Problem kind: <pain | absence | construction | question>
 Focus: <business | product | technical | design | process | mixed>
 Niche: <niche>
 Constraints: <deadline, budget, team, stack>
-Target: <spec-driven skill, tlc-spec-lean unless the repo or the person names another>
+Target: <empty until stage 5 detects it, unless the person names one>
 
 ## Research questions
 - RQ-01: <question>. Risk it tests: <risk>. Changes the decision if: <answer>. Status: open

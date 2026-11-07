@@ -6,7 +6,7 @@ idea-forge writes the same neutral handoff, `docs/discovery/handoff/<feature>.md
 
 ## Pick the target
 
-1. Use the target the person named, or the one already in `brief.md`.
+1. Use the target the person named, in this session or as the Target in `brief.md`. A Target line is written before stage 5 only when the person names one; an empty one is no choice.
 2. Otherwise detect it: `.specs/STATE.md` or `.specs/features/` means tlc-spec-lean unless the person says otherwise; `.specify/` means GitHub Spec Kit; `.kiro/` means Kiro; an installed skill or command with a target's name means that target.
 3. No marker: tlc-spec-lean. More than one: ask, with the detected ones as options.
 
