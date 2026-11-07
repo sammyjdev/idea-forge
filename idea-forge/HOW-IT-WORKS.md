@@ -23,7 +23,7 @@ It does not write plans, specs, tasks or code, and never writes inside a target'
 | medium | Laws in force, market sizes, provider terms, platform policies | Always | 180 days |
 | low | Concepts, definitions, history | No | Unlimited |
 
-When you resume a session, `freshness.ts` lists the checks that expired and they are redone before anything that depends on them is shown. The handoff is blocked while a binding finding is expired, outdated or unverifiable.
+When you resume a session, `freshness.ts` lists the checks that expired and they are redone before anything that depends on them is shown. The handoff is blocked only while a binding finding is outdated, that is, contradicted by current evidence. An expired or unverifiable one is a warning and goes to the list of evidence to collect.
 
 ## The five stages
 

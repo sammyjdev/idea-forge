@@ -355,9 +355,12 @@ export function validateDossier(text: string): Report {
   else if (verdict[1].toLowerCase() !== "go") report.errors.push(`Dossier verdict is "${verdict[1]}". Hand off only on go.`);
   if (/^- Q-\d+.*\[blocks\]/m.test(text)) report.errors.push("Dossier has an open question tagged [blocks].");
   if (verdict && verdict[1].toLowerCase() === "go") {
-    const evidence = /^Evidence:\s*(strong|thin)\b/im.exec(text);
+    const evidence = /^\**Evidence\**:\s*\**(strong|thin)\b/im.exec(stripFences(sections(text).get("verdict") ?? ""));
+    const toCollect = stripFences(sections(text).get("evidence to collect") ?? "")
+      .split("\n")
+      .filter((line) => /^\s*-\s*\S/.test(line) && !/<[a-z][^>]*>/i.test(line));
     if (!evidence) report.errors.push("Dossier has no evidence line under the verdict: 'Evidence: strong' or 'Evidence: thin'.");
-    else if (evidence[1].toLowerCase() === "thin" && !/^\s*-\s*\S/m.test(sections(text).get("evidence to collect") ?? "")) {
+    else if (evidence[1].toLowerCase() === "thin" && toCollect.length === 0) {
       report.errors.push("Evidence is thin but '## Evidence to collect' lists nothing. Say what record or check would strengthen it.");
     }
   }
@@ -401,7 +404,9 @@ function main(): void {
     const findings = parseFindings(readText(findingsPath));
     errors.push(...checkSourcesBinding(readText(handoff), findings));
     for (const flag of flagFindings(findings, new Date())) {
-      if (flag.binding) errors.push(`Freshness: ${flag.id} ${flag.reason}`);
+      // Only evidence against a claim blocks; a claim nobody could check or recheck is advice to collect.
+      if (flag.binding && /outdated/.test(flag.reason)) errors.push(`Freshness: ${flag.id} ${flag.reason}`);
+      else if (flag.binding) warnings.push(`Freshness: ${flag.id} ${flag.reason}; list it under Evidence to collect`);
       else warnings.push(`Freshness: ${flag.id} ${flag.reason}`);
     }
   } else {

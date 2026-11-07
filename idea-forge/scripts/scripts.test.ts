@@ -705,6 +705,32 @@ function project(files: Record<string, string>): string {
   return root;
 }
 
+function freshnessProject(f: string): string {
+  return project({
+    "docs/discovery/handoff/x.md": GOOD_HANDOFF,
+    "docs/discovery/dossier.md": "## Verdict\ngo. Decided by: F-01.\nEvidence: thin\n\n## Evidence to collect\n- A current pricing page: would confirm F-01.\n",
+    "docs/discovery/findings.md": f,
+  });
+}
+
+test("validate command does not block on an expired binding finding; it advises collecting it", () => {
+  const { code, out } = runScript("validate.ts", ["x"], freshnessProject(finding("F-01", "high", "2020-01-01")));
+  assert.equal(code, 0, out);
+  assert.match(out, /warn .*F-01.*Evidence to collect/);
+});
+
+test("validate command does not block on an unverifiable binding finding", () => {
+  const { code, out } = runScript("validate.ts", ["x"], freshnessProject(finding("F-01", "high", today(), true, "unverifiable")));
+  assert.equal(code, 0, out);
+  assert.match(out, /warn .*F-01/);
+});
+
+test("validate command still refuses a binding finding that current evidence contradicts", () => {
+  const { code, out } = runScript("validate.ts", ["x"], freshnessProject(finding("F-01", "high", today(), true, "outdated")));
+  assert.equal(code, 1);
+  assert.match(out, /error .*F-01.*outdated/);
+});
+
 test("validate command refuses a hand off when the verdict is refine", () => {
   const root = project({
     "docs/discovery/handoff/x.md": GOOD_HANDOFF,
@@ -746,6 +772,23 @@ test("a go dossier that does not say how strong its evidence is fails", () => {
 test("a go on thin evidence passes when it lists the evidence to collect", () => {
   const dossier = "## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n- One week of orders counted in the notebook: would confirm the no-show rate (A-02).\n";
   assert.deepEqual(validateDossier(dossier).errors, []);
+});
+
+test("an evidence line outside the verdict section or in a fence does not count", () => {
+  for (const dossier of ["## Verdict\ngo. Decided by: F-01.\n\n## Risks\nEvidence: strong\n", "## Verdict\ngo. Decided by: F-01.\n```\nEvidence: strong\n```\n"]) {
+    assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Dossier has no evidence line")), dossier);
+  }
+});
+
+test("an evidence line in bold is read", () => {
+  assert.deepEqual(validateDossier("## Verdict\ngo. Decided by: F-01.\n**Evidence**: strong\n").errors, []);
+});
+
+test("evidence to collect that is only a fenced example or an unfilled template line does not count", () => {
+  for (const items of ["```\n- One week of orders: would confirm A-02\n```\n", "- <record or check>: <how to get it>. Would confirm or change: <A-NN>\n"]) {
+    const dossier = `## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n${items}`;
+    assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Evidence is thin")), items);
+  }
 });
 
 test("a go on thin evidence with nothing to collect fails", () => {
