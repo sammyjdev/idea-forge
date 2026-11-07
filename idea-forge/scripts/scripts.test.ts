@@ -916,3 +916,27 @@ ${item}
     assert.deepEqual(validateDossier(dossier).errors, [], item);
   }
 });
+
+test("a blocks tag on a question outside Open questions or inside a fence does not block the hand off", () => {
+  for (const extra of ["## Decisions\n- Q-01: who pays [blocks]\n", "## Open questions\n```\n- Q-01: who pays [blocks]\n```\n"]) {
+    const dossier = `## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n${extra}`;
+    assert.deepEqual(validateDossier(dossier).errors, [], extra);
+  }
+});
+
+test("status command counts only questions under Open questions and outside fences", () => {
+  const brief = [
+    "Position: Stage 3 of 5 · Grill",
+    "## Decisions",
+    "- Q-09: an old question [blocks]",
+    "## Open questions",
+    "- Q-01: who pays [open]",
+    "```",
+    "- Q-02: an example [blocks]",
+    "```",
+    "",
+  ].join("\n");
+  const { code, out } = runScript("status.ts", [], project({ "docs/discovery/brief.md": brief }));
+  assert.equal(code, 0, out);
+  assert.match(out, /Open questions: 1 \(0 blocking\)/);
+});

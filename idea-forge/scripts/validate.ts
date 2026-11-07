@@ -4,7 +4,7 @@
 
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { fail, isBlockingQuestion, isMain, parseArgs, readText, sections, stripFences } from "./lib.ts";
+import { fail, isBlockingQuestion, isMain, openQuestions, parseArgs, readText, sections, stripFences } from "./lib.ts";
 import { type Finding, flagFindings, parseFindings } from "./freshness.ts";
 
 const REQUIRED_SECTIONS = [
@@ -331,7 +331,7 @@ export function validateDossier(text: string): Report {
   const verdict = /^## Verdict\s*\n+\s*(go|refine|not now|stop)\b/im.exec(text);
   if (!verdict) report.errors.push("Dossier has no verdict (go, refine, not now or stop).");
   else if (verdict[1].toLowerCase() !== "go") report.errors.push(`Dossier verdict is "${verdict[1]}". Hand off only on go.`);
-  if (text.split("\n").some(isBlockingQuestion)) report.errors.push("Dossier has an open question tagged [blocks].");
+  if (openQuestions(text).some(isBlockingQuestion)) report.errors.push("Dossier has an open question tagged [blocks].");
   if (verdict && verdict[1].toLowerCase() === "go") {
     const evidence = /^\**Evidence\**:\s*\**(strong|thin)\b/im.exec(stripFences(sections(text).get("verdict") ?? ""));
     const toCollect = stripFences(sections(text).get("evidence to collect") ?? "")

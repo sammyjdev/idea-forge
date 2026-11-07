@@ -103,3 +103,8 @@ export function stripFences(text: string): string {
   }
   return kept.join("\n");
 }
+
+// The question lines under "## Open questions", leaving out fenced examples.
+export function openQuestions(text: string): string[] {
+  return stripFences(sections(text).get("open questions") ?? "").split("\n").filter((line) => QUESTION_LINE.test(line));
+}

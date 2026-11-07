@@ -4,7 +4,7 @@
 
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { QUESTION_LINE, isBlockingQuestion, parseArgs, readFields, readText } from "./lib.ts";
+import { isBlockingQuestion, openQuestions, parseArgs, readFields, readText } from "./lib.ts";
 
 const { flags } = parseArgs(process.argv.slice(2));
 const root = flags["root"] ?? process.cwd();
@@ -23,7 +23,7 @@ const lines = brief.split("\n").map((l) => l.trim());
 const rqs = lines.filter((l) => /^- RQ-\d+/.test(l));
 const rqOpen = rqs.filter((l) => /Status:\s*open/i.test(l)).length;
 const unconfirmed = lines.filter((l) => /^- A-\d+/.test(l) && /Confirmed\?\s*n\b/i.test(l)).length;
-const questions = lines.filter((l) => QUESTION_LINE.test(l));
+const questions = openQuestions(brief);
 const blocking = questions.filter(isBlockingQuestion).length;
 
 console.log(`Position: ${fields["position"] ?? "unknown"}`);
