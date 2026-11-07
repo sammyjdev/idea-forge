@@ -358,7 +358,7 @@ export function validateDossier(text: string): Report {
     const evidence = /^\**Evidence\**:\s*\**(strong|thin)\b/im.exec(stripFences(sections(text).get("verdict") ?? ""));
     const toCollect = stripFences(sections(text).get("evidence to collect") ?? "")
       .split("\n")
-      .filter((line) => /^\s*-\s*\S/.test(line) && !/<[a-z][^>]*>/i.test(line));
+      .filter((line) => /^\s*-\s*\S/.test(line) && !/<(?!https?:\/\/)[a-z][^>]*>/i.test(line));
     if (!evidence) report.errors.push("Dossier has no evidence line under the verdict: 'Evidence: strong' or 'Evidence: thin'.");
     else if (evidence[1].toLowerCase() === "thin" && toCollect.length === 0) {
       report.errors.push("Evidence is thin but '## Evidence to collect' lists nothing. Say what record or check would strengthen it.");
@@ -405,7 +405,7 @@ function main(): void {
     errors.push(...checkSourcesBinding(readText(handoff), findings));
     for (const flag of flagFindings(findings, new Date())) {
       // Only evidence against a claim blocks; a claim nobody could check or recheck is advice to collect.
-      if (flag.binding && /outdated/.test(flag.reason)) errors.push(`Freshness: ${flag.id} ${flag.reason}`);
+      if (flag.binding && (flag.kind === "outdated" || flag.kind === "format")) errors.push(`Freshness: ${flag.id} ${flag.reason}`);
       else if (flag.binding) warnings.push(`Freshness: ${flag.id} ${flag.reason}; list it under Evidence to collect`);
       else warnings.push(`Freshness: ${flag.id} ${flag.reason}`);
     }

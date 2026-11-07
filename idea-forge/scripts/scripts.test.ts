@@ -731,6 +731,12 @@ test("validate command still refuses a binding finding that current evidence con
   assert.match(out, /error .*F-01.*outdated/);
 });
 
+test("validate command refuses a binding finding with no volatility, since its freshness was never judged", () => {
+  const { code, out } = runScript("validate.ts", ["x"], freshnessProject(finding("F-01", "", today())));
+  assert.equal(code, 1);
+  assert.match(out, /error .*F-01.*volatility not set/);
+});
+
 test("validate command refuses a hand off when the verdict is refine", () => {
   const root = project({
     "docs/discovery/handoff/x.md": GOOD_HANDOFF,
@@ -789,6 +795,11 @@ test("evidence to collect that is only a fenced example or an unfilled template 
     const dossier = `## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n${items}`;
     assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Evidence is thin")), items);
   }
+});
+
+test("an item to collect with a markdown autolink is a real item", () => {
+  const dossier = "## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n- Pricing page <https://example.com/p>: would confirm F-01\n";
+  assert.deepEqual(validateDossier(dossier).errors, []);
 });
 
 test("a go on thin evidence with nothing to collect fails", () => {

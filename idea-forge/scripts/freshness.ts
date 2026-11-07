@@ -18,7 +18,7 @@ export type Finding = {
   binding: boolean;
 };
 
-export type Flag = { id: string; reason: string; binding: boolean };
+export type Flag = { id: string; reason: string; binding: boolean; kind: "format" | "stale" | "outdated" | "unverifiable" };
 
 export function parseFindings(text: string): Finding[] {
   const findings: Finding[] = [];
@@ -43,25 +43,26 @@ export function flagFindings(findings: Finding[], now: Date): Flag[] {
   for (const f of findings) {
     const volatility = ["high", "medium", "low"].includes(f.volatility) ? f.volatility : "";
     if (!volatility) {
-      flags.push({ id: f.id, reason: "volatility not set (high, medium or low)", binding: f.binding });
+      flags.push({ id: f.id, reason: "volatility not set (high, medium or low)", binding: f.binding, kind: "format" });
       continue;
     }
     if (volatility === "low") continue;
     const age = daysSince(f.checked, now);
     if (age === null) {
-      flags.push({ id: f.id, reason: `${volatility} volatility, never checked`, binding: f.binding });
+      flags.push({ id: f.id, reason: `${volatility} volatility, never checked`, binding: f.binding, kind: "stale" });
     } else if (age > VALIDITY_DAYS[volatility]) {
       flags.push({
         id: f.id,
         reason: `${volatility} volatility, checked ${age} days ago (limit ${VALIDITY_DAYS[volatility]})`,
         binding: f.binding,
+        kind: "stale",
       });
     }
     if (f.freshness === "outdated" && f.binding) {
-      flags.push({ id: f.id, reason: "binding finding is outdated; use the correction or replace it", binding: true });
+      flags.push({ id: f.id, reason: "binding finding is outdated; use the correction or replace it", binding: true, kind: "outdated" });
     }
     if (f.freshness === "unverifiable" && f.binding) {
-      flags.push({ id: f.id, reason: "binding finding is unverifiable; it cannot decide the verdict alone", binding: true });
+      flags.push({ id: f.id, reason: "binding finding is unverifiable; it cannot decide the verdict alone", binding: true, kind: "unverifiable" });
     }
   }
   return flags;
