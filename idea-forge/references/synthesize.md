@@ -24,7 +24,7 @@ Lead with what the focus needs: business with the verdict, market evidence and c
 
 ## Verdict
 
-- go: the problem is backed by current evidence: at least one finding with status current from a dated source. Undated pages and the person's estimates are assumptions, not evidence. Also, no question is tagged `blocks`, and no unmitigated risk is high on both likelihood and impact. A go on something smaller or different than the idea is a new proposal: say which part of the measured cost it removes and which it leaves.
+- go: the problem is backed by current evidence: at least one finding with status current from a dated source. The person's own dated record (an order notebook, a spreadsheet, a bank statement) counts; a figure from memory or an estimate does not, nor does an undated page (`references/freshness.md`). Also, no question is tagged `blocks`, and no unmitigated risk is high on both likelihood and impact. A go on something smaller or different than the idea is a new proposal: say which part of the measured cost it removes and which it leaves.
 - refine: the idea holds but a go condition fails. List what to do next.
 - not now: worth doing, but after something else. Say what stalls while it waits and what would be built twice if it came later.
 - stop: current evidence contradicts the problem, or a blocker has no workaround.

@@ -14,7 +14,10 @@ No result may rest on a fact that stopped being true. A claim is any statement t
 
 When unsure, pick the higher class. The window runs from the check date; a source dated before it cannot make a claim current.
 
-The person's first-hand data (their sales, costs, interviews) is not checkable on the web. Record the person as the source and the day they collected it as the check date, set volatility by what it measures, mark it current with confidence 60% or less unless records back it. It is never unverifiable.
+The person's first-hand data is not checkable on the web. Two kinds:
+
+- A record they keep and can name: an order notebook, a spreadsheet, a bank statement, interview notes. It is a finding: the record as the source, the period it covers as the check date, volatility by what it measures, status current, confidence 60% or less unless the record was read in this session. It is never unverifiable.
+- A figure from memory or an estimate ("about 1 in 6 do not show up"). It is a `K-NN` fact the person stated, not a finding; when the verdict depends on it, ask once whether a record backs it, and when one does, record that record as the finding.
 
 ## How to check
 
