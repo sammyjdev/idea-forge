@@ -352,8 +352,8 @@ export function checkAssumptionsShown(dossier: string, brief: string): string[] 
     .map((id) => `Dossier: ${id} is an unconfirmed assumption the person never saw. List it under Assumptions so they can correct it with the verdict.`);
 }
 
-// An item that only says there is nothing: "None", "**n/a**", "Nada.", "None - enough". "None of the shops..." is an item.
-const EMPTY_ITEM = /^(?:-|none|nenhum|nenhuma|nada|n\/a|n\.a\.?|tbd|nothing)(?:$|[\s]*[.,;:!-])/i;
+// An item that is only a nothing word or a dash once its markup is gone: "None", "**n/a**", "Nada.". "None - a tally..." is an item.
+const EMPTY_ITEM = /^(?:-|none|nenhum|nenhuma|nada|nil|n\/a|n\.a\.?|tbd|nothing)[.,;:!?]*$/i;
 
 export function validateDossier(text: string): Report {
   const report: Report = { errors: [], warnings: [] };
@@ -366,7 +366,7 @@ export function validateDossier(text: string): Report {
     const toCollect = stripFences(sections(text).get("evidence to collect") ?? "")
       .split("\n")
       .filter((line) => /^\s*-\s*\S/.test(line) && !/<(?!https?:\/\/)[a-z][^>]*>/i.test(line))
-      .filter((line) => !EMPTY_ITEM.test(line.replace(/^\s*-\s*/, "").replace(/[*_`()]/g, "").trim()));
+      .filter((line) => !EMPTY_ITEM.test(line.replace(/^\s*-\s*/, "").replace(/[*_`()~[\]]/g, "").trim()));
     if (!evidence) report.errors.push("Dossier has no evidence line under the verdict: 'Evidence: strong' or 'Evidence: thin'.");
     else if (evidence[1].toLowerCase() === "thin" && toCollect.length === 0) {
       report.errors.push("Evidence is thin but '## Evidence to collect' lists nothing. Say what record or check would strengthen it.");

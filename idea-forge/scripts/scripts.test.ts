@@ -880,7 +880,7 @@ test("a blocking question written as a star bullet, in bold or indented still bl
 });
 
 test("an item to collect that only says nothing, in any language or markup, does not count", () => {
-  for (const item of ["- **None**", "- `none`", "- (none)", "- None - the evidence is enough", "- Nenhum.", "- nenhuma", "- Nada", "- TBD", "- n.a.", "- None: nothing to add"]) {
+  for (const item of ["- **None**", "- `none`", "- (none)", "- Nenhum.", "- nenhuma", "- Nada", "- TBD.", "- n.a.", "- nil", "- ~~none~~", "- [n/a]"]) {
     const dossier = `## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n${item}\n`;
     assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Evidence is thin")), item);
   }
@@ -895,5 +895,24 @@ test("a door candidates section that says none with a reason as a numbered line 
   for (const none of ["1. None - every choice is cheap to undo", "none - every choice is cheap to undo", "- none - every choice is cheap to undo"]) {
     const report = validateHandoff(GOOD_HANDOFF.replace("1. Key storage. Preferred: table. Rejected: cache because keys are lost on restart [F-01]", none));
     assert.ok(!report.errors.includes("Door candidate without a rejected alternative."), none);
+  }
+});
+
+test("an item to collect that starts with a nothing word but says what to get still counts", () => {
+  for (const item of [
+    "- TBD: date of the board meeting minutes, from the secretary",
+    "- N/A: n/a forms from the registry would confirm A-01",
+    "- Nothing-to-report forms from the tax office",
+    "- None - a two-week tally from three shops would confirm A-02",
+    "- None - every claim checked",
+  ]) {
+    const dossier = `## Verdict
+go. Decided by: K-01.
+Evidence: thin
+
+## Evidence to collect
+${item}
+`;
+    assert.deepEqual(validateDossier(dossier).errors, [], item);
   }
 });
