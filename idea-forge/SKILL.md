@@ -17,7 +17,11 @@ Conversation follows the person's language. Every file is in English.
 
 Nothing that can change over time reaches the person unchecked: claims from the person, from their material, and from your own knowledge. A stale price, law or API misdirects the whole plan.
 
-Before any turn that presents a result, a recommendation or a finding, search the web for each time-sensitive claim it depends on that was not checked in this session, mark it current, outdated (with the correction) or unverifiable, and cite what was checked.
+Before any turn that presents a result, a recommendation or a finding:
+1. List the time-sensitive claims it depends on.
+2. Search the web for each one not checked in this session.
+3. Mark each as current, outdated (with the correction) or unverifiable.
+4. Only then write the turn, and cite what was checked.
 
 Read `references/freshness.md` before the first check of a session.
 
@@ -36,7 +40,7 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 | Person says | Do |
 |---|---|
 | start | Begin stage 1 |
-| resume | Run `status.ts`, then `freshness.ts`. Re-check what it flags, then continue |
+| resume | Run `status.ts`, then `freshness.ts`. Re-check what it flags, read `references/asking.md`, then continue |
 | add this | Take the note, link or file as intake for stage 2 |
 | check this | Run a freshness check on the claim and report |
 | skip | Record the current question as an assumption, continue |
@@ -46,7 +50,7 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 ## Rules
 
 1. Ask only what changes the output, as `references/asking.md` says: up to three facts per turn, each choice alone with a recommendation, everything else an assumption the person corrects with the verdict.
-2. Never ask what the person's material, the code, a search or `brief.md` already answers.
+2. Never ask what the person's material, the code, a search or `brief.md` (Facts and Decisions) already answers.
 3. Every claim about the world has a source and a check date. No source: "no verified source found".
 4. Separate what the person believes from what the evidence shows. Surface contradictions.
 5. Match the focus and level: product terms for non-technical people, technical depth for engineers.
@@ -57,7 +61,7 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 
 | Stage | Goal | Read | Exit |
 |---|---|---|---|
-| 1. Frame | Situation, what the idea counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `references/asking.md`, `templates/brief.md` | What the idea counts on is recorded as `K-NN`; sentence, focus and questions stated for the person to correct, with no wait for an "ok". A trivial change gets a one-paragraph answer |
+| 1. Frame | Situation, what the idea counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `references/asking.md`, `templates/brief.md` | What the idea counts on (prices, fees, limits, rules) is recorded as `K-NN`, from the person's words or one question; sentence, focus and questions stated in one message for the person to correct, with no wait for an "ok". A trivial change gets a one-paragraph answer |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including the journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
 | 4. Synthesize | Verdict (go, refine, not now or stop) with how strong the evidence is, then the dossier with evidence, options, risks and what evidence to collect | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |
