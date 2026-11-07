@@ -6,8 +6,8 @@ Read at the start of stage 1, with `references/frame.md`. It holds for every sta
 
 Ask only what changes the output, and only while the answer can still change something: a question made moot by an earlier decision is not asked. Two kinds:
 
-- A fact only the person has (their numbers, their customers, what happens today), when `brief.md` does not already hold it. A fact is what is true today. Up to three in one turn, numbered, with no recommended answer, since a fact cannot be agreed to. The stage 1 question on what the idea counts on always goes alone.
-- A choice: anything about what the product should do, with a real trade-off (two defensible answers with different costs), or any value on a risky path (money, health data, personal data, regulation or a change people cannot undo). One per turn, with a recommended answer and one line on why, because several choices at once get answered by agreeing to all of them.
+- A fact only the person has (their numbers, their users, their systems, what happens today), when `brief.md` does not already hold it. A fact is what is true today. Up to three in one turn, numbered, with no recommended answer, since a fact cannot be agreed to. The stage 1 question on what the subject counts on, when asked, always goes alone.
+- A choice: anything about what should be built or done (a product, a system, a process), with a real trade-off (two defensible answers with different costs), or any value on a risky path (money, health data, personal data, regulation or a change people cannot undo). One per turn, with a recommended answer and one line on why, because several choices at once get answered by agreeing to all of them.
 
 A turn never mixes facts and a choice. Never ask the person to confirm a summary; the only confirmation is the verdict.
 

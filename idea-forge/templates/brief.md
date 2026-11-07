@@ -8,7 +8,7 @@ Updated: YYYY-MM-DD
 ## Context
 Depth: <quick | thorough>
 Situation: <in use | not shipped | under construction>. Decision: <open | committed by who, when>. In flight: <one sentence>. At stake: <cost of being wrong>
-Problem kind: <pain | absence | construction>
+Problem kind: <pain | absence | construction | question>
 Focus: <business | product | technical | design | mixed>
 Niche: <niche>
 Constraints: <deadline, budget, team, stack>

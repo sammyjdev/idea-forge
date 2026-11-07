@@ -129,7 +129,8 @@ claude plugin eval . --allow-tools Write Edit Bash WebSearch WebFetch --scaffold
 
 | Case | Checks |
 |---|---|
-| first-use-starts-framing | No setup form: the first question is about the idea, in the person's language, with no tool names |
+| first-use-starts-framing | No setup form: the first turn asks about the idea and its situation, in the person's language, with no tool names |
+| technical-question-adapts | A technical question, not a product: the questions fit it (what runs today, what decision waits on the answer), with nothing about customers, pricing or the person |
 | checks-time-sensitive-claim | A claim that can be outdated is searched and reported with source and date before results are shown |
 | writes-handoff-for-tlc-spec-lean | A complete handoff is written and validated, nothing under `.specs/features`, no approval line |
 
@@ -158,7 +159,7 @@ Run on 2026-11-05, Claude Code 2.1.318, Windows 11, Node 24.20. The end to end a
 | Skill structure | Pass | skill-creator `quick_validate.py`: "Skill is valid!"; Tech Leads Club `skill-architect` `validate_skill.py`: 31 of 31 checks, rerun on 2026-11-06 |
 | Script tests | Pass | 129 of 129 on 2026-11-06, including each script run as a command, through a junction and from a path with a space |
 | Referenced paths | Pass | Every path named in SKILL.md and the references exists |
-| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 932 words (counted after the frontmatter); references are 9 to 90 lines |
+| Writing rules | Pass | No en-dash or em-dash in any markdown file; SKILL.md body is 949 words (counted after the frontmatter); references are 9 to 90 lines |
 | validate.ts on a hand-written handoff | Pass | Passes when complete; fails with a clear message when the slice heading is removed, an approval line is added, an Edges row is empty, a placeholder remains, a rule cites no source or a source that does not exist, or the verdict is refine |
 | Eval: first-use-starts-framing | Not run yet | Replaces first-use-runs-setup, which tested the setup form that was removed |
 | Eval: checks-time-sensitive-claim | 1.00, without skill 0.83 | The skill corrected an outdated revenue-limit claim from the prompt, citing a source found by web search |

@@ -7,7 +7,7 @@ Evidence: <strong | thin>
 Next action: <for go, the feature to hand off first; for refine, what to change; for not now or stop, what would have to become true to reopen it>
 
 ## Problem
-<idea sentence>. Kind: <pain | absence | construction>. Backed by: <F-NN>.
+<idea sentence>. Kind: <pain | absence | construction | question>. Backed by: <F-NN>.
 
 ## Success
 Worked if: <outcome in the problem's unit, by when>
