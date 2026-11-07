@@ -121,7 +121,7 @@ idea-forge/
     synthesize.md       verdict and dossier, at stage 4
     handoff.md          handoff and EARS, at stage 5
     files.md            project files, before writing one
-    visuals.md          output formats, before any result
+    visuals.md          output formats, when you ask for another one
     writing.md          before long prose
   templates/            brief, findings, dossier, handoff, ADR
   scripts/
