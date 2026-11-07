@@ -13,7 +13,7 @@ Checked 2026-11-05 against tlc-spec-lean 2.2.0: its SKILL.md, references/plan.md
 | Entities | Shape erDiagram and Changes underneath | Existing data touched becomes Changes underneath |
 | Surface hints | Surface | tlc-spec-lean derives route, in, out, statuses and who; the hint must name who uses it. `None - nothing consumed outside` is valid |
 | Door candidates | Landing | Literal shape and rejected alternative |
-| Rules, by slice | Criteria | Heading `### S1: <name> (P1)`; EARS with `SHALL` and concrete values. Normal and Boundary lines become one `- example → result; strong case → result` line |
+| Rules, by slice | Criteria | Heading `### S1: <name> (P1)`; EARS with `SHALL` and concrete values. Normal and Boundary lines become one `- example → result; strong case → result` line. A `Plain words:` line becomes the criterion's description or a comment under it, or is dropped where the target has neither |
 | Literal text | Criteria and Assumptions | Copied character for character, never paraphrased |
 | Out of scope | Out of scope | With reasons |
 | Decisions | Criteria, or Assumptions with `Confirmed? y` | Already decided by the person; the plan does not ask again |

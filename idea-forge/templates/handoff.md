@@ -19,6 +19,7 @@ Suggested profile: <optional, leave this line out for light unless the brief say
 ## Rules
 ### S1: <slice name> (P1)
 1. WHEN <trigger> THEN the <system> SHALL <response with concrete value, naming the channel when it sends a message>. [<D-NN, K-NN, F-NN or A-NN>]
+   Plain words: <the rule in plain words, for a non-technical person; leave the line out otherwise>
    Normal: <input> -> <output>
    Boundary: <neighbouring case: below, above or exactly at the limit> -> <output> [<D-NN, K-NN, F-NN or A-NN>]
 
