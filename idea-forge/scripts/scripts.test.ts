@@ -1038,3 +1038,8 @@ test("a nested Open questions heading does not end the outer section early", () 
   assert.equal(code, 0, out);
   assert.match(out, /Open questions: 2 \(1 blocking\)/);
 });
+
+test("an unclosed fence earlier in the dossier does not hide a later blocking question", () => {
+  const dossier = "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Assumptions\n```\nA-01: 24 hours\n\n## Open questions\n- Q-01: who pays [blocks]\n";
+  assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."));
+});

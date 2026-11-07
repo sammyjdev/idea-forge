@@ -91,18 +91,23 @@ export function sections(text: string): Map<string, string> {
 // Fenced blocks hold examples; inline code stays, since a reason may name a file.
 // CommonMark rules: a fence is 3+ backticks or tildes, a backtick fence's info has no backtick,
 // it closes on the same character at least as long with nothing after it, or at the end of the text.
-export function stripFences(text: string): string {
+// With keepUnclosed, a fence never closed is read as plain text instead, so a gate fails closed.
+export function stripFences(text: string, keepUnclosed = false): string {
   const kept: string[] = [];
-  let open: { char: string; size: number } | null = null;
-  for (const line of text.split("\n")) {
+  const lines = text.split("\n");
+  let open: { char: string; size: number; at: number } | null = null;
+  for (const [i, line] of lines.entries()) {
     const fence = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line.replace(/\r$/, ""));
     if (open) {
       if (fence && fence[1][0] === open.char && fence[1].length >= open.size && fence[2].trim() === "") open = null;
     } else if (fence && !(fence[1][0] === "`" && fence[2].includes("`"))) {
-      open = { char: fence[1][0], size: fence[1].length };
+      open = { char: fence[1][0], size: fence[1].length, at: i };
     } else {
       kept.push(line);
     }
+  }
+  if (open && keepUnclosed) {
+    kept.push(lines[open.at], stripFences(lines.slice(open.at + 1).join("\n"), true));
   }
   return kept.join("\n");
 }
@@ -113,7 +118,7 @@ export function stripFences(text: string): string {
 export function openQuestions(text: string): string[] {
   const body: string[] = [];
   let level = 0;
-  for (const line of stripFences(text).split("\n")) {
+  for (const line of stripFences(text, true).split("\n")) {
     const heading = /^ {0,3}(#{1,6})(?:[ \t]+(.*))?$/.exec(line.replace(/\r$/, ""));
     if (heading) {
       const depth = heading[1].length;
