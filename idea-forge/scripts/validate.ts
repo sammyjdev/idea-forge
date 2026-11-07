@@ -353,7 +353,11 @@ export function validateDossier(text: string): Report {
   const verdict = /^## Verdict\s*\n+\s*(go|refine|not now|stop)\b/im.exec(text);
   if (!verdict) report.errors.push("Dossier has no verdict (go, refine, not now or stop).");
   else if (verdict[1].toLowerCase() !== "go") report.errors.push(`Dossier verdict is "${verdict[1]}". Hand off only on go.`);
-  if (/^- Q-\d+.*\[blocks\]/m.test(text)) report.errors.push("Dossier has an open question tagged [blocks].");
+  const blocking = text
+    .split("\n")
+    .filter((line) => /^- Q-\d+/.test(line))
+    .some((line) => [...line.matchAll(/\[([^\]]*)\]/g)].some((m) => m[1].split(",").some((t) => t.trim().toLowerCase() === "blocks")));
+  if (blocking) report.errors.push("Dossier has an open question tagged [blocks].");
   if (verdict && verdict[1].toLowerCase() === "go") {
     const evidence = /^\**Evidence\**:\s*\**(strong|thin)\b/im.exec(stripFences(sections(text).get("verdict") ?? ""));
     const toCollect = stripFences(sections(text).get("evidence to collect") ?? "")

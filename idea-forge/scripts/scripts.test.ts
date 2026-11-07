@@ -831,3 +831,15 @@ test("a markdown autolink in the handoff is a link, not a template placeholder",
   const report = validateHandoff(GOOD_HANDOFF.replace("[Docs](https://example.com)", "Docs <https://example.com/pricing>"));
   assert.ok(!report.errors.includes("Template placeholders like <...> remain."), report.errors.join("\n"));
 });
+
+test("a blocking question tagged in another case or with a second tag still blocks", () => {
+  for (const tag of ["[Blocks]", "[BLOCKS]", "[blocks, open]", "[open, blocks]"]) {
+    const dossier = `## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Open questions\n- Q-01: who pays ${tag}\n`;
+    assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."), tag);
+  }
+});
+
+test("a question tagged blocks go-live does not block the hand off", () => {
+  const dossier = "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Open questions\n- Q-01: who signs [blocks go-live]\n";
+  assert.deepEqual(validateDossier(dossier).errors, []);
+});
