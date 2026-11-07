@@ -66,7 +66,7 @@ Recommended: <answer, for a choice only>
 Checked: <finding IDs and date, or "nothing time-sensitive">
 ```
 
-Example. User says: "An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix." `Stage 1 of 5 · Frame · 0 of ~4 decisions made`, then two numbered facts: is anyone ordering this way today, and what a no-show costs. The next turn asks, on its own, which prices, fees or rules the idea counts on. `Checked: nothing time-sensitive`.
+Example. User says: "An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix." `Stage 1 of 5 · Frame · 0 of ~4 decisions made`, then two numbered facts: is anyone ordering this way today, and what a no-show costs. The next turn asks, on its own, which prices, fees, limits or rules the idea counts on. `Checked: nothing time-sensitive`.
 
 `~12` is your running estimate for the stage. For a choice, offer the recommendation and up to two alternatives. After each answer, one line on what changed, then the next turn.
 
