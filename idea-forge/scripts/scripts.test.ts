@@ -985,3 +985,21 @@ test("status command counts the questions of every Open questions section", () =
   assert.equal(code, 0, out);
   assert.match(out, /Open questions: 2 \(1 blocking\)/);
 });
+
+test("a fenced heading example does not end or start an Open questions section in the dossier", () => {
+  const cases = [
+    "## Open questions\n- Q-01: who pays [blocks]\n\n## Notes\n```\n## Open questions\n- Q-02: an example [open]\n```\n",
+    "## Open questions\n```\n## Decisions\n```\n- Q-01: who pays [blocks]\n",
+  ];
+  for (const tail of cases) {
+    const dossier = `## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n${tail}`;
+    assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."), tail);
+  }
+});
+
+test("status command does not count a question from a fenced Open questions example", () => {
+  const brief = "Position: Stage 3 of 5\n## Decisions\n```\n## Open questions\n- Q-09: an example [blocks]\n```\n## Open questions\n- Q-01: who pays [open]\n";
+  const { code, out } = runScript("status.ts", [], project({ "docs/discovery/brief.md": brief }));
+  assert.equal(code, 0, out);
+  assert.match(out, /Open questions: 1 \(0 blocking\)/);
+});
