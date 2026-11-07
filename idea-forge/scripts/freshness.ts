@@ -63,11 +63,14 @@ export function flagFindings(findings: Finding[], now: Date): Flag[] {
     if (status === "outdated" && f.binding) {
       flags.push({ id: f.id, reason: "binding finding is outdated; use the correction or replace it", binding: true, kind: "outdated" });
     }
+    const offline = /no web access/.test(f.freshness);
     if (status === "unverifiable" && f.binding) {
-      const reason = /no web access/.test(f.freshness)
-        ? "binding finding is unverifiable only for lack of web access; search it when web access returns"
+      const reason = offline
+        ? "binding finding is unverifiable only for lack of web access; it cannot decide the verdict alone; list it under Evidence to collect now and search it when web access returns"
         : "binding finding is unverifiable; it cannot decide the verdict alone; list it under Evidence to collect";
       flags.push({ id: f.id, reason, binding: true, kind: "unverifiable" });
+    } else if (status === "unverifiable" && offline) {
+      flags.push({ id: f.id, reason: "unverifiable only for lack of web access; search it when web access returns", binding: false, kind: "unverifiable" });
     }
   }
   return flags;

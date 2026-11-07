@@ -1022,11 +1022,11 @@ test("a freshness status with a note after it is read by its first word", () => 
   assert.equal(flags[0]?.kind, "outdated");
 });
 
-test("validate command tells to search a finding unverifiable only for lack of web access, not to collect it", () => {
+test("validate command tells to collect a finding unverifiable only for lack of web access now and search it when access returns", () => {
   const { code, out } = runScript("validate.ts", ["x"], freshnessProject(finding("F-01", "high", today(), true, "unverifiable (no web access)")));
   assert.equal(code, 0, out);
   assert.match(out, /warn .*F-01.*search it when web access returns/);
-  assert.doesNotMatch(out, /F-01.*Evidence to collect/);
+  assert.match(out, /warn .*F-01.*Evidence to collect/);
 });
 
 const NESTED_OPEN_QUESTIONS = "## Open questions\n### Open questions for finance\n- Q-01: a [open]\n### Product\n- Q-02: b [blocks]\n";
@@ -1042,4 +1042,20 @@ test("a nested Open questions heading does not end the outer section early", () 
 test("an unclosed fence earlier in the dossier does not hide a later blocking question", () => {
   const dossier = "## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n## Assumptions\n```\nA-01: 24 hours\n\n## Open questions\n- Q-01: who pays [blocks]\n";
   assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."));
+});
+
+test("a binding finding unverifiable for lack of web access still cannot decide the verdict and is listed to collect now", () => {
+  const flags = flagFindings(parseFindings(finding("F-01", "high", "2026-11-05", true, "unverifiable (no web access)")), NOW);
+  assert.match(flags[0].reason, /cannot decide the verdict alone/);
+  assert.match(flags[0].reason, /Evidence to collect/);
+  assert.match(flags[0].reason, /search it when web access returns/);
+});
+
+test("a non-binding finding unverifiable for lack of web access is flagged to search when access returns", () => {
+  const flags = flagFindings(parseFindings(finding("F-01", "high", "2026-11-05", false, "unverifiable (no web access)")), NOW);
+  assert.equal(flags.length, 1);
+  assert.equal(flags[0].binding, false);
+  assert.match(flags[0].reason, /search it when web access returns/);
+  const { code, out } = runScript("freshness.ts", [], project({ "docs/discovery/findings.md": finding("F-01", "high", today(), false, "unverifiable (no web access)") }));
+  assert.equal(code, 3, out);
 });
