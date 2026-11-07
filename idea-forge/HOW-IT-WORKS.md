@@ -23,7 +23,7 @@ It does not write plans, specs, tasks or code, and never writes inside a target'
 | medium | Laws in force, market sizes, provider terms, platform policies | Always | 180 days |
 | low | Concepts, definitions, history | No | Unlimited |
 
-When you resume a session, `freshness.ts` lists the checks that expired; those with a web source are redone before anything that depends on them is shown, and a stale record of your own, or a finding a search already found unverifiable, is not searched again and goes to the list of evidence to collect. Among findings, the handoff is blocked while a binding one is outdated, that is, contradicted by current evidence, or has no volatility set, so its freshness was never judged. An expired or unverifiable one is a warning and goes to the list of evidence to collect. The other errors that block are in the stage 5 rule, `references/handoff.md`.
+When you resume a session, `freshness.ts` lists the checks that expired; those with a web source are redone before anything that depends on them is shown, and a stale record of your own, or a finding a search already found unverifiable, is not searched again and goes to the list of evidence to collect; a claim unverifiable only for lack of web access is searched when access returns. Among findings, the handoff is blocked while a binding one is outdated, that is, contradicted by current evidence, or has no volatility set, so its freshness was never judged. An expired or unverifiable one is a warning and goes to the list of evidence to collect. The other errors that block are in the stage 5 rule, `references/handoff.md`.
 
 ## The five stages
 
@@ -135,5 +135,5 @@ Scripts are TypeScript with no dependencies. They run from the project root with
 
 ## Limits
 
-- Checks depend on reachable sources. Without web access, high and medium claims stay unverifiable, a verdict that rests on one is marked thin, and the unchecked claims go to the list of what to collect.
+- Checks depend on reachable sources. Without web access, high and medium claims stay unverifiable, a verdict that rests on one is marked thin, and the unchecked claims go to the list of what to collect; they are searched when web access returns.
 - The tlc-spec-lean mapping was checked on 2026-11-05 against tlc-spec-lean 2.2.0. The other targets have not been checked against the live tools. Each session re-checks the target before giving the next command. If a target asks for something missing, add it to the handoff and rerun `validate.ts`.
