@@ -960,3 +960,28 @@ test("a numbered blocking question blocks the hand off and counts in status", ()
   assert.equal(code, 0, out);
   assert.match(out, /Open questions: 1 \(1 blocking\)/);
 });
+
+const OPEN_QUESTION_HEADINGS = ["## Open questions (3)", "## Open questions:", "### Open questions", "## Open questions ##"];
+
+test("a blocking question under an Open questions heading with a count, a colon, level three or closing hashes blocks the hand off", () => {
+  for (const heading of OPEN_QUESTION_HEADINGS) {
+    const dossier = `## Verdict\ngo. Decided by: F-01.\nEvidence: strong\n\n${heading}\n- Q-01: who pays [blocks]\n`;
+    assert.ok(validateDossier(dossier).errors.includes("Dossier has an open question tagged [blocks]."), heading);
+  }
+});
+
+test("status command counts a blocking question under any Open questions heading form", () => {
+  for (const heading of OPEN_QUESTION_HEADINGS) {
+    const brief = `Position: Stage 3 of 5\n${heading}\n- Q-01: who pays [blocks]\n`;
+    const { code, out } = runScript("status.ts", [], project({ "docs/discovery/brief.md": brief }));
+    assert.equal(code, 0, out);
+    assert.match(out, /Open questions: 1 \(1 blocking\)/, heading);
+  }
+});
+
+test("status command counts the questions of every Open questions section", () => {
+  const brief = "Position: Stage 3 of 5\n## Open questions\n- Q-01: who pays [blocks]\n## Decisions\n- D-01: x. Because: y\n## Open questions\n- Q-02: which bank [open]\n";
+  const { code, out } = runScript("status.ts", [], project({ "docs/discovery/brief.md": brief }));
+  assert.equal(code, 0, out);
+  assert.match(out, /Open questions: 2 \(1 blocking\)/);
+});

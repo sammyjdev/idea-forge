@@ -108,6 +108,21 @@ export function stripFences(text: string): string {
 }
 
 // The question lines under "## Open questions", leaving out fenced examples.
+// A section is a level 2 or 3 heading whose title starts with "open questions": "(3)", ":" or closing "#"s may follow.
+// Every such section is read; one ends at the next heading of its level or higher.
 export function openQuestions(text: string): string[] {
-  return stripFences(sections(text).get("open questions") ?? "").split("\n").filter((line) => QUESTION_LINE.test(line));
+  const body: string[] = [];
+  let level = 0;
+  for (const line of text.split("\n")) {
+    const heading = /^ {0,3}(#{1,6})(?:[ \t]+(.*))?$/.exec(line.replace(/\r$/, ""));
+    if (heading) {
+      const depth = heading[1].length;
+      const title = (heading[2] ?? "").replace(/(?:^|[ \t]+)#+[ \t]*$/, "").trim().toLowerCase();
+      if (level && depth <= level) level = 0;
+      if ((depth === 2 || depth === 3) && title.startsWith("open questions")) level = depth;
+      continue;
+    }
+    if (level) body.push(line);
+  }
+  return stripFences(body.join("\n")).split("\n").filter((line) => QUESTION_LINE.test(line));
 }
