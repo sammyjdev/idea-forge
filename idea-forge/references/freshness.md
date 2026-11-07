@@ -16,7 +16,7 @@ When unsure, pick the higher class. The window runs from the check date; a sourc
 
 The person's first-hand data is not checkable on the web. Two kinds:
 
-- A record they keep and can name: an order notebook, a spreadsheet, a bank statement, interview notes. It is a finding: the record and the period it covers as the source, the last date it covers as `Checked: YYYY-MM-DD`, volatility by what it measures, status current, confidence 60% or less unless the record was read in this session. It is never unverifiable.
+- A record they keep and can name: an order notebook, a spreadsheet, a bank statement, interview notes. It is a finding: the record and the period it covers as the source, the last date it covers as `Checked: YYYY-MM-DD`, volatility by what it measures, status current, confidence 60% or less unless the record was read in this session. It is never unverifiable. Its check expires like any other, but it is never searched on the web: once flagged, the newer record goes under Evidence to collect.
 - A figure from memory or an estimate ("about 1 in 6 do not show up"). It is a `K-NN` fact the person stated, not a finding; when the verdict depends on it, ask once whether a record backs it and write the answer on the `K-NN` line (`Record: none`, or the record's name), so it is never asked again; when one does, record that record as the finding.
 
 ## How to check
@@ -34,6 +34,6 @@ The person's first-hand data is not checkable on the web. Two kinds:
 | outdated | A current source contradicts it | The old claim, the correction and the source. Tell the person in one line, plainly and without blame: "That was true until March 2026. Current fee: 3.4% (source, date)." |
 | unverifiable | No reachable source confirms or denies it | "No verified source found". It cannot decide the verdict alone |
 
-Every checked claim becomes or updates a finding in `docs/discovery/findings.md` with volatility, status and check date, which `scripts/freshness.ts` reads to flag expired checks. On resume, run `node <skill-dir>/scripts/freshness.ts` and re-check every flagged finding before showing a result that depends on it, verdict findings first.
+Every checked claim becomes or updates a finding in `docs/discovery/findings.md` with volatility, status and check date, which `scripts/freshness.ts` reads to flag expired checks. On resume, run `node <skill-dir>/scripts/freshness.ts` and re-check on the web every flagged finding whose source is on the web before showing a result that depends on it, verdict findings first. A flagged finding whose source is the person's record, or that is unverifiable, is not searched again: list under Evidence to collect the newer record or the check that would settle it, and count the evidence as thin when the verdict rests on it.
 
 Without web access, say so once, mark every high and medium claim unverifiable, and mark the verdict's evidence thin, with each unchecked claim under Evidence to collect.

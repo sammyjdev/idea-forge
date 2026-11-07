@@ -40,7 +40,7 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 | Person says | Do |
 |---|---|
 | start | Begin stage 1 |
-| resume | Run `status.ts`, then `freshness.ts`. Re-check what it flags, read `references/asking.md`, then continue |
+| resume | Run `status.ts`, then `freshness.ts`. Re-check on the web what it flags from a web source; the rest goes to Evidence to collect. Read `references/asking.md`, then continue |
 | add this | Take the note, link or file as intake for stage 2 |
 | check this | Run a freshness check on the claim and report |
 | skip | Record the current question as an assumption, continue |

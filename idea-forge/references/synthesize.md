@@ -2,7 +2,7 @@
 
 Read at the start of stage 4. Present in tables unless the person asked for another format (SKILL.md, second rule).
 
-Before writing, run `node <skill-dir>/scripts/freshness.ts` and re-check anything it flags. The dossier is the result the person acts on, so every finding it cites must be current or marked unverifiable.
+Before writing, run `node <skill-dir>/scripts/freshness.ts` and re-check on the web what it flags whose source is on the web. A flagged record of the person's, or an unverifiable finding, is not searched again: it goes under Evidence to collect (`references/freshness.md`). The dossier is the result the person acts on, so every finding it cites must be current, marked unverifiable, or listed to collect.
 
 Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 
