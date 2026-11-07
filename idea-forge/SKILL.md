@@ -19,7 +19,7 @@ Nothing that can change over time reaches the person unchecked: claims from the 
 
 Before any turn that presents a result, a recommendation or a finding:
 1. List the time-sensitive claims it depends on.
-2. Search the web for each one not checked in this session. Never search a person's own record or a claim a search found unverifiable; one unverifiable only for lack of web access is searched when access returns.
+2. Search the web for each web-checkable one not checked in this session; never search the person's own records or figures, or a claim a search found unverifiable (one unverifiable only for lack of web access is searched when access returns).
 3. Mark each as current, outdated (with the correction) or unverifiable.
 4. Only then write the turn, and cite what was checked.
 
