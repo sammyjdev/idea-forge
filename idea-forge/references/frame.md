@@ -4,7 +4,7 @@ Read at the start of stage 1. Stage 1 settles where the effort stands, what kind
 
 ## Situation
 
-Five facts, one line each. Ask only what the conversation has not answered, up to three in one turn. The fifth, what the idea counts on, is always asked unless the person already stated it; the rest being known is no reason to skip it.
+Five facts, one line each. Ask only what the conversation has not answered, up to three in one turn. The fifth, what the idea counts on, is always asked unless the person already stated it, and always in a turn of its own, never as one of three: a short list hides the beliefs that go stale. Name the areas the idea touches ("prices, fees, limits of the tools you plan to use, rules about payments or data") so the person walks through each.
 
 - Where the effort is: in use (it has a today you can measure), not shipped (no today at all), or under construction (a commitment and work in flight).
 - Whether the decision is open, or someone already committed, and who and when. A committed decision makes the stage 4 verdict a record, not a gate.

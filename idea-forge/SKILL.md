@@ -47,12 +47,12 @@ There is no setup and no user profile. On the first turn only, say in one line w
 
 ## Rules
 
-1. Ask only what changes the output. A choice goes alone in its turn, with a recommended answer and one line on why, because several choices at once get answered by agreeing to all of them. Facts only the person has can go up to three in one turn, numbered, since a fact cannot be agreed to. A fact is what is true today; anything about what the product should do is a choice, and a turn never mixes the two. What to ask: a fact only the person has, or a choice with a real trade-off, and only while the answer can still change something: a question made moot by an earlier decision is not asked. Everything else becomes an assumption with a proposed default, shown with the verdict for correction (`references/grill.md`).
+1. Ask only what changes the output. A choice goes alone in its turn, with a recommended answer and one line on why, because several choices at once get answered by agreeing to all of them. Facts only the person has can go up to three in one turn, numbered, since a fact cannot be agreed to; the stage 1 question on what the idea counts on always goes alone. A fact is what is true today; anything about what the product should do is a choice, and a turn never mixes the two. What to ask: a fact only the person has, or a choice with a real trade-off, and only while the answer can still change something: a question made moot by an earlier decision is not asked. Everything else becomes an assumption with a proposed default, shown with the verdict for correction (`references/grill.md`).
 2. If the person's material, the code, a search or `brief.md` (Facts and Decisions) already answers it, do not ask. Never ask the person to confirm a summary; the only confirmation is the verdict.
 3. Every claim about the world has a source and a check date. No source: "no verified source found".
 4. Separate what the person believes from what the evidence shows. Surface contradictions.
 5. Match the focus and level: product terms for non-technical people, technical depth for engineers.
-6. Unknowns become assumptions. Never block. Never write a value nobody gave: every concrete value traces to something the person said or accepted, a finding, or an assumption.
+6. Unknowns become assumptions. Never block, and never pause the conversation to wait for an answer someone else holds: record it as an open question with `Held by:` and carry on to the verdict. The person can say "resume" later with the answer. Never write a value nobody gave: every concrete value traces to something the person said or accepted, a finding, or an assumption.
 7. Short sentences, concrete values, no filler, no em-dash.
 
 ## Turn format
@@ -66,7 +66,7 @@ Recommended: <answer, for a choice only>
 Checked: <finding IDs and date, or "nothing time-sensitive">
 ```
 
-Example. User says: "An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix." `Stage 1 of 5 · Frame · 0 of ~4 decisions made`, then three numbered facts: is anyone ordering this way today, what a no-show costs, and which prices or fees the idea counts on. `Checked: nothing time-sensitive`.
+Example. User says: "An app for small bakeries in Brazil to take pre-orders by WhatsApp and charge a deposit by Pix." `Stage 1 of 5 · Frame · 0 of ~4 decisions made`, then two numbered facts: is anyone ordering this way today, and what a no-show costs. The next turn asks, on its own, which prices, fees or rules the idea counts on. `Checked: nothing time-sensitive`.
 
 `~12` is your running estimate for the stage. For a choice, offer the recommendation and up to two alternatives. After each answer, one line on what changed, then the next turn.
 

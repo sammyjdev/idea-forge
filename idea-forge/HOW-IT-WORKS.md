@@ -55,7 +55,7 @@ Stage 1 of 5 · Frame · 1 of ~4 decisions made
 
 1. How many orders a week do you take today?
 2. How many of them are never picked up?
-3. Which prices or fees is the idea counting on?
+3. How do customers place an order today?
 ```
 
 ## Focus
