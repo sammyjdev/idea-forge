@@ -819,3 +819,10 @@ test("a door candidates section that says none with a reason, as a bullet or a p
     assert.ok(!report.errors.includes("Door candidate without a rejected alternative."), none);
   }
 });
+
+test("a go on thin evidence whose list to collect only says none fails", () => {
+  for (const item of ["- None", "- none.", "- n/a", "- N/A", "- -", "- Nothing"]) {
+    const dossier = `## Verdict\ngo. Decided by: K-01.\nEvidence: thin\n\n## Evidence to collect\n${item}\n`;
+    assert.ok(validateDossier(dossier).errors.some((e) => e.startsWith("Evidence is thin")), item);
+  }
+});
