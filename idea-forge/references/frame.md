@@ -12,7 +12,7 @@ Five facts, one line each. Ask only what the conversation has not answered, up t
 - What is at stake: how expensive it is to be wrong. Money, health data, personal data, regulation or a change people cannot undo means thorough depth. Cheap to undo means quick depth. Infer Depth from the answer and record it; never ask for it by name or as a choice.
 - What the idea counts on: the prices, fees, limits, tools or rules the person believes hold. Ask once, in their terms, naming the areas this idea touches: "Which numbers or rules are you counting on: the prices and fees you will pay, the limits of the tools you plan to use, the rules about payments or data?" Each becomes `K-NN`, and each time-sensitive one becomes a claim stage 2 checks. People rarely volunteer these, and they are what goes stale.
 
-Ask these in the person's own terms: "Is anyone using this today?", not "Where is the effort?".
+Ask these in the person's own terms: "Is anyone using this today?", not "Where is the effort?". Ask about the idea, never about the person: not their role, their link to the market or their experience. The focus and level are inferred from how they write (see Focus below); a fact about the person matters only when they offer it.
 
 Every concrete fact the person states, in this stage or any later one (volumes, prices, tools they use, what happens today), goes to `## Facts` in `brief.md` as `K-NN` with the message it came from. The handoff cites these IDs.
 
