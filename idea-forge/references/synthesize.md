@@ -17,7 +17,7 @@ Write `docs/discovery/dossier.md` from `templates/dossier.md`.
 | Decisions | What was decided and why. ADR links where written |
 | Risks | Likelihood, impact, mitigation, sorted by score. Ratings are labelled as the assistant's assessment |
 | Assumptions | Every `A-NN` from `brief.md` with its default, a way to validate it and `Confirmed? y/n`. `validate.ts` refuses a dossier that leaves out an unconfirmed one |
-| Open questions | Tagged `blocks`, `blocks go-live` or `open` |
+| Open questions | Tagged `blocks`, `blocks go-live` or `open`. A question with `Held by:` goes under Evidence to collect instead, not here |
 | Evidence to collect | Under any verdict, each open question someone else holds (`Held by:` in `brief.md`); with thin evidence, also each record or check that would strengthen it. How to get it and what it would change. Suggestions, not conditions |
 | Candidate features | Ranked by value and risk, each with a one-line goal and a size estimate, labelled as the assistant's assessment |
 
