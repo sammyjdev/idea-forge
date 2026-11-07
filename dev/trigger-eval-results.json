@@ -1,6 +1,6 @@
 {
   "skill_name": "idea-forge",
-  "description": "Research and discovery for a product or feature idea before any spec-driven workflow. Use when someone wants to explore, validate, research or pressure-test an idea before writing a spec or plan, technical or not, including for that idea whether it is worth building or buying, what competitors ship and charge today, whether the numbers or claims behind it still hold, or what interview notes prove about it. Includes Portuguese requests such as \"validar ideia\", \"vale a pena construir\", \"pesquisar antes de especificar\", \"discovery\". Checks every time-sensitive fact on the web before showing results, questions the idea one step at a time, and hands off a neutral brief to tlc-spec-lean by default, or to Spec Kit, Kiro and other SDD skills. Do NOT use for writing the spec, plan, tasks or code, or for a feature already decided that only needs planning (use tlc-spec-lean).",
+  "description": "Research and discovery before any spec-driven workflow, for a product or feature idea, a technical question (which approach, is it feasible, should we migrate) or a change to how a team works. Use when someone wants to explore, validate, research or pressure-test one of these before writing a spec or plan, including for that idea whether it is worth building or buying, what competitors ship and charge today, whether the numbers or claims behind it still hold, or what interview notes prove about it. Includes Portuguese requests such as \"validar ideia\", \"vale a pena construir\", \"pesquisar antes de especificar\", \"discovery\". Checks every time-sensitive fact on the web before showing results, questions the idea one step at a time, and hands off a neutral brief to tlc-spec-lean by default, or to Spec Kit, Kiro and other SDD skills. Do NOT use for writing the spec, plan, tasks or code, or for a feature already decided that only needs planning (use tlc-spec-lean).",
   "results": [
     {
       "query": "tenho uma ideia de app pra cl\u00ednicas veterin\u00e1rias agendarem banho e tosa pelo whatsapp, antes de escrever spec quero entender se o mercado j\u00e1 tem isso e quanto cobram",
@@ -13,10 +13,10 @@
     {
       "query": "valida essa ideia pra mim: plataforma de cashback pra pequenos mercados de bairro em Jo\u00e3o Pessoa. sou dev mas n\u00e3o entendo nada de varejo",
       "should_trigger": true,
-      "trigger_rate": 0.0,
-      "triggers": 0,
+      "trigger_rate": 1.0,
+      "triggers": 3,
       "runs": 3,
-      "pass": false
+      "pass": true
     },
     {
       "query": "before I open tlc-spec-lean I want to research whether building our own OCR for customs invoices makes sense vs buying something. can you dig into what exists today and the current pricing?",
@@ -61,8 +61,8 @@
     {
       "query": "resume the discovery for the duplicate payment guard, the verdict is go, write the handoff for tlc-spec-lean",
       "should_trigger": true,
-      "trigger_rate": 1.0,
-      "triggers": 3,
+      "trigger_rate": 0.6666666666666666,
+      "triggers": 2,
       "runs": 3,
       "pass": true
     },
@@ -77,8 +77,8 @@
     {
       "query": "we keep saying stripe's brazil fees kill our margin, can you research the current fees and alternatives and tell me if building a direct acquirer integration is worth exploring",
       "should_trigger": true,
-      "trigger_rate": 0.6666666666666666,
-      "triggers": 2,
+      "trigger_rate": 1.0,
+      "triggers": 3,
       "runs": 3,
       "pass": true
     },
@@ -193,11 +193,43 @@
       "triggers": 0,
       "runs": 3,
       "pass": true
+    },
+    {
+      "query": "antes de planejar a migra\u00e7\u00e3o dos nossos 12 servi\u00e7os de REST pra gRPC quero pesquisar se faz sentido, quais os riscos e o que muda pro time",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "we want to replace mandatory code review with pair programming in our 8-person team. before writing any plan I want to investigate whether it works and what could go wrong",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 3,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "migra esse endpoint de REST pra gRPC, o proto j\u00e1 t\u00e1 em api/orders.proto e os testes est\u00e3o em tests/orders",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "write our team's onboarding process as a Notion doc, everything is already decided, here are the steps",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
     }
   ],
   "summary": {
-    "total": 24,
-    "passed": 23,
-    "failed": 1
+    "total": 28,
+    "passed": 28,
+    "failed": 0
   }
 }
