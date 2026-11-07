@@ -4,7 +4,7 @@
 
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { fail, isBlockingQuestion, isMain, parseArgs, readText } from "./lib.ts";
+import { fail, isBlockingQuestion, isMain, parseArgs, readText, sections, stripFences } from "./lib.ts";
 import { type Finding, flagFindings, parseFindings } from "./freshness.ts";
 
 const REQUIRED_SECTIONS = [
@@ -114,37 +114,8 @@ function checkRelations(entities: string): string[] {
   return errors;
 }
 
-function sections(text: string): Map<string, string> {
-  const map = new Map<string, string>();
-  for (const part of text.split(/^## /m).slice(1)) {
-    const newline = part.indexOf("\n");
-    const title = (newline === -1 ? part : part.slice(0, newline)).trim();
-    map.set(title.toLowerCase(), newline === -1 ? "" : part.slice(newline + 1));
-  }
-  return map;
-}
-
 function stripCode(text: string): string {
   return text.replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, "");
-}
-
-// Fenced blocks hold examples; inline code stays, since a reason may name a file.
-// CommonMark rules: a fence is 3+ backticks or tildes, a backtick fence's info has no backtick,
-// it closes on the same character at least as long with nothing after it, or at the end of the text.
-function stripFences(text: string): string {
-  const kept: string[] = [];
-  let open: { char: string; size: number } | null = null;
-  for (const line of text.split("\n")) {
-    const fence = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line.replace(/\r$/, ""));
-    if (open) {
-      if (fence && fence[1][0] === open.char && fence[1].length >= open.size && fence[2].trim() === "") open = null;
-    } else if (fence && !(fence[1][0] === "`" && fence[2].includes("`"))) {
-      open = { char: fence[1][0], size: fence[1].length };
-    } else {
-      kept.push(line);
-    }
-  }
-  return kept.join("\n");
 }
 
 // Where a value came from: a decision, a fact the person stated, a finding, or an assumption.

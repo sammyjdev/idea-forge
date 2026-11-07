@@ -73,3 +73,33 @@ export function isBlockingQuestion(line: string): boolean {
   if (!QUESTION_LINE.test(line)) return false;
   return [...line.matchAll(/\[([^\]]*)\]/g)].some((m) => m[1].split(",").some((t) => t.trim().toLowerCase() === "blocks"));
 }
+
+// Markdown sections by their "## " title, lowercased.
+export function sections(text: string): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const part of text.split(/^## /m).slice(1)) {
+    const newline = part.indexOf("\n");
+    const title = (newline === -1 ? part : part.slice(0, newline)).trim();
+    map.set(title.toLowerCase(), newline === -1 ? "" : part.slice(newline + 1));
+  }
+  return map;
+}
+
+// Fenced blocks hold examples; inline code stays, since a reason may name a file.
+// CommonMark rules: a fence is 3+ backticks or tildes, a backtick fence's info has no backtick,
+// it closes on the same character at least as long with nothing after it, or at the end of the text.
+export function stripFences(text: string): string {
+  const kept: string[] = [];
+  let open: { char: string; size: number } | null = null;
+  for (const line of text.split("\n")) {
+    const fence = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line.replace(/\r$/, ""));
+    if (open) {
+      if (fence && fence[1][0] === open.char && fence[1].length >= open.size && fence[2].trim() === "") open = null;
+    } else if (fence && !(fence[1][0] === "`" && fence[2].includes("`"))) {
+      open = { char: fence[1][0], size: fence[1].length };
+    } else {
+      kept.push(line);
+    }
+  }
+  return kept.join("\n");
+}
