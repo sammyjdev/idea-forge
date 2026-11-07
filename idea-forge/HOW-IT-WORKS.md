@@ -135,5 +135,5 @@ Scripts are TypeScript with no dependencies. They run from the project root with
 
 ## Limits
 
-- Checks depend on reachable sources. Without web access, high and medium claims stay unverifiable, the evidence is marked thin and the unchecked claims go to the list of what to collect.
+- Checks depend on reachable sources. Without web access, high and medium claims stay unverifiable, a verdict that rests on one is marked thin, and the unchecked claims go to the list of what to collect.
 - The tlc-spec-lean mapping was checked on 2026-11-05 against tlc-spec-lean 2.2.0. The other targets have not been checked against the live tools. Each session re-checks the target before giving the next command. If a target asks for something missing, add it to the handoff and rerun `validate.ts`.

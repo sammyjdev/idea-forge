@@ -105,7 +105,7 @@ Say these during a session:
 
 - Claude Code with the Skill tool.
 - Node 22.18 or later for the scripts, or `npx tsx` on older Node. Tested on Node 24.20 on Windows 11. The scripts have no dependencies.
-- Web access (WebSearch and WebFetch). Without it, high and medium claims stay unverifiable, and the evidence is marked thin with the unchecked claims listed to collect. This fallback is documented but was not tested.
+- Web access (WebSearch and WebFetch). Without it, high and medium claims stay unverifiable, a verdict that rests on one is marked thin, and the unchecked claims are listed to collect. This fallback is documented but was not tested.
 - Code execution is optional. Without it, the skill does the script checks by reading and writing files and says so once. Tested in the evals.
 
 ## Development
