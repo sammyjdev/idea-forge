@@ -15,11 +15,11 @@ Conversation follows the person's language. Every file is in English.
 
 ## Main rule: verify before you show
 
-Nothing that can change over time reaches the person unchecked: claims from the person, from their material, and from your own knowledge. A stale price, law or API misdirects the whole plan.
+Nothing that can change over time reaches the person unchecked: claims from the person, their material or your own knowledge. A stale price, law or API misdirects the whole plan.
 
 Before any turn that presents a result, a recommendation or a finding:
 1. List the time-sensitive claims it depends on.
-2. Search the web for each web-checkable one not checked in this session. A person's own record is never searched.
+2. Search the web for each one not checked in this session. Never search a person's own record or a claim a search found unverifiable; one unverifiable only for lack of web access is searched when access returns.
 3. Mark each as current, outdated (with the correction) or unverifiable.
 4. Only then write the turn, and cite what was checked.
 
@@ -33,14 +33,14 @@ Present research summaries, the dossier and handoff summaries as tables. Do not 
 
 `<skill-dir>` is the folder holding this file. Run scripts from the project root as `node <skill-dir>/scripts/<name>.ts`, or pass `--root <project>`. Run them rather than read them. Without code execution, read only a script's usage header, do its checks by hand, and say once that scripts were not run.
 
-There is no setup and no user profile. On the first turn only, say in one line what happens: facts checked on the web, short rounds of questions, a verdict, and a file the next step can plan from. Name no tool, skill or script in that line. When the first message carries the idea, stage 1 starts: read `references/frame.md` and `references/asking.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
+There is no setup and no user profile. On the first turn only, say in one line what happens: facts checked on the web, short question rounds, a verdict, and a file the next step plans from. Name no tool, skill or script in that line. When the first message carries the idea, stage 1 starts: read `references/frame.md` and `references/asking.md`, infer the focus, and state it with the first question, so the person can correct it. Otherwise ask what they want to explore.
 
-Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp with a Pix deposit" starts stage 1 with two numbered facts (is anyone ordering this way today, what a no-show costs); the next turn asks alone which prices, fees, limits or rules the idea counts on; research then checks the WhatsApp and Pix pricing on the web before anything is recommended.
+Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp with a Pix deposit" starts stage 1 with two numbered facts (is anyone ordering this way today, what a no-show costs); the next turn asks alone which prices, fees, limits or rules it counts on; research then checks WhatsApp and Pix pricing on the web before any recommendation.
 
 | Person says | Do |
 |---|---|
 | start | Begin stage 1 |
-| resume | Run `status.ts`, then `freshness.ts`. Re-check on the web what it flags from a web source; a flagged record or unverifiable finding goes to Evidence to collect, not searched again. Read `references/asking.md`, then continue |
+| resume | Run `status.ts`, then `freshness.ts`. Re-check what it flags as the main rule says; what is not searched goes to Evidence to collect. Read `references/asking.md`, then continue |
 | add this | Take the note, link or file as intake for stage 2 |
 | check this | Run a freshness check on the claim and report |
 | skip | Record the current question as an assumption, continue |
@@ -64,7 +64,7 @@ Example. "An app for small bakeries in Brazil to take pre-orders by WhatsApp wit
 | 1. Frame | Situation of the subject (a product idea, a technical question, research, a process), what it counts on, idea sentence, problem kind, focus, research questions `RQ-NN` | `references/frame.md`, `references/asking.md`, `templates/brief.md` | When the subject rests on prices, fees, limits, versions or rules, what it counts on is recorded as `K-NN`, from the person's words or one question; sentence, focus and questions stated in one message for the person to correct; research starts without waiting for an "ok". A trivial change gets a one-paragraph answer |
 | 2. Research | Take in and check the person's material, gather what is missing, organize findings | `references/research.md` | Every RQ has a status; every binding finding is checked |
 | 3. Grill | Confront the idea with the findings, including any journey states, deepest where the focus points | `references/grill.md` | Every item decided, assumed, or a tagged question |
-| 4. Synthesize | Verdict (go, refine, not now or stop) with how strong the evidence is, then the dossier with evidence, options, risks and what evidence to collect | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |
+| 4. Synthesize | Verdict (go, refine, not now or stop) with evidence strength, then the dossier: evidence, options, risks, evidence to collect | `references/synthesize.md` | Person accepts the verdict and corrects any assumption in the same answer |
 | 5. Hand off | Neutral handoff per feature, target detected and checked. Run `validate.ts <feature>`, at most three runs | `references/handoff.md`, `references/targets.md`; `references/target-mapping.md` only when a readable target is not tlc-spec-lean 2.2.0 | Validator passes or gaps are listed |
 
 Hand off only on go for something to be built (code, a system, a product change); for any other subject the dossier is the end. Update `docs/discovery/brief.md` at the end of each stage. Before writing any project file, read `references/files.md`. Before long prose, read `references/writing.md`.
